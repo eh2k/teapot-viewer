@@ -9,10 +9,10 @@ namespace eh{
 
 Ptr<Geometry> Geometry::create(Geometry::TYPE mode, Ptr<IVertexBuffer> pIVertexBuffer, const Uint_vec& indices /*= Uint_vec()*/)
 {
-	if(pIVertexBuffer != NULL)
+	if(pIVertexBuffer != nullptr)
 		return new Geometry(mode, pIVertexBuffer, indices);
 	else
-		return NULL;
+		return nullptr;
 }
 
 Geometry::Geometry(Geometry::TYPE mode, Ptr<IVertexBuffer> pIVertexBuffer, const Uint_vec& indices):
@@ -34,13 +34,13 @@ Geometry::Geometry(Geometry::TYPE mode, Ptr<IVertexBuffer> pIVertexBuffer, const
 		}
 		else
 		{
-			b_min.x = fmin(v.x, b_min.x);
-			b_min.y = fmin(v.y, b_min.y);
-			b_min.z = fmin(v.z, b_min.z);
+			b_min.x = math3D::fmin(v.x, b_min.x);
+			b_min.y = math3D::fmin(v.y, b_min.y);
+			b_min.z = math3D::fmin(v.z, b_min.z);
 
-			b_max.x = fmax(v.x, b_max.x);
-			b_max.y = fmax(v.y, b_max.y);
-			b_max.z = fmax(v.z, b_max.z);
+			b_max.x = math3D::fmax(v.x, b_max.x);
+			b_max.y = math3D::fmax(v.y, b_max.y);
+			b_max.z = math3D::fmax(v.z, b_max.z);
 		}
 	}
 

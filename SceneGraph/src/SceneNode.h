@@ -10,56 +10,57 @@
 
 namespace eh
 {
-    class API_3D SceneNode: public RefCounted
-    {
-    public:
-        typedef int FLAGS;
+	class API_3D SceneNode : public RefCounted
+	{
+	public:
+		virtual ~SceneNode() {};
 
-        static const FLAGS FLAG_UNVISIBLE	= 0x00000001;
-        static const FLAGS FLAG_SELECTED	= 0x00000002;
-        static const FLAGS FLAG_HIGHLIGHTED	= 0x00000004;
+		typedef int FLAGS;
 
-        FLAGS getFlags() const
-        {
-            return m_flags;
-        }
-        FLAGS& Flags()
-        {
-            return m_flags;
-        }
+		static const FLAGS FLAG_UNVISIBLE = 0x00000001;
+		static const FLAGS FLAG_SELECTED = 0x00000002;
+		static const FLAGS FLAG_HIGHLIGHTED = 0x00000004;
 
-        virtual void accept(IVisitor &visitor) = 0;
-        virtual const AABBox& getBounding() const
-        {
-            return m_BoundingBox;
-        };
+		FLAGS getFlags() const
+		{
+			return m_flags;
+		}
+		FLAGS& Flags()
+		{
+			return m_flags;
+		}
 
-    protected:
-        AABBox m_BoundingBox;
-        FLAGS m_flags;
+		virtual void accept(IVisitor &visitor) = 0;
+		virtual const AABBox& getBounding() const
+		{
+			return m_BoundingBox;
+		};
 
-        SceneNode():m_flags(0){}
-        virtual ~SceneNode(){};
-    };
+	protected:
+		AABBox m_BoundingBox;
+		FLAGS m_flags;
 
-	class SceneNodeVector: public std::vector< Ptr<SceneNode> >
-    {
-    public:
-        SceneNodeVector()
-        {
-        }
-        template<class U>
+		SceneNode() :m_flags(0) {}
+	};
+
+	class SceneNodeVector : public std::vector< Ptr<SceneNode> >
+	{
+	public:
+		SceneNodeVector()
+		{
+		}
+		template<class U>
 		SceneNodeVector(Ptr<U> const & pNode)
 		{
-			if(pNode)
+			if (pNode)
 				push_back(pNode);
 		}
-        SceneNodeVector(const SceneNodeVector& v): std::vector< Ptr<SceneNode> >(v.begin(), v.end())
-        {
-        }
-    };
+		SceneNodeVector(const SceneNodeVector& v) : std::vector< Ptr<SceneNode> >(v.begin(), v.end())
+		{
+		}
+	};
 
-    typedef std::list< Ptr<SceneNode> > SceneNodeList;
+	typedef std::list< Ptr<SceneNode> > SceneNodeList;
 
 
 }// end namespace

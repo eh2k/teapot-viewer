@@ -1,21 +1,22 @@
 #pragma once
 #include "config.h"
 #include "RefCounted.h"
+#include "..\swig\swig.h"
 
 namespace eh
 {
 	class SceneNode;
 	class Viewport;
 
-	class API_3D Controller: public RefCounted
+	class API_3D Controller: public RefCounted, public IController
     {
     public:
-        typedef Uint Flags;
-        static const Flags LBUTTON = 0x0001;
-        static const Flags RBUTTON = 0x0002;
-        static const Flags SHIFT   = 0x0004;
-        static const Flags CONTROL = 0x0008;
-        static const Flags MBUTTON = 0x0010;
+        //typedef Uint Flags;
+        //static const Flags LBUTTON = 0x0001;
+        //static const Flags RBUTTON = 0x0002;
+        //static const Flags SHIFT   = 0x0004;
+        //static const Flags CONTROL = 0x0008;
+        //static const Flags MBUTTON = 0x0010;
 
         Controller();
         virtual ~Controller();

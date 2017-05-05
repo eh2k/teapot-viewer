@@ -5,12 +5,21 @@
 #include "SceneNode.h"
 #include "Geometry.h"
 #include "Material.h"
-#include <boost/unordered_map.hpp>
+#include <unordered_map>
 
 namespace eh
 {
+	struct pair_hash {
+		template <class T1, class T2>
+		std::size_t operator () (const std::pair<T1, T2> &p) const 
+		{
+			auto h1 = (size_t)p.first;
+			auto h2 = (size_t)p.second;
+			return h1 ^ h2;
+		}
+	};
 
-    typedef boost::unordered_map< std::pair< Ptr<Material>, Geometry::TYPE >, Ptr<Geometry> > MATERIAL_GEOMETRY_CONTAINER;
+    typedef std::unordered_map< std::pair< Ptr<Material>, Geometry::TYPE >, Ptr<Geometry>, pair_hash > MATERIAL_GEOMETRY_CONTAINER;
 
     class GeometryIterator: public MATERIAL_GEOMETRY_CONTAINER::const_iterator
     {

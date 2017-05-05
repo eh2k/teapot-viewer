@@ -14,10 +14,10 @@
 using namespace eh;
 
 Viewport::Viewport(Ptr<IDriver> pDriver):
-	m_pRenderingVisitor(NULL),
+	m_pRenderingVisitor(nullptr),
 	m_pDriver(pDriver),
-	m_pScene(NULL),
-	m_pCamera(NULL),
+	m_pScene(nullptr),
+	m_pCamera(nullptr),
 	m_modeflags(MODE_BACKGROUND|MODE_LIGHTING|MODE_SHADOW|MODE_FPS),
 	m_valid(false),
 	m_pController(new Controller())
@@ -50,7 +50,7 @@ void Viewport::setScene(Ptr<Scene> pScene, Ptr<Camera> pCamera )
 	m_pScene = pScene;
 	m_pCamera = pCamera;
 
-	if( m_pCamera == NULL )
+	if( m_pCamera == nullptr )
 	{
 		if( m_pScene->getCameras().size()>0)
 			m_pCamera = m_pScene->getCameras()[0];
@@ -63,7 +63,7 @@ void Viewport::setScene(Ptr<Scene> pScene, Ptr<Camera> pCamera )
 
 void Viewport::drawScene()
 {
-	if(m_pCamera == NULL)
+	if(m_pCamera == nullptr)
 		return;
 
 	drawScene( control().getViewMatrix(), control().getProjectionMatrix(), true );
@@ -72,7 +72,7 @@ void Viewport::drawScene()
 
 void Viewport::drawScene(const Matrix& view, const Matrix& proj, bool bRenderToWindow)
 {
-	if(m_pScene == NULL)
+	if(m_pScene == nullptr)
 		return;
 
 	if(m_pDriver->beginScene(  getModeFlag(Viewport::MODE_BACKGROUND) ))

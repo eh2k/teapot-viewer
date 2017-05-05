@@ -1,58 +1,57 @@
 // Copyright (c) 2007,2010, Eduard Heidt
 
 #pragma once
-
-#include <boost/intrusive_ptr.hpp>
-#include <boost/utility.hpp>
+#include <memory>
+#include <functional>
 
 namespace eh
 {
-    class RefCounted: public boost::noncopyable
-    {
-    private:
-        friend void intrusive_ptr_add_ref(RefCounted* p);
-        friend void intrusive_ptr_release(RefCounted* p);
-        size_t refcount;
-    protected:
+	class RefCounted : public std::enable_shared_from_this<RefCounted>
+	{
+	public:
+		bool _shared = false;
+	private:
+		RefCounted(const RefCounted&) = delete;
+	protected:
+		RefCounted() {}
+		virtual ~RefCounted() {}
+	};
 
-        RefCounted():refcount(0){}
-        virtual ~RefCounted(){}
+	//template<typename T = RefCounted>
+	//using Ptr = std::shared_ptr<T>;
 
-    public:
-        size_t count() const
-        {
-            return refcount;
-        }
-    };
+	template<typename T = RefCounted>
+	class Ptr : public std::shared_ptr<T>
+	{
+	public:
+		Ptr() : std::shared_ptr<T>()
+		{}
 
-    inline void intrusive_ptr_add_ref(RefCounted* p)
-    {
-        ++(p->refcount);
-    }
-    inline void intrusive_ptr_release(RefCounted* p)
-    {
-        if ( (--p->refcount) == 0 )
-        {
-            delete p;
-            p = NULL;
-        }
-    }
+		Ptr(std::nullptr_t) : std::shared_ptr<T>(nullptr)
+		{}
 
-	template<class T>
-	class Ptr: public boost::intrusive_ptr< T >
-    {
-    public:
-        Ptr()
-        {
-        }
-		Ptr(T* p):boost::intrusive_ptr<T>(p)
+		Ptr(T* p) : std::shared_ptr<T>(p->_shared ? std::dynamic_pointer_cast<T>(p->shared_from_this()) : std::shared_ptr<T>(p))
+		{
+			p->_shared = true;
+		}
+		virtual ~Ptr()
 		{
 		}
-        template<class U>
-		Ptr(boost::intrusive_ptr<U> const & p):boost::intrusive_ptr<T>( dynamic_cast<T*>(p.get()) )
+
+		//Ptr(const Ptr<T>& p) : std::shared_ptr<T>(p)
+		//{
+		//	assert(this->get() == p.get());
+		//}
+
+		template<typename U>
+		Ptr(const Ptr<U>& p) : std::shared_ptr<T>(std::dynamic_pointer_cast<T>(p))
 		{
 		}
-    };
 
-} // namespace boost
+		operator size_t() const
+		{
+			return (size_t)this->get();
+		}
+	};
 
+}

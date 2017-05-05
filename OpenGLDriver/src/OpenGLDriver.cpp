@@ -21,8 +21,6 @@
 
 using namespace eh;
 
-#include <boost/static_assert.hpp>
-
 #include <iostream>
 #include <sstream>
 
@@ -44,9 +42,9 @@ using namespace eh;
 #include <IL/ilu.h>
 #include <IL/ilut.h>
 
-BOOST_STATIC_ASSERT(sizeof(Matrix) == sizeof(GLfloat)*16);
-BOOST_STATIC_ASSERT(sizeof(RGBA) == sizeof(GLfloat)*4);
-BOOST_STATIC_ASSERT(sizeof(Rect) == sizeof(GLfloat)*4);
+static_assert(sizeof(Matrix) == sizeof(GLfloat)*16, "");
+static_assert(sizeof(RGBA) == sizeof(GLfloat)*4, "");
+static_assert(sizeof(Rect) == sizeof(GLfloat)*4, "");
 
 static PFNGLGENBUFFERSARBPROC glGenBuffersARB = NULL;
 static PFNGLBINDBUFFERARBPROC glBindBufferARB = NULL;
@@ -114,12 +112,13 @@ private:
     {
         s_vbos++;
     }
+public:
     ~OpenGLVBO()
     {
         glDeleteBuffersARB(1, &m_vboid);
         s_vbos--;
     }
-
+private:
     GLuint m_vboid;
     GLuint m_stride;
 };
@@ -132,13 +131,13 @@ public:
         SceneIO::File aFile(sFile);
         SceneIO::setStatusText( std::wstring(L"Laoding ") + aFile.getName() + L"...");
 
-        std::auto_ptr<char> data;
+        std::unique_ptr<char> data;
         size_t size = aFile.getContent(data);
 
         if ( size == 0 )
         {
             std::wcerr << L"OpenGLTexture::creae(" << sFile.c_str() << ") aFile.getContent(data.get()) != size" << std::endl;
-            return NULL;
+            return nullptr;
         }
 
         ILuint	Id;
@@ -150,7 +149,7 @@ public:
         if (!ilLoadL(IL_TYPE_UNKNOWN, data.get(), size))
         {
             std::wcerr << L"ilLoadL failed: " << sFile.c_str() << std::endl;
-            return NULL;
+            return nullptr;
         }
 
         GLuint texId = ilutGLBindTexImage();	// ilutGLLoadImage( (wchar_t*)file.c_str() );
@@ -158,7 +157,7 @@ public:
         if ( texId == 0 )
         {
             std::wcerr << L"OpenGLTexture::create failed: " << sFile.c_str() << std::endl;
-            return NULL;
+            return nullptr;
         }
         else
             return new OpenGLTexture( texId );
@@ -227,6 +226,7 @@ private:
     {
         s_textures++;
     }
+public:
     virtual ~OpenGLTexture()
     {
         s_textures--;
@@ -608,7 +608,7 @@ public:
         if (pTexture)
         {
             Ptr<OpenGLTexture> t = dynamic_cast<OpenGLTexture*>(pTexture->m_resource.get());
-            if (t == NULL)
+            if (t == nullptr)
             {
                 pTexture->m_resource = t = OpenGLTexture::create( pTexture->getFile() );
             }
@@ -649,10 +649,10 @@ public:
 
         Ptr<OpenGLVBO> pVB = node.getVertexBuffer()->m_resource;
 
-        if (pVB == NULL)
+        if (pVB == nullptr)
             pVB = node.getVertexBuffer()->m_resource = OpenGLVBO::create(node.getVertexBuffer());
 
-        if (pVB != NULL)
+        if (pVB != nullptr)
         {
             pVB->bind();
 

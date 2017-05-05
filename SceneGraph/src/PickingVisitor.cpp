@@ -149,7 +149,7 @@ Ptr<SceneNode> doHitTest(const Ray& ray, const Scene& world, Vec3* hitpoint)
 		return v.m_hits.begin()->second;
 	}
 	else
-		return NULL;
+		return nullptr;
 }
 
 } //end namespace

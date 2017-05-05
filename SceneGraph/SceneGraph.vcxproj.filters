@@ -19,6 +19,9 @@
     <Filter Include="zlib">
       <UniqueIdentifier>{fbf67d1c-7e1b-4041-a1fb-e453280c01a0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="swig">
+      <UniqueIdentifier>{bbb77cec-5bbb-46bc-b330-3ec77880ac97}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Camera.cpp">
@@ -119,6 +122,12 @@
     </ClCompile>
     <ClCompile Include="zlib\zutil.c">
       <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="swig\swig.cpp">
+      <Filter>swig</Filter>
+    </ClCompile>
+    <ClCompile Include="swig\swig_wrap.cxx">
+      <Filter>swig</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -233,6 +242,12 @@
     <ClInclude Include="zlib\zutil.h">
       <Filter>zlib</Filter>
     </ClInclude>
+    <ClInclude Include="swig\swig.h">
+      <Filter>swig</Filter>
+    </ClInclude>
+    <ClInclude Include="swig\swig_wrap.h">
+      <Filter>swig</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\axis_obj">
@@ -240,6 +255,9 @@
     </None>
     <None Include="src\teapot_obj">
       <Filter>Resource Files</Filter>
+    </None>
+    <None Include="swig\swig.i">
+      <Filter>swig</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -29,7 +29,7 @@ namespace eh
             if (m_pAABBTree == NULL)
                 organizeAABBTree();
             else if (m_pAABBTree->isInside(object->getBounding()) == AABBox::INSIDE)
-                m_pAABBTree->insertNode(object.get());
+                m_pAABBTree->insertNode(object);
             else	// Node outside -> reorganize
                 organizeAABBTree();
 
@@ -45,7 +45,7 @@ namespace eh
         if (it != m_objects.end())
         {
             if (m_pAABBTree)
-                m_pAABBTree->deleteNode(object.get());
+                m_pAABBTree->deleteNode(object);
 
             m_objects.erase(it);
 
@@ -61,8 +61,8 @@ namespace eh
         {
             if (m_pAABBTree->isInside(object->getBounding()) == AABBox::INSIDE)
             {
-                m_pAABBTree->deleteNode(object.get());
-                m_pAABBTree->insertNode(object.get());
+                m_pAABBTree->deleteNode(object);
+                m_pAABBTree->insertNode(object);
             }
             else
                 organizeAABBTree();
@@ -80,8 +80,8 @@ namespace eh
 
         SceneNodeList v;
 
-        for (SceneNodeVector::iterator it = m_objects.begin(), end = m_objects.end( ) ; it!=end; ++it )
-            v.push_back(it->get());
+        for (auto it = m_objects.cbegin(), end = m_objects.cend( ) ; it!=end; ++it )
+            v.push_back(*it);
 
         m_pAABBTree = new AABBTreeRoot(bound.getMin(), bound.getMax(), v);
     }
@@ -121,13 +121,13 @@ namespace eh
                 const Vec3& bmin = (*it)->getBounding().getMin();
                 const Vec3& bmax = (*it)->getBounding().getMax();
 
-                b_min.x = fmin(b_min.x, bmin.x);
-                b_min.y = fmin(b_min.y, bmin.y);
-                b_min.z = fmin(b_min.z, bmin.z);
+                b_min.x = math3D::fmin(b_min.x, bmin.x);
+                b_min.y = math3D::fmin(b_min.y, bmin.y);
+                b_min.z = math3D::fmin(b_min.z, bmin.z);
 
-                b_max.x = fmax(b_max.x, bmax.x);
-                b_max.y = fmax(b_max.y, bmax.y);
-                b_max.z = fmax(b_max.z, bmax.z);
+                b_max.x = math3D::fmax(b_max.x, bmax.x);
+                b_max.y = math3D::fmax(b_max.y, bmax.y);
+                b_max.z = math3D::fmax(b_max.z, bmax.z);
             }
         }
 
@@ -150,9 +150,9 @@ namespace eh
         {
             bool test(const SceneNodeVector& nodes)
             {
-                for (SceneNodeVector::const_iterator it = nodes.begin(); it != nodes.end(); it++)
+                for (auto node : nodes)
                 {
-                    if (Ptr<GroupNode> pGroup = *it)
+                    if (auto pGroup = dynamic_cast<GroupNode*>(node.get()))
                     {
                         if (pGroup->isAnimated())
                             return true;
@@ -172,7 +172,7 @@ namespace eh
     Ptr<Camera> Scene::createOrbitalCamera() const
     {
         const AABBox& box = getBounding();
-        Float longest = fmax(fmax(box.getSize().x, box.getSize().y), box.getSize().z);
+        Float longest = math3D::fmax(math3D::fmax(box.getSize().x, box.getSize().y), box.getSize().z);
         Vec3 d = Vec3(longest/2,longest/2,longest/2) * 1.1f;
 
         Vec3 min = box.getCenter()-d;

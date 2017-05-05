@@ -17,10 +17,8 @@
 #include "SceneIO.h"
 
 #include <iostream>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
-#include <boost/algorithm/string.hpp>
-#include <boost/filesystem/fstream.hpp>
+#include <filesystem>
+#include <fstream>
 
 #if defined(_MSC_VER)
 #include <windows.h>
@@ -32,17 +30,19 @@
 
 namespace eh
 {
-	static boost::filesystem::wpath s_path;
+	using namespace std::experimental;
 
-	static void s_set_path( const boost::filesystem::wpath& _path )
+	static filesystem::path s_path;
+
+	static void s_set_path( const filesystem::path& _path )
 	{
 		s_path = _path;
 		s_path.remove_filename();
 	}
 
-	static std::wstring s_abs_path(const boost::filesystem::wpath& file)
+	static std::wstring s_abs_path(const filesystem::path& file)
 	{
-		if(!file.is_complete())
+		if(!file.is_absolute())
 			return (s_path / file).wstring();
 		else
 			return file.wstring();
@@ -68,25 +68,25 @@ namespace eh
 
 	const std::wstring SceneIO::File::getExtension() const
 	{
-		return boost::filesystem::wpath(m_path).extension().wstring();
+		return filesystem::path(m_path).extension().wstring();
 	}
 
 	const std::wstring SceneIO::File::getName() const
 	{
-		return boost::filesystem::wpath(m_path).leaf().wstring();
+		return filesystem::path(m_path).filename();
 	}
 
-	size_t SceneIO::File::getContent(std::auto_ptr<char>& data) const
+	size_t SceneIO::File::getContent(std::unique_ptr<char>& data) const
 	{
-		if( boost::filesystem::exists(m_path) )
+		if( filesystem::exists(m_path) )
 		{
-			boost::filesystem::ifstream file( m_path.c_str(), std::ios_base::binary );
+			std::ifstream file( m_path.c_str(), std::ios_base::binary );
 
 			if(!file.is_open())
 				return 0;
 
 			file.seekg (0, std::ios::end);
-			size_t size = file.tellg();
+			size_t size = (size_t)file.tellg();
 
 			data.reset( new char[size] );
 
@@ -98,10 +98,11 @@ namespace eh
 		}
 		else // maybe inside zip file
 		{
-			boost::filesystem::wpath archive;
-			boost::filesystem::wpath file;
-			boost::filesystem::wpath path(m_path);
-			for(boost::filesystem::wpath::const_iterator it = path.begin(); it != path.end(); ++it)
+			filesystem::path archive;
+			filesystem::path file;
+			filesystem::path path(m_path);
+
+			for(filesystem::path::const_iterator it = path.begin(); it != path.end(); ++it)
 			{
 				file /= *it;
 				if(file.extension() == L".zip")
@@ -121,7 +122,7 @@ namespace eh
 					unz_file_info64 finfo;
 					unzGetCurrentFileInfo64(zipfile, &finfo, sName, 256, NULL, 0, NULL, 0);
 
-					if( boost::iequals( std::string(sName), file.string() ) )
+					if(boost::iequals(std::wstring(sName, sName + strlen(sName)), file.wstring()))
 					{
 						unzOpenCurrentFile(zipfile);
 
@@ -180,14 +181,14 @@ namespace eh
 	}
 	SceneIO::SceneIO():m_pImpl(new Impl())
 	{
-		boost::filesystem::wpath path = boost::filesystem::initial_path<boost::filesystem::wpath>();
+		filesystem::path path = filesystem::current_path();
 
-		for (boost::filesystem::directory_iterator it(path), end; it != end; ++it)
+		for (filesystem::directory_iterator it(path), end; it != end; ++it)
 		{
-			if ( boost::filesystem::is_directory(it->status()) )
+			if ( filesystem::is_directory(it->status()) )
 				continue;
 
-			boost::filesystem::wpath file = *it;
+			filesystem::path file = *it;
 
 			if( !boost::iequals( file.extension().wstring(), L".dll" ) && !boost::iequals( file.extension().wstring(), L".so" ) )
 				continue;
@@ -199,7 +200,7 @@ namespace eh
 			std::wstring rpath = file.wstring();
 			boost::algorithm::replace_all(rpath, L"/", L"\\");
 			boost::algorithm::replace_all(rpath, L".dll", L"");
-			if ( boost::filesystem::is_directory(rpath) )
+			if ( filesystem::is_directory(rpath) )
 				SetDllDirectoryW( rpath.c_str() );
 
 			std::wstring dll = file.wstring();
@@ -239,7 +240,7 @@ namespace eh
 
 					for(size_t j = 0; j < exts.size(); j++)
 					{
-						boost::erase_all(exts[j], "*");
+						boost::erase_all(exts[j], L"*");
 						boost::algorithm::to_lower(exts[j]);
 
 						m_pImpl->m_ext_plugin_map[exts[j]] = pPlugIn;
@@ -314,7 +315,7 @@ namespace eh
 					bool bContinue = false;
 					for(size_t k = 0; k < vexts.size(); k++)
 					{
-						boost::erase_all(vexts[k], "*");
+						boost::erase_all(vexts[k], L"*");
 
 						if( m_pImpl->m_ext_plugin_map.find(vexts[k])->second != m_pImpl->m_plugins[i] )
 							bContinue = true;
@@ -350,7 +351,7 @@ namespace eh
 
 		try
 		{
-			boost::filesystem::wpath sFile = boost::filesystem::system_complete( file );
+			filesystem::path sFile = filesystem::system_complete( file );
 
 			std::wstring ext = sFile.extension().wstring();
 			boost::algorithm::to_lower(ext);
@@ -361,7 +362,7 @@ namespace eh
 
 				if(bLoading)
 				{
-		    		s_set_path( sFile );
+		    			s_set_path( sFile );
 
 					if(plugin->read( sFile.wstring(), pScene, progress) == false)
 						throw -1;
@@ -387,7 +388,7 @@ namespace eh
 						unzGetCurrentFileInfo64(zipfile, &finfo, sName, 256, NULL, 0, NULL, 0);
 
 						std::string sName2(sName);
-						boost::filesystem::wpath sFile2(sName2.begin(), sName2.end());
+						filesystem::path sFile2(sName2.begin(), sName2.end());
 						std::wstring ext = sFile2.extension().wstring();
 						boost::algorithm::to_lower(ext);
 
@@ -395,9 +396,9 @@ namespace eh
 						{
 							IPlugIn* plugin = m_pImpl->m_ext_plugin_map.find(ext)->second;
 
-							boost::filesystem::wpath path = sFile / sFile2;
+							filesystem::path path = sFile / sFile2;
 
-				    		s_set_path( path );
+				    			s_set_path( path );
 
 							if(plugin->read( path.wstring(), pScene, progress) == false)
 								ret = false;

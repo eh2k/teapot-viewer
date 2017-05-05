@@ -2,11 +2,10 @@
 
 #include "SceneIO.h"
 
-#include <boost/algorithm/string.hpp>
-#include <boost/unordered_map.hpp>
-#include <boost/filesystem/fstream.hpp>
-#include <boost/iostreams/device/array.hpp>
-#include <boost/iostreams/stream.hpp>
+#include <string>
+#include <unordered_map>
+#include <fstream>
+#include <array>
 
 #include <vector>
 #include <string>
@@ -42,13 +41,13 @@ private:
 			return 0;
 	}
 
-	typedef boost::unordered_map< std::string, boost::unordered_map< std::string, Uint_vec> > FaceMap;
+	typedef std::unordered_map< std::string, std::unordered_map< std::string, Uint_vec> > FaceMap;
 
-	boost::unordered_map< std::string, Ptr<Material> > m_materials;
+	std::unordered_map< std::string, Ptr<Material> > m_materials;
 	std::string m_current_matereal;
 	std::string m_current_object;
 	FaceMap m_faces;
-	boost::unordered_map<std::string, Uint_vec> m_edges;
+	std::unordered_map<std::string, Uint_vec> m_edges;
 
 	void addVertex(const std::string& line)
 	{
@@ -102,7 +101,7 @@ private:
 	bool loadMaterials(const std::string& line);
 
 public:
-	OBJLoader(): m_pVB( NULL )
+	OBJLoader(): m_pVB( nullptr )
 	{
 	}
 	virtual ~OBJLoader()
@@ -111,13 +110,18 @@ public:
 	{
 		SceneIO::File aFile(sFile);
 
-		std::auto_ptr<char> data;
+		std::unique_ptr<char> data;
 		size_t size = aFile.getContent(data);
 
 		if(size == 0)
 			return false;
 
-		boost::iostreams::stream<boost::iostreams::array_source>  file(data.get(), size);
+		std::stringstream   file;
+		file.write(data.get(), size); //Todo: Optimize
+		file.seekg(0);
+
+		//file.rdbuf()->pubsetbuf(data.get(), size);
+		//std::iostreams::stream<boost::iostreams::array_source>  file(data.get(), size);
 
 		//boost::filesystem::ifstream file( sFile.c_str());
 
@@ -181,7 +185,7 @@ public:
 			for(FaceMap::const_iterator it = m_faces.begin(); it != m_faces.end(); ++it)
 			{
 				Ptr<ShapeNode> aShape = ShapeNode::create();
-				for(boost::unordered_map<std::string, Uint_vec>::const_iterator it2 = it->second.begin();
+				for(auto it2 = it->second.begin();
 					it2 != it->second.end(); ++it2)
 					aShape->addGeometry( m_materials[it2->first], Geometry::create(Geometry::TRIANGLES, m_pVB, it2->second) );
 
@@ -193,7 +197,7 @@ public:
 		}
 
 		std::cout << "OBJ loaded.. " << m_faces.size() << " Materials, " << m_pVB->getVertexCount() << " Vertices" << std::endl;
-		m_pVB = NULL;
+		m_pVB = nullptr;
 
 		return true;
 	}
@@ -334,10 +338,12 @@ bool OBJLoader::loadMaterials(const std::string& _line)
 
 	SceneIO::File aFile( buffer );
 
-	std::auto_ptr<char> data;
+	std::unique_ptr<char> data;
 	size_t size = aFile.getContent(data);
 
-	boost::iostreams::stream<boost::iostreams::array_source>  file(data.get(), size);
+	std::stringstream   file;
+	file.rdbuf()->pubsetbuf(data.get(), size);
+	//boost::iostreams::stream<boost::iostreams::array_source>  file(data.get(), size);
 
 
 	//boost::filesystem::ifstream file( abs_path( buffer ).c_str() );
@@ -345,7 +351,7 @@ bool OBJLoader::loadMaterials(const std::string& _line)
 	//if(!file.is_open())
 	//	return false;
 
-	Ptr<Material> pMat = NULL;
+	Ptr<Material> pMat = nullptr;
 	float r = 0, g = 0, b = 0, a = 0;
 
 	std::string line;
@@ -364,7 +370,7 @@ bool OBJLoader::loadMaterials(const std::string& _line)
 			r = 0, g = 0, b = 0, a = 0;
 		}
 
-		if(pMat == NULL)
+		if(pMat == nullptr)
 			continue;
 
 		if(sscanf(&line[0], "map_Kd %s", buffer) > 0)
@@ -410,24 +416,23 @@ bool OBJLoader::loadMaterials(const std::string& _line)
 template< class T >
 class NoDubVector
 {
-	struct Type : public T
+	typedef T Type;
+
+	struct T_hash
 	{
-		Type(const T& t):T(t)
-		{}
-		inline bool operator == (const Type& other) const
-		{
-			return  memcmp(this, &other, sizeof(Type)) == 0;
-		}
-		operator size_t() const
+		std::size_t operator () (const Type & v) const
 		{
 			size_t seed = 0;
-			for(unsigned i = 0; i < sizeof(Type); i++)
-				boost::hash_combine(seed, *(((char*)this)+i));
+
+			std::hash<char> hasher;
+			for (unsigned i = 0; i < sizeof(Type); i++)
+				seed ^= hasher(*(((char*)this) + i)) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+
 			return seed;
 		}
 	};
 
-	typedef boost::unordered_map< Type, unsigned int > map;
+	typedef std::unordered_map< Type, unsigned int, T_hash > map;
 	typedef std::vector< Type > vec;
 	map m_idx;
 	vec m_Buff;
@@ -486,8 +491,8 @@ class OBJExport: public IVisitor
 		Uint t;
 	};
 
-	boost::unordered_map< Uint, std::vector< fi > > m_f;
-	boost::unordered_map< Uint, std::vector< Uint > > m_l;
+	std::unordered_map< Uint, std::vector< fi > > m_f;
+	std::unordered_map< Uint, std::vector< Uint > > m_l;
 
 public:
 	OBJExport()
@@ -551,16 +556,16 @@ public:
 		float iCount = 0;
 		float nCount = (float)(m_v.size() + m_n.size() + m_t.size() + m_mat.size());
 
-		for(boost::unordered_map< Uint, std::vector< fi > >::const_iterator it = m_f.begin(); it != m_f.end(); it++)
+		for(auto it = m_f.cbegin(); it != m_f.cend(); it++)
 			nCount += it->second.size();
 
-		for(boost::unordered_map< Uint, std::vector< Uint > >::const_iterator it = m_l.begin(); it != m_l.end(); it++)
+		for(auto it = m_l.cbegin(); it != m_l.cend(); it++)
 			nCount += it->second.size();
 
 		std::wstring sMTLfile(sOBJfile);
 		sMTLfile += L".mtl";
 
-		boost::filesystem::wofstream obj( sOBJfile.c_str(), std::ios::out);
+		std::wofstream obj( sOBJfile.c_str(), std::ios::out);
 
 		if(!obj.is_open())
 			return false;
@@ -585,7 +590,7 @@ public:
 			progress(0.5f+((++iCount/nCount)*0.5f));
 		}
 
-		for(boost::unordered_map< Uint, std::vector< fi > >::const_iterator it = m_f.begin(); it != m_f.end(); it++)
+		for(auto it = m_f.cbegin(); it != m_f.cend(); it++)
 		{
 			obj << "usemtl " << it->first << std::endl;
 			obj << "#RGBA " << m_mat[it->first].r << " " << m_mat[it->first].g << " " << m_mat[it->first].b << " " << 1.f - m_mat[it->first].a << std::endl;
@@ -612,7 +617,7 @@ public:
 				progress(0.5f+((++iCount/nCount)*0.5f));
 			}
 		}
-		for(boost::unordered_map< Uint, std::vector< Uint > >::const_iterator it = m_l.begin(); it != m_l.end(); it++)
+		for(auto it = m_l.cbegin(); it != m_l.cend(); it++)
 		{
 			for(size_t i = 0; i < it->second.size(); i+=2)
 			{
@@ -628,7 +633,7 @@ public:
 
 		obj.close();
 
-		boost::filesystem::wofstream mtl( sMTLfile.c_str(), std::ios::out);
+		std::wofstream mtl( sMTLfile.c_str(), std::ios::out);
 
 		if(!mtl.is_open())
 			return false;
@@ -669,6 +674,10 @@ bool loadOBJfromStream(std::istream& istream, SceneNodeVector& nodes, progress_c
 class OBJPlugIn: public SceneIO::IPlugIn
 {
 public:
+	OBJPlugIn()
+	{
+
+	}
 	virtual std::wstring about() const
 	{
 		return L"internal OBJ Loader/Writer";

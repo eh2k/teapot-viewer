@@ -21,12 +21,11 @@
 
 using namespace eh;
 
-#include <boost/static_assert.hpp>
-
 #if defined(_DEBUG)
 #define D3D_DEBUG_INFO
 #endif
 
+#include <cassert>
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -34,18 +33,23 @@ using namespace eh;
 #include <d3d9.h>
 #include <D3dx9core.h>
 #include <D3dx9math.h>
-#include <DXErr.h>
+//#include <DXErr.h>
+
+static HRESULT DXGetErrorStringW(HRESULT result)
+{
+	return result;
+}
 
 //#include <atlstr.h>
-#include <boost/filesystem/fstream.hpp>
+#include <fstream>
 
 #pragma comment ( lib, "d3d9" )
 #pragma comment ( lib, "d3dx9" )
 #pragma comment ( lib, "dxerr" )
 
-BOOST_STATIC_ASSERT(sizeof(Matrix) == sizeof(D3DMATRIX));
-BOOST_STATIC_ASSERT(sizeof(Vec3) == sizeof(D3DVECTOR));
-BOOST_STATIC_ASSERT(sizeof(RGBA) == sizeof(D3DCOLORVALUE));
+static_assert(sizeof(Matrix) == sizeof(D3DMATRIX), "");
+static_assert(sizeof(Vec3) == sizeof(D3DVECTOR), "");
+static_assert(sizeof(RGBA) == sizeof(D3DCOLORVALUE), "");
 
 static UINT video_mem = 0;
 
@@ -94,7 +98,7 @@ public:
 	static Ptr<Direct3D9VertexBuffer> create(IDirect3DDevice9* m_pDevice, Ptr<IVertexBuffer> pBuff)
 	{
 		if(pBuff->getBufferSize() == 0)
-			return NULL;
+			return nullptr;
 
 		Ptr<Direct3D9VertexBuffer> ret = pBuff->m_resource;
 
@@ -138,10 +142,10 @@ public:
 				}
 
 				if(FAILED(pVB->Unlock()))
-					return NULL;
+					return nullptr;
 			}
 			else
-				return NULL;
+				return nullptr;
 
 			ret = new Direct3D9VertexBuffer(pVB, FVF, stride);
 			pBuff->m_resource = ret;
@@ -149,7 +153,7 @@ public:
 		}
 		else
 		{
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -192,7 +196,7 @@ public:
 	static Ptr<IResource> create(IDirect3DDevice9* m_pDevice, const Uint_vec& indices)
 	{
 		if(indices.size() == 0)
-			return NULL;
+			return nullptr;
 		else
 		{
 			IDirect3DIndexBuffer9* pIB = NULL;
@@ -211,16 +215,16 @@ public:
 				{
 					memcpy(vData, &indices[0], sizeof(indices[0])*indices.size());
 					if(FAILED(pIB->Unlock()))
-						return NULL;
+						return nullptr;
 				}
 				else
-					return NULL;
+					return nullptr;
 
 				return new Direct3D9IndexBuffer(pIB);
 			}
 			else
 			{
-				return NULL;
+				return nullptr;
 			}
 		}
 	}
@@ -262,13 +266,13 @@ public:
 		SceneIO::File aFile(sFile);
 		SceneIO::setStatusText( std::wstring(L"Laoding ") + aFile.getName() + L"...");
 
-		std::auto_ptr<char> data;
+		std::unique_ptr<char> data;
 		size_t size = aFile.getContent(data);
 
 		if( size == 0 )
 		{
 			std::wcerr << aFile.getPath().c_str() << " SceneIO::File::getContent(data.get()) failed" << std::endl;
-			return NULL;
+			return nullptr;
 		}
 
 		IDirect3DTexture9* pTexture = NULL;
@@ -277,7 +281,7 @@ public:
 		else
 		{
 			std::wcerr << L"Direct3D9Texture::create failed: " << sFile.c_str() << std::endl;;
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -882,7 +886,7 @@ public:
 		{
 			Ptr<Direct3D9Texture> texture = pTexture->m_resource;
 
-			if(texture == NULL)
+			if(texture == nullptr)
 				texture = pTexture->m_resource = Direct3D9Texture::create(this->m_pDevice, pTexture->getFile() );
 
 			if(texture)
@@ -902,10 +906,10 @@ public:
 		Ptr<Direct3D9IndexBuffer> pIB = node.m_resource;
 		Ptr<Direct3D9VertexBuffer> pVB = node.getVertexBuffer()->m_resource;
 
-		if( pVB == NULL )
+		if( pVB == nullptr)
 			pVB = node.getVertexBuffer()->m_resource = Direct3D9VertexBuffer::create(this->m_pDevice, node.getVertexBuffer() );
 
-		if( pIB == NULL )
+		if( pIB == nullptr)
 			pIB = node.m_resource = Direct3D9IndexBuffer::create(this->m_pDevice, node.getIndices());
 
 		if( pVB && pIB && pVB->bind(this->m_pDevice) && pIB->bind(this->m_pDevice))

@@ -24,7 +24,7 @@ void GroupNode::addChildNodes(const SceneNodeVector& nodes)
 	m_vNodes.reserve( m_vNodes.capacity() - m_vNodes.size() + nodes.size() );
 
 	for (SceneNodeVector::const_iterator it = nodes.begin() ; it != nodes.end( ) ; it++ )
-		if(*it != NULL && std::find(m_vNodes.begin(), m_vNodes.end(), *it) == m_vNodes.end()) //no dups
+		if(*it != nullptr && std::find(m_vNodes.begin(), m_vNodes.end(), *it) == m_vNodes.end()) //no dups
 			m_vNodes.push_back(*it);
 
 	calcBounding();

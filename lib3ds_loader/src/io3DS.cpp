@@ -34,7 +34,7 @@ public:
 	C3DSLoader():
 		m_nCount(0),
 		m_iCount(0),
-		m_pVB(NULL)
+		m_pVB(nullptr)
 	{
 	}
 	virtual ~C3DSLoader()
@@ -73,7 +73,7 @@ public:
 	{
 		Lib3dsMesh *mesh = lib3ds_file_mesh_for_node(f, (Lib3dsNode*)node);
 		if (!mesh || !mesh->vertices)
-			return NULL;
+			return nullptr;
 
 		//fprintf(o, "# object %s\n", node->base.name);
 		//fprintf(o, "g %s\n", node->instance_name[0]? node->instance_name : node->base.name);
@@ -194,7 +194,7 @@ public:
 		{
 			long m_pos;
 			size_t m_size;
-			std::auto_ptr<char> m_pBuff;
+			std::unique_ptr<char> m_pBuff;
 
 			FileIO(const SceneIO::File& file)
 			{
@@ -309,7 +309,7 @@ public:
 		}
 
 		lib3ds_file_free(f);
-		m_pVB = NULL;
+		m_pVB = nullptr;
 
 		return true;
 

@@ -15,19 +15,19 @@ extern "C"
 namespace eh{
 
 Controller::Controller():
-	m_pViewport(NULL),
+	m_pViewport( nullptr ),
 	m_zoom(1.f),
-	m_axis( NULL )
+	m_axis( nullptr )
 {
 	Ptr<Scene> scene = Scene::create();
 	std::auto_ptr<SceneIO::IPlugIn> objloader( XcreatePlugIn() );
 
 	struct dummy {static void callback(float f){} };
-    SceneIO::progress_callback dummy_cb(dummy::callback);
+	SceneIO::progress_callback dummy_cb(dummy::callback);
 
 	objloader->read( L"./media/axis.obj", scene, dummy_cb);
 
-	m_axis = GroupNode::create( scene->getNodes(), Matrix::Scale( Vec3(0.2f,0.2f,0.2f))) ;
+	m_axis = GroupNode::create( scene->getNodes(), Matrix::Scale( Vec3(0.2f, 0.2f, 0.2f))) ;
 }
 Controller::~Controller()
 {

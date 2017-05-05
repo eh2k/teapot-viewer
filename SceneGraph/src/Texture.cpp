@@ -1,7 +1,7 @@
 #include "Texture.h"
-#include <boost/unordered_map.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/algorithm/string.hpp>
+#include <unordered_map>
+#include <filesystem>
+#include <string>
 #include <algorithm>
 #include <iostream>
 
@@ -10,18 +10,18 @@
 namespace eh
 {
 
-    typedef boost::unordered_map<std::wstring, Texture*> TEXTURE_MAP;
+    typedef std::unordered_map<std::wstring, Texture*> TEXTURE_MAP;
     static  TEXTURE_MAP file_map;
 
     Texture::Texture(const std::wstring& sFileName):
             m_file(sFileName),
-            m_resource(NULL)
+            m_resource(nullptr)
     {
     }
 
     Ptr<Texture> Texture::createFromFile(const std::wstring& sFileName)
     {
-        boost::filesystem::wpath file = sFileName;
+        std::experimental::filesystem::path file = sFileName;
 
         //if ( !boost::filesystem::exists( file ) )
         //{

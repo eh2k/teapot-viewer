@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -10,24 +10,23 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <PropertyGroup Label="Globals">
-    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and '$(VisualStudioVersion)' == ''">$(VCTargetsPath11)</VCTargetsPath>
-  </PropertyGroup>
+  <PropertyGroup Label="Globals" />
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B4CB9486-FDB1-4098-8A07-DB5AAAFF9241}</ProjectGuid>
     <RootNamespace>Renderer</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <CLRSupport>false</CLRSupport>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -61,6 +60,11 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
+    <PreBuildEvent>
+      <Command>cmd /c del $(ProjectDir)swig\*.cs
+d:\dev\swigwin-3.0.12\swig.exe -csharp -c++ -namespace eh -dllimport $(TargetFileName) $(ProjectDir)swig\swig.i
+csc  /t:library /debug /pdb:$(TargetDir)$(AssemblyName)_swig.pdb /out:$(TargetDir)$(AssemblyName)_swig.dll  $(ProjectDir)swig\*.cs</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -80,6 +84,11 @@
       <ImportLibrary>$(TargetDir)$(TargetName).LIB</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
+    <PreBuildEvent>
+      <Command>cmd /c del $(ProjectDir)swig\*.cs
+d:\dev\swigwin-3.0.12\swig.exe -csharp -c++ -namespace eh -dllimport $(TargetFileName) $(ProjectDir)swig\swig.i
+csc  /t:library /debug /pdb:$(TargetDir)$(AssemblyName)_swig.pdb /out:$(TargetDir)$(AssemblyName)_swig.dll  $(ProjectDir)swig\*.cs</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Reference Include="System">
@@ -122,6 +131,8 @@
     <ClCompile Include="minizip\mztools.c" />
     <ClCompile Include="minizip\unzip.c" />
     <ClCompile Include="minizip\zip.c" />
+    <ClCompile Include="swig\swig.cpp" />
+    <ClCompile Include="swig\swig_wrap.cxx" />
     <ClCompile Include="zlib\adler32.c" />
     <ClCompile Include="zlib\compress.c" />
     <ClCompile Include="zlib\crc32.c" />
@@ -165,6 +176,8 @@
     <ClInclude Include="minizip\mztools.h" />
     <ClInclude Include="minizip\unzip.h" />
     <ClInclude Include="minizip\zip.h" />
+    <ClInclude Include="swig\swig.h" />
+    <ClInclude Include="swig\swig_wrap.h" />
     <ClInclude Include="zlib\crc32.h" />
     <ClInclude Include="zlib\deflate.h" />
     <ClInclude Include="zlib\gzguts.h" />
@@ -180,6 +193,7 @@
   <ItemGroup>
     <None Include="src\axis_obj" />
     <None Include="src\teapot_obj" />
+    <None Include="swig\swig.i" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="src\resources.rc" />

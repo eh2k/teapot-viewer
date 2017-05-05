@@ -1,4 +1,5 @@
 #include "ShapeNode.h"
+#include <cassert>
 
 using namespace eh;
 
@@ -16,14 +17,14 @@ ShapeNode::~ShapeNode()
 
 void ShapeNode::addGeometry(Ptr<Material> pMat, Ptr<Geometry> pGeo)
 {
-	if(pGeo != NULL)
+	if(pGeo != nullptr)
 	{
-		if(pMat == NULL)
+		if(pMat == nullptr)
 			pMat = Material::White();
 
 		Ptr<Geometry>& g = m_geometry[ std::make_pair(pMat, pGeo->getType()) ];
 
-		if(g == NULL)
+		if(g == nullptr)
 			g = pGeo;
 		else
 		{

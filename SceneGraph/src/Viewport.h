@@ -47,7 +47,7 @@ public:
 	void setDriver(Ptr<IDriver> pDriver) { m_pDriver = pDriver; }
 	const Ptr<IDriver> getDriver() const { return m_pDriver; }
 
-	void setScene(Ptr<Scene> pScene, Ptr<Camera> pCamera = NULL);
+	void setScene(Ptr<Scene> pScene, Ptr<Camera> pCamera = nullptr);
 	Ptr<Scene> getScene() const {return m_pScene;}
 
 	void drawScene();

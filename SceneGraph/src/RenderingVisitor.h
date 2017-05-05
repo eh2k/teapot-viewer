@@ -35,7 +35,7 @@ private:
 		Matrix		tra;	//Transformation
 		Float		dis;	//Distanz zur ViewportPosition (Auge)
 
-		BlendedObject(Ptr<Geometry> g = NULL, Ptr<Material> m = NULL, const Matrix& t = Matrix(), Float d = FLT_MAX)
+		BlendedObject(Ptr<Geometry> g = nullptr, Ptr<Material> m = nullptr, const Matrix& t = Matrix(), Float d = FLT_MAX)
 			:mat(m), geo(g), tra(t), dis(d)
 		{
 		}

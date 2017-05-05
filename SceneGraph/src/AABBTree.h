@@ -17,7 +17,8 @@
 #pragma once
 
 #include "SceneNode.h"
-#include <boost/unordered_map.hpp>
+#include <unordered_map>
+#include <cassert>
 
 namespace eh{
 
@@ -25,7 +26,7 @@ class AABBTreeNode: public AABBox
 {
 protected:
 	static const Uint nSceneNodesPerNode = 7;
-	typedef boost::unordered_map<SceneNode*, AABBTreeNode*> NodeTreeMap;
+	typedef std::unordered_map<SceneNode*, AABBTreeNode*> NodeTreeMap;
 
 	NodeTreeMap& m_NodeTreeMap;
 	SceneNodeList m_nodes;

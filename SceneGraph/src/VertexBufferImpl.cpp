@@ -1,7 +1,5 @@
 #include "VertexBuffer.h"
 #include <unordered_map>
-#include <boost/tuple/tuple.hpp>
-
 #include <stdio.h>
 
 namespace eh{
@@ -24,20 +22,27 @@ class VertexBufferImpl: public IVertexBuffer
 			}
 			return true;
 		}
-		operator size_t() const
+	};
+
+	struct vertex_hash 
+	{
+		std::size_t operator () (const Vertex & v) const
 		{
 			size_t seed = 0;
-			//boost::hash_combine( seed, this );
-			for(unsigned i = 0; i < sizeof(Vertex)/sizeof(Float); i++)
+
+			for (unsigned i = 0; i < sizeof(Vertex) / sizeof(Float); i++)
 			{
-				Float f = *(((Float*)this)+i);
-				boost::hash_combine(seed, (int)(f*100) );
+				Float f = *(((Float*)&v) + i);
+
+				std::hash<int> hasher;
+				seed ^= hasher((int)(f * 100)) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
 			}
+
 			return seed;
 		}
 	};
 
-	typedef std::unordered_map< Vertex, Uint > map;
+	typedef std::unordered_map< Vertex, Uint, vertex_hash > map;
 	typedef std::vector< Vertex > vec;
 	map m_idx;
 	vec m_Buff;
@@ -53,7 +58,7 @@ public:
 
 	virtual Uint addVertex(const Vec3& v, const Vec3& n = Vec3(), const Vec3& t = Vec3())
 	{
-		m_resource = NULL;
+		m_resource = nullptr;
 
 		//printf("%f %f %f - %f %f %f - %f % f\n", v.x, v.y, v.z, n.x, n.y, n.z, t.x, t.y);
 
@@ -75,7 +80,7 @@ public:
 
 	virtual Uint pushVertex(const Vec3& v, const Vec3& n = Vec3(), const Vec3& t = Vec3())
 	{
-		m_resource = NULL;
+		m_resource = nullptr;
 
 		Vec3 vnt[] = { v, n, t };
 		const Vertex& vertex = reinterpret_cast<Vertex&>(vnt[0]);
@@ -139,11 +144,11 @@ Ptr<IVertexBuffer> CreateVertexBuffer(Uint nStride, const void* pBuffer/* = NULL
 	if(nStride == sizeof(Vec3))
 		return new VertexBufferImpl<Vec3>(pBuffer, nCount);
 	else if(nStride == (sizeof(Vec3) + sizeof(Vec3)))
-		return new VertexBufferImpl< boost::tuple<Vec3,Vec3> >(pBuffer, nCount);
+		return new VertexBufferImpl< std::tuple<Vec3,Vec3> >(pBuffer, nCount);
 	else if(nStride == (sizeof(Vec3) + sizeof(Vec3) + sizeof(Float)*2))
-		return new VertexBufferImpl< boost::tuple<Vec3,Vec3,Float, Float> >(pBuffer, nCount);
+		return new VertexBufferImpl< std::tuple<Vec3,Vec3,Float, Float> >(pBuffer, nCount);
 	else
-		return NULL;
+		return nullptr;
 
 }
 
