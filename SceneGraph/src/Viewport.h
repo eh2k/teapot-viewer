@@ -4,6 +4,7 @@
 
 #include "config.h"
 #include "RefCounted.h"
+#include "ViewportModes.h"
 #include <set>
 
 namespace eh{
@@ -17,27 +18,12 @@ class Camera;
 class API_3D Viewport : public RefCounted
 {
 public:
-	enum Flag
-	{
-		MODE_WIREFRAME		= 0x00000001,
-		MODE_ORTHO		= 0x00000002,
-		MODE_LIGHTING		= 0x00000004,
-		MODE_SHADOW		= 0x00000008,
-		MODE_BACKGROUND		= 0x00000010,
-
-		MODE_DRAWAABBTREE	= 0x00000100,
-		MODE_DRAWPRIMBOUNDS	= 0x00000200,
-		MODE_TRANSPARENS	= 0x00000400,
-		MODE_FPS		= 0x00000800,
-	};
-
-public:
 
 	Viewport(Ptr<IDriver> pDriver);
 	virtual ~Viewport();
 
-	inline void setModeFlag(Flag flag, bool set = true){(set)?m_modeflags|=flag:m_modeflags&=~flag;}
-	inline bool getModeFlag(Flag flag) const { return (m_modeflags & flag) != 0;}
+	inline void setModeFlag(Mode flag, bool set = true){(set)?m_modeflags|=flag:m_modeflags&=~flag;}
+	inline bool getModeFlag(Mode flag) const { return (m_modeflags & flag) != 0;}
 
 	bool isOrthoProjectionEnabled() const;
 

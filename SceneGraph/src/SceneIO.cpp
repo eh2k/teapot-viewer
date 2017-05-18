@@ -236,7 +236,7 @@ namespace eh
 					boost::split( exts, fileexts, boost::is_any_of(L";") );
 
 					if(exts.size() == 0)
-						exts.push_back(  pPlugIn->file_exts(i) );
+						exts.push_back(fileexts);
 
 					for(size_t j = 0; j < exts.size(); j++)
 					{

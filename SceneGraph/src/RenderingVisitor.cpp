@@ -135,7 +135,7 @@ void RenderingVisitor::drawScene(const AABBTreeNode* aabbtree)
 		if(cull.test() == AABBox::OUTSIDE)
 			return;
 
-		if(getViewport().getModeFlag( Viewport::MODE_DRAWAABBTREE ) )
+		if(getViewport().getModeFlag( Mode::MODE_DRAWAABBTREE ) )
 		{
 			getDriver().setMaterial( Material::Black().get() );
 			createWireBoxGeometry(aabbtree->getCenter(), aabbtree->getSize())->accept(*this);
@@ -167,7 +167,7 @@ void RenderingVisitor::drawScene(const AABBTreeNode* aabbtree)
 				getDriver().setMaterial(it->mat.get());
 				it->geo->accept(*this);
 
-				if(getViewport().getModeFlag( Viewport::MODE_TRANSPARENS ))
+				if(getViewport().getModeFlag(Mode::MODE_TRANSPARENS ))
 				{
 					getDriver().enableDepthTest(false);
 					char s [100]; sprintf(s, "%d", i++);
@@ -231,13 +231,13 @@ void RenderingVisitor::visit(Geometry& node)
 
 	getDriver().drawPrimitive(node);
 
-	if(getViewport().getModeFlag( Viewport::MODE_DRAWPRIMBOUNDS ) )
+	if(getViewport().getModeFlag(Mode::MODE_DRAWPRIMBOUNDS ) )
 	{
 		const AABBox& bound = node.getBounding();
 		getDriver().setMaterial( Material::Black().get() );
-		getViewport().setModeFlag( Viewport::MODE_DRAWPRIMBOUNDS, false );
+		getViewport().setModeFlag( Mode::MODE_DRAWPRIMBOUNDS, false );
 		createWireBoxGeometry(bound.getCenter(), bound.getSize())->accept(*this);
-		getViewport().setModeFlag( Viewport::MODE_DRAWPRIMBOUNDS, true );
+		getViewport().setModeFlag( Mode::MODE_DRAWPRIMBOUNDS, true );
 		getDriver().setMaterial( Material::Black().get() );
 	}
 }

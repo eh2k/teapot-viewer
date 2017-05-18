@@ -56,18 +56,6 @@ public class IViewport : global::System.IDisposable {
     return ret;
   }
 
-  public virtual bool loadScene(string filePath, Callback callback) {
-    bool ret = ehPINVOKE.IViewport_loadScene__SWIG_0(swigCPtr, filePath, Callback.getCPtr(callback));
-    if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
-    return ret;
-  }
-
-  public virtual bool loadScene(string filePath) {
-    bool ret = ehPINVOKE.IViewport_loadScene__SWIG_1(swigCPtr, filePath);
-    if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
-    return ret;
-  }
-
   public virtual bool isValid() {
     bool ret = ehPINVOKE.IViewport_isValid(swigCPtr);
     if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
@@ -79,6 +67,34 @@ public class IViewport : global::System.IDisposable {
     IController ret = (cPtr == global::System.IntPtr.Zero) ? null : new IController(cPtr, false);
     if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
     return ret;
+  }
+
+  public virtual void setModeFlag(Mode flag, bool enable) {
+    ehPINVOKE.IViewport_setModeFlag(swigCPtr, (int)flag, enable);
+    if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public virtual bool getModeFlag(Mode flag) {
+    bool ret = ehPINVOKE.IViewport_getModeFlag(swigCPtr, (int)flag);
+    if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public virtual int getCameraCount() {
+    int ret = ehPINVOKE.IViewport_getCameraCount(swigCPtr);
+    if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public virtual string getCameraName(int num) {
+    string ret = ehPINVOKE.IViewport_getCameraName(swigCPtr, num);
+    if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public virtual void setCamera(int num) {
+    ehPINVOKE.IViewport_setCamera(swigCPtr, num);
+    if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
   }
 
 }

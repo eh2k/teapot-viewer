@@ -19,10 +19,10 @@
 
 %apply void *VOID_INT_PTR { void * }
 
-%shared_ptr(eh::IViewport);
+%shared_ptr(swig::IViewport);
 
 %template(IntVector) std::vector<int>;
 %template(StringVector) std::vector<std::wstring>;
 
-
+%include "..\src\ViewportModes.h"
 %include "swig.h"

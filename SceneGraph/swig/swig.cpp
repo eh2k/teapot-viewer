@@ -19,8 +19,10 @@
 
 #pragma comment ( lib, "OPENGL32" )
 
-namespace eh
+namespace swig
 {
+	using namespace eh;
+
 	struct BaseViewPort : public IViewport
 	{
 		Ptr<Viewport> _viewPort;
@@ -28,20 +30,6 @@ namespace eh
 		void setDisplayRect(int x, int y, int dx, int dy) override
 		{
 			_viewPort->setDisplayRect(x, y, dx, dy);
-		}
-
-		bool loadScene(std::wstring filePath, Callback* callback) override
-		{
-			SceneIO io;
-			auto scene = Scene::create();
-			if (io.read(filePath, scene, [callback](float value) { if(callback) callback->call(value); }))
-			{
-				_viewPort->setScene(scene, scene->createOrbitalCamera());
-				_viewPort->invalidate();
-				return true;
-			}
-			else
-				return false;
 		}
 
 		IController* control() override
@@ -57,6 +45,43 @@ namespace eh
 		std::string getDriverInfo() override
 		{
 			return _viewPort->getDriver()->getDriverInformation();
+		}
+
+		void setModeFlag(Mode flag, bool enable) override
+		{
+			_viewPort->setModeFlag(flag, enable);
+			_viewPort->invalidate();
+		}
+
+		bool getModeFlag(Mode flag) override
+		{
+			return _viewPort->getModeFlag(flag);
+			_viewPort->invalidate();
+		}
+
+		int getCameraCount() override
+		{
+			return (int)_viewPort->getScene()->getCameras().size() + 1;
+		}
+
+		std::wstring getCameraName(int num)
+		{
+			auto name = _viewPort->getScene()->getCameras()[num - 1]->getName();
+			return std::wstring(name.cbegin(), name.cend());
+		}
+
+		void setCamera(int num) override
+		{
+			if (num == 0)
+			{
+				_viewPort->setScene(_viewPort->getScene(), _viewPort->getScene()->createOrbitalCamera());
+			}
+			else
+			{
+				_viewPort->setScene(_viewPort->getScene(), _viewPort->getScene()->getCameras()[num - 1]);
+			}
+
+			_viewPort->invalidate();
 		}
 	};
 
@@ -211,5 +236,44 @@ namespace eh
 			return nullptr;
 
 		return std::make_shared<D3DViewPort>((HWND)hWindow);
+	}
+
+	std::wstring SceneIO::getFileWildcards(bool read)
+	{
+		eh::SceneIO io;
+		return io.getFileWildcards(read);
+	}
+
+	std::wstring SceneIO::getAboutString()
+	{
+		eh::SceneIO io;
+		return io.getAboutString();
+	}
+
+
+	bool SceneIO::read(IViewport* viewPort, std::wstring filePath, Callback* callback/* = nullptr*/)
+	{
+		eh::SceneIO io;
+		auto scene = Scene::create();
+		if (io.read(filePath, scene, [callback](float value) { if (callback) callback->call(value); }))
+		{
+			((BaseViewPort*)viewPort)->_viewPort->setScene(scene, scene->createOrbitalCamera());
+			((BaseViewPort*)viewPort)->_viewPort->invalidate();
+			return true;
+		}
+		else
+			return false;
+	}
+
+	bool SceneIO::write(IViewport* viewPort, std::wstring filePath, Callback* callback/* = nullptr*/)
+	{
+		eh::SceneIO io;
+		auto scene = ((BaseViewPort*)viewPort)->_viewPort->getScene();
+		if (io.write(filePath, scene, [callback](float value) { if (callback) callback->call(value); }))
+		{
+			return true;
+		}
+		else
+			return false;
 	}
 }

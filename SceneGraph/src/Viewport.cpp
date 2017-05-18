@@ -75,14 +75,14 @@ void Viewport::drawScene(const Matrix& view, const Matrix& proj, bool bRenderToW
 	if(m_pScene == nullptr)
 		return;
 
-	if(m_pDriver->beginScene(  getModeFlag(Viewport::MODE_BACKGROUND) ))
+	if(m_pDriver->beginScene(  getModeFlag(Mode::MODE_BACKGROUND) ))
 	{
-		m_pDriver->enableLighting( getModeFlag(Viewport::MODE_LIGHTING) );
-		m_pDriver->enableShadow( getModeFlag(Viewport::MODE_SHADOW) );
+		m_pDriver->enableLighting( getModeFlag(Mode::MODE_LIGHTING) );
+		m_pDriver->enableShadow( getModeFlag(Mode::MODE_SHADOW) );
 
 		m_pDriver->enableDepthTest(true);
 
-		m_pDriver->enableWireframe(getModeFlag(Viewport::MODE_WIREFRAME));
+		m_pDriver->enableWireframe(getModeFlag(Mode::MODE_WIREFRAME));
 
 		m_pRenderingVisitor->init(view, proj);
 
@@ -107,7 +107,7 @@ void Viewport::drawScene(const Matrix& view, const Matrix& proj, bool bRenderToW
 			m_pRenderingVisitor->drawNodes(control().m_axis);
 		}
 
-		m_pDriver->endScene( getModeFlag(Viewport::MODE_FPS) );
+		m_pDriver->endScene( getModeFlag(Mode::MODE_FPS) );
 	}
 }
 

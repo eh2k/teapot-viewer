@@ -11,7 +11,7 @@
 #ifndef SWIG_eh_WRAP_H_
 #define SWIG_eh_WRAP_H_
 
-struct SwigDirector_Callback : public eh::Callback, public Swig::Director {
+struct SwigDirector_Callback : public swig::Callback, public Swig::Director {
 
 public:
     SwigDirector_Callback();

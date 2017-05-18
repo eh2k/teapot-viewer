@@ -18,7 +18,7 @@
 using namespace eh;
 
 #include <iostream>
-#include <boost/unordered_map.hpp>
+#include <unordered_map>
 
 #include <FCollada.h>
 
@@ -46,22 +46,29 @@ using namespace eh;
 
 #include "FUtils/FUFileManager.h"
 #include "FColladaPlugin.h"
-
 #include <map>
+
+//extern "C"
+//{
+//	FUPlugin* CreatePlugin(uint32)
+//	{
+//		return new FArchiveXML();
+//	}
+//}
 
 
 class COLLADALoader: public SceneIO::IPlugIn
 {
 private:
-	typedef boost::unordered_map<std::string, std::pair<FCDCamera*, Matrix> > CAMERAS;
+	typedef std::unordered_map<std::string, std::pair<FCDCamera*, Matrix> > CAMERAS;
 	CAMERAS m_cams;
 
 	Ptr<IVertexBuffer> m_pVB;
-	boost::unordered_map< std::string, Ptr<Material> > m_materials;
+	std::unordered_map< std::string, Ptr<Material> > m_materials;
 
-	typedef boost::unordered_map< Geometry::TYPE, Uint_vec > PRIM_INDICES;
-	typedef boost::unordered_map< std::wstring, PRIM_INDICES > MAT_PRIM_INDICES;
-	boost::unordered_map< std::string, MAT_PRIM_INDICES > m_geometry;
+	typedef std::unordered_map< Geometry::TYPE, Uint_vec > PRIM_INDICES;
+	typedef std::unordered_map< std::wstring, PRIM_INDICES > MAT_PRIM_INDICES;
+	std::unordered_map< std::string, MAT_PRIM_INDICES > m_geometry;
 
 	void addPolygons(FCDGeometryPolygons* pPolys, MAT_PRIM_INDICES& matprims )
 	{
@@ -202,7 +209,7 @@ private:
 			for(MAT_PRIM_INDICES::const_iterator it = m_geometry[id].begin(),
 				end = m_geometry[id].end(); it != end; it++)
 			{
-				Ptr<Material> pMat = NULL;
+				Ptr<Material> pMat = nullptr;
 
 				for( size_t k = 0; k < pGeoInst->GetMaterialInstanceCount(); k++)
 				{
@@ -237,7 +244,7 @@ private:
 	}
 public:
 	COLLADALoader():
-		m_pVB(NULL)
+		m_pVB(nullptr)
 	{
 		FCollada::Initialize();
 	}
@@ -253,7 +260,7 @@ public:
 		m_pVB = CreateVertexBuffer( sizeof(Vec3)*2 + sizeof(Float)*2 );
 
 		FCDocument doc;
-		std::auto_ptr<char> data;
+		std::unique_ptr<char> data;
 		size_t size = aFile.getContent(data);
 		if( size == 0 )
 		{
@@ -391,7 +398,7 @@ public:
 		}
 		else
 		{
-			for(boost::unordered_map< std::string, MAT_PRIM_INDICES >::const_iterator id = m_geometry.begin(); id != m_geometry.end(); id++)
+			for(auto id = m_geometry.cbegin(); id != m_geometry.cend(); id++)
 			for(MAT_PRIM_INDICES::const_iterator it = m_geometry[id->first].begin(),
 				end = m_geometry[id->first].end(); it != end; it++)
 			{
@@ -406,7 +413,7 @@ public:
 		m_cams.clear();
 		m_geometry.clear();
 		m_materials.clear();
-		m_pVB = NULL;
+		m_pVB = nullptr;
 
 		return true;
 	}

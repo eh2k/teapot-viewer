@@ -48,13 +48,17 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\bin\Debug\SceneGraph_swig.dll</HintPath>
     </Reference>
+    <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="wx.NET">
       <HintPath>..\libs\wxNET\wx.NET.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Base.ico" />
+    <EmbeddedResource Include="Base.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

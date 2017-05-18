@@ -1,10 +1,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SceneGraph", "SceneGraph\SceneGraph.vcxproj", "{B4CB9486-FDB1-4098-8A07-DB5AAAFF9241}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Base", "Base\Base.vcxproj", "{E09B709A-8B49-4AE7-B94B-3771A3725D06}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Direct3D9Driver", "Direct3D9Driver\Direct3D9Driver.vcxproj", "{BDDB4925-028F-4FCE-86B9-85A7DA7DCE46}"
 EndProject
@@ -22,7 +20,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "coin3d_loader", "coin3d_loa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseUI", "BaseUI\BaseUI.csproj", "{6B1BB5FD-D92A-4C67-ADC1-7FF1BE263546}"
 	ProjectSection(ProjectDependencies) = postProject
+		{BDDB4925-028F-4FCE-86B9-85A7DA7DCE46} = {BDDB4925-028F-4FCE-86B9-85A7DA7DCE46}
+		{39654846-427E-4C88-9F71-42E521CB8327} = {39654846-427E-4C88-9F71-42E521CB8327}
+		{1DC65348-E0BF-467F-AA48-9BE33C2A3CA9} = {1DC65348-E0BF-467F-AA48-9BE33C2A3CA9}
 		{B4CB9486-FDB1-4098-8A07-DB5AAAFF9241} = {B4CB9486-FDB1-4098-8A07-DB5AAAFF9241}
+		{C72D1BED-24B9-43A8-B1E3-48764FB89ACE} = {C72D1BED-24B9-43A8-B1E3-48764FB89ACE}
 	EndProjectSection
 EndProject
 Global
@@ -45,15 +47,6 @@ Global
 		{B4CB9486-FDB1-4098-8A07-DB5AAAFF9241}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{B4CB9486-FDB1-4098-8A07-DB5AAAFF9241}.Release|Win32.ActiveCfg = Release|Win32
 		{B4CB9486-FDB1-4098-8A07-DB5AAAFF9241}.Release|Win32.Build.0 = Release|Win32
-		{E09B709A-8B49-4AE7-B94B-3771A3725D06}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{E09B709A-8B49-4AE7-B94B-3771A3725D06}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{E09B709A-8B49-4AE7-B94B-3771A3725D06}.Debug|Mixed Platforms.Build.0 = Debug|Win32
-		{E09B709A-8B49-4AE7-B94B-3771A3725D06}.Debug|Win32.ActiveCfg = Debug|Win32
-		{E09B709A-8B49-4AE7-B94B-3771A3725D06}.Release|Any CPU.ActiveCfg = Release|Win32
-		{E09B709A-8B49-4AE7-B94B-3771A3725D06}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{E09B709A-8B49-4AE7-B94B-3771A3725D06}.Release|Mixed Platforms.Build.0 = Release|Win32
-		{E09B709A-8B49-4AE7-B94B-3771A3725D06}.Release|Win32.ActiveCfg = Release|Win32
-		{E09B709A-8B49-4AE7-B94B-3771A3725D06}.Release|Win32.Build.0 = Release|Win32
 		{BDDB4925-028F-4FCE-86B9-85A7DA7DCE46}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{BDDB4925-028F-4FCE-86B9-85A7DA7DCE46}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
 		{BDDB4925-028F-4FCE-86B9-85A7DA7DCE46}.Debug|Mixed Platforms.Build.0 = Debug|Win32
@@ -77,6 +70,7 @@ Global
 		{C72D1BED-24B9-43A8-B1E3-48764FB89ACE}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
 		{C72D1BED-24B9-43A8-B1E3-48764FB89ACE}.Debug|Mixed Platforms.Build.0 = Debug|Win32
 		{C72D1BED-24B9-43A8-B1E3-48764FB89ACE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C72D1BED-24B9-43A8-B1E3-48764FB89ACE}.Debug|Win32.Build.0 = Debug|Win32
 		{C72D1BED-24B9-43A8-B1E3-48764FB89ACE}.Release|Any CPU.ActiveCfg = Release|Win32
 		{C72D1BED-24B9-43A8-B1E3-48764FB89ACE}.Release|Mixed Platforms.ActiveCfg = Release|Win32
 		{C72D1BED-24B9-43A8-B1E3-48764FB89ACE}.Release|Mixed Platforms.Build.0 = Release|Win32

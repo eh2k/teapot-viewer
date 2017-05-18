@@ -2,8 +2,9 @@
 
 #include <memory>
 #include <string>
+#include "..\src\ViewportModes.h"
 
-namespace eh
+namespace swig
 {
 	struct IController
 	{
@@ -37,11 +38,25 @@ namespace eh
 		virtual void drawScene() = 0;
 		virtual std::string getDriverInfo() = 0;
 		
-		virtual bool loadScene(std::wstring filePath, Callback* callback = nullptr) = 0;
-
 		virtual bool isValid() = 0;
 
 		virtual IController* control() = 0;
+
+		virtual void setModeFlag(Mode flag, bool enable) = 0;
+		virtual bool getModeFlag(Mode flag) = 0;
+
+		virtual int getCameraCount() = 0;
+		virtual std::wstring getCameraName(int num) = 0;
+		virtual void setCamera(int num) = 0;
+	};
+
+	struct SceneIO
+	{
+		static bool read(IViewport* viewPort, std::wstring filePath, Callback* callback = nullptr);
+		static bool write(IViewport* viewPort, std::wstring filePath, Callback* callback = nullptr);
+		static std::wstring getFileWildcards(bool read = true);
+
+		static std::wstring getAboutString();
 	};
 
 	std::shared_ptr<IViewport> CreateViewport(void* hWindow);

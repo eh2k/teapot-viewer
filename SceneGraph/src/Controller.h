@@ -8,7 +8,7 @@ namespace eh
 	class SceneNode;
 	class Viewport;
 
-	class API_3D Controller: public RefCounted, public IController
+	class API_3D Controller: public RefCounted, public swig::IController
     {
     public:
         //typedef Uint Flags;

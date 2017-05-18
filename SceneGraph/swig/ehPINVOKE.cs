@@ -424,20 +424,56 @@ class ehPINVOKE {
   [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_IViewport_getDriverInfo")]
   public static extern string IViewport_getDriverInfo(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_IViewport_loadScene__SWIG_0")]
-  public static extern bool IViewport_loadScene__SWIG_0(global::System.Runtime.InteropServices.HandleRef jarg1, [global::System.Runtime.InteropServices.MarshalAs(global::System.Runtime.InteropServices.UnmanagedType.LPWStr)]string jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
-
-  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_IViewport_loadScene__SWIG_1")]
-  public static extern bool IViewport_loadScene__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1, [global::System.Runtime.InteropServices.MarshalAs(global::System.Runtime.InteropServices.UnmanagedType.LPWStr)]string jarg2);
-
   [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_IViewport_isValid")]
   public static extern bool IViewport_isValid(global::System.Runtime.InteropServices.HandleRef jarg1);
 
   [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_IViewport_control")]
   public static extern global::System.IntPtr IViewport_control(global::System.Runtime.InteropServices.HandleRef jarg1);
 
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_IViewport_setModeFlag")]
+  public static extern void IViewport_setModeFlag(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, bool jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_IViewport_getModeFlag")]
+  public static extern bool IViewport_getModeFlag(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_IViewport_getCameraCount")]
+  public static extern int IViewport_getCameraCount(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_IViewport_getCameraName")]
+  public static extern string IViewport_getCameraName(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_IViewport_setCamera")]
+  public static extern void IViewport_setCamera(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
   [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_delete_IViewport")]
   public static extern void delete_IViewport(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_SceneIO_read__SWIG_0")]
+  public static extern bool SceneIO_read__SWIG_0(global::System.Runtime.InteropServices.HandleRef jarg1, [global::System.Runtime.InteropServices.MarshalAs(global::System.Runtime.InteropServices.UnmanagedType.LPWStr)]string jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_SceneIO_read__SWIG_1")]
+  public static extern bool SceneIO_read__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1, [global::System.Runtime.InteropServices.MarshalAs(global::System.Runtime.InteropServices.UnmanagedType.LPWStr)]string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_SceneIO_write__SWIG_0")]
+  public static extern bool SceneIO_write__SWIG_0(global::System.Runtime.InteropServices.HandleRef jarg1, [global::System.Runtime.InteropServices.MarshalAs(global::System.Runtime.InteropServices.UnmanagedType.LPWStr)]string jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_SceneIO_write__SWIG_1")]
+  public static extern bool SceneIO_write__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1, [global::System.Runtime.InteropServices.MarshalAs(global::System.Runtime.InteropServices.UnmanagedType.LPWStr)]string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_SceneIO_getFileWildcards__SWIG_0")]
+  public static extern string SceneIO_getFileWildcards__SWIG_0(bool jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_SceneIO_getFileWildcards__SWIG_1")]
+  public static extern string SceneIO_getFileWildcards__SWIG_1();
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_SceneIO_getAboutString")]
+  public static extern string SceneIO_getAboutString();
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_new_SceneIO")]
+  public static extern global::System.IntPtr new_SceneIO();
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_delete_SceneIO")]
+  public static extern void delete_SceneIO(global::System.Runtime.InteropServices.HandleRef jarg1);
 
   [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_CreateViewport")]
   public static extern global::System.IntPtr CreateViewport(global::System.IntPtr jarg1);

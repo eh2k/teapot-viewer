@@ -51,7 +51,6 @@
       <PreprocessorDefinitions>_API_EXPORT;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
@@ -71,7 +70,6 @@ csc  /t:library /debug /pdb:$(TargetDir)$(AssemblyName)_swig.pdb /out:$(TargetDi
       <Optimization>MaxSpeed</Optimization>
       <AdditionalIncludeDirectories>minizip;zlib;$(SolutionDir)\libs\zlib-1.2.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_API_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -176,6 +174,7 @@ csc  /t:library /debug /pdb:$(TargetDir)$(AssemblyName)_swig.pdb /out:$(TargetDi
     <ClInclude Include="minizip\mztools.h" />
     <ClInclude Include="minizip\unzip.h" />
     <ClInclude Include="minizip\zip.h" />
+    <ClInclude Include="src\ViewportModes.h" />
     <ClInclude Include="swig\swig.h" />
     <ClInclude Include="swig\swig_wrap.h" />
     <ClInclude Include="zlib\crc32.h" />

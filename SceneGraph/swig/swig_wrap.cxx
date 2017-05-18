@@ -631,7 +631,7 @@ SWIGINTERN bool std_vector_Sl_std_wstring_Sg__Remove(std::vector< std::wstring >
 
 #include "swig_wrap.h"
 
-SwigDirector_Callback::SwigDirector_Callback() : eh::Callback(), Swig::Director() {
+SwigDirector_Callback::SwigDirector_Callback() : swig::Callback(), Swig::Director() {
   swig_init_callbacks();
 }
 
@@ -644,7 +644,7 @@ void SwigDirector_Callback::call(float value) {
   float jvalue  ;
   
   if (!swig_callbackcall) {
-    eh::Callback::call(value);
+    swig::Callback::call(value);
     return;
   } else {
     jvalue = value;
@@ -1565,7 +1565,7 @@ SWIGEXPORT int SWIGSTDCALL CSharp_eh_IController_LBUTTON_get() {
   int jresult ;
   int result;
   
-  result = (int)eh::IController::LBUTTON;
+  result = (int)swig::IController::LBUTTON;
   jresult = result; 
   return jresult;
 }
@@ -1575,7 +1575,7 @@ SWIGEXPORT int SWIGSTDCALL CSharp_eh_IController_RBUTTON_get() {
   int jresult ;
   int result;
   
-  result = (int)eh::IController::RBUTTON;
+  result = (int)swig::IController::RBUTTON;
   jresult = result; 
   return jresult;
 }
@@ -1585,7 +1585,7 @@ SWIGEXPORT int SWIGSTDCALL CSharp_eh_IController_SHIFT_get() {
   int jresult ;
   int result;
   
-  result = (int)eh::IController::SHIFT;
+  result = (int)swig::IController::SHIFT;
   jresult = result; 
   return jresult;
 }
@@ -1595,7 +1595,7 @@ SWIGEXPORT int SWIGSTDCALL CSharp_eh_IController_CONTROL_get() {
   int jresult ;
   int result;
   
-  result = (int)eh::IController::CONTROL;
+  result = (int)swig::IController::CONTROL;
   jresult = result; 
   return jresult;
 }
@@ -1605,20 +1605,20 @@ SWIGEXPORT int SWIGSTDCALL CSharp_eh_IController_MBUTTON_get() {
   int jresult ;
   int result;
   
-  result = (int)eh::IController::MBUTTON;
+  result = (int)swig::IController::MBUTTON;
   jresult = result; 
   return jresult;
 }
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_eh_IController_OnMouseMove(void * jarg1, int jarg2, int jarg3, int jarg4) {
-  eh::IController *arg1 = (eh::IController *) 0 ;
-  eh::IController::Flags arg2 ;
+  swig::IController *arg1 = (swig::IController *) 0 ;
+  swig::IController::Flags arg2 ;
   int arg3 ;
   int arg4 ;
   
-  arg1 = (eh::IController *)jarg1; 
-  arg2 = (eh::IController::Flags)jarg2; 
+  arg1 = (swig::IController *)jarg1; 
+  arg2 = (swig::IController::Flags)jarg2; 
   arg3 = (int)jarg3; 
   arg4 = (int)jarg4; 
   (arg1)->OnMouseMove(arg2,arg3,arg4);
@@ -1626,13 +1626,13 @@ SWIGEXPORT void SWIGSTDCALL CSharp_eh_IController_OnMouseMove(void * jarg1, int 
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_eh_IController_OnMouseDown(void * jarg1, int jarg2, int jarg3, int jarg4) {
-  eh::IController *arg1 = (eh::IController *) 0 ;
-  eh::IController::Flags arg2 ;
+  swig::IController *arg1 = (swig::IController *) 0 ;
+  swig::IController::Flags arg2 ;
   int arg3 ;
   int arg4 ;
   
-  arg1 = (eh::IController *)jarg1; 
-  arg2 = (eh::IController::Flags)jarg2; 
+  arg1 = (swig::IController *)jarg1; 
+  arg2 = (swig::IController::Flags)jarg2; 
   arg3 = (int)jarg3; 
   arg4 = (int)jarg4; 
   (arg1)->OnMouseDown(arg2,arg3,arg4);
@@ -1640,13 +1640,13 @@ SWIGEXPORT void SWIGSTDCALL CSharp_eh_IController_OnMouseDown(void * jarg1, int 
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_eh_IController_OnMouseUp(void * jarg1, int jarg2, int jarg3, int jarg4) {
-  eh::IController *arg1 = (eh::IController *) 0 ;
-  eh::IController::Flags arg2 ;
+  swig::IController *arg1 = (swig::IController *) 0 ;
+  swig::IController::Flags arg2 ;
   int arg3 ;
   int arg4 ;
   
-  arg1 = (eh::IController *)jarg1; 
-  arg2 = (eh::IController::Flags)jarg2; 
+  arg1 = (swig::IController *)jarg1; 
+  arg2 = (swig::IController::Flags)jarg2; 
   arg3 = (int)jarg3; 
   arg4 = (int)jarg4; 
   (arg1)->OnMouseUp(arg2,arg3,arg4);
@@ -1654,14 +1654,14 @@ SWIGEXPORT void SWIGSTDCALL CSharp_eh_IController_OnMouseUp(void * jarg1, int ja
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_eh_IController_OnMouseWheel(void * jarg1, int jarg2, short jarg3, int jarg4, int jarg5) {
-  eh::IController *arg1 = (eh::IController *) 0 ;
-  eh::IController::Flags arg2 ;
+  swig::IController *arg1 = (swig::IController *) 0 ;
+  swig::IController::Flags arg2 ;
   short arg3 ;
   int arg4 ;
   int arg5 ;
   
-  arg1 = (eh::IController *)jarg1; 
-  arg2 = (eh::IController::Flags)jarg2; 
+  arg1 = (swig::IController *)jarg1; 
+  arg2 = (swig::IController::Flags)jarg2; 
   arg3 = (short)jarg3; 
   arg4 = (int)jarg4; 
   arg5 = (int)jarg5; 
@@ -1670,71 +1670,71 @@ SWIGEXPORT void SWIGSTDCALL CSharp_eh_IController_OnMouseWheel(void * jarg1, int
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_eh_IController_OnKeyDown(void * jarg1, int jarg2) {
-  eh::IController *arg1 = (eh::IController *) 0 ;
+  swig::IController *arg1 = (swig::IController *) 0 ;
   int arg2 ;
   
-  arg1 = (eh::IController *)jarg1; 
+  arg1 = (swig::IController *)jarg1; 
   arg2 = (int)jarg2; 
   (arg1)->OnKeyDown(arg2);
 }
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_eh_IController_Animate(void * jarg1) {
-  eh::IController *arg1 = (eh::IController *) 0 ;
+  swig::IController *arg1 = (swig::IController *) 0 ;
   
-  arg1 = (eh::IController *)jarg1; 
+  arg1 = (swig::IController *)jarg1; 
   (arg1)->Animate();
 }
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_eh_delete_IController(void * jarg1) {
-  eh::IController *arg1 = (eh::IController *) 0 ;
+  swig::IController *arg1 = (swig::IController *) 0 ;
   
-  arg1 = (eh::IController *)jarg1; 
+  arg1 = (swig::IController *)jarg1; 
   delete arg1;
 }
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_eh_delete_Callback(void * jarg1) {
-  eh::Callback *arg1 = (eh::Callback *) 0 ;
+  swig::Callback *arg1 = (swig::Callback *) 0 ;
   
-  arg1 = (eh::Callback *)jarg1; 
+  arg1 = (swig::Callback *)jarg1; 
   delete arg1;
 }
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_eh_Callback_call(void * jarg1, float jarg2) {
-  eh::Callback *arg1 = (eh::Callback *) 0 ;
+  swig::Callback *arg1 = (swig::Callback *) 0 ;
   float arg2 ;
   
-  arg1 = (eh::Callback *)jarg1; 
+  arg1 = (swig::Callback *)jarg1; 
   arg2 = (float)jarg2; 
   (arg1)->call(arg2);
 }
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_eh_Callback_callSwigExplicitCallback(void * jarg1, float jarg2) {
-  eh::Callback *arg1 = (eh::Callback *) 0 ;
+  swig::Callback *arg1 = (swig::Callback *) 0 ;
   float arg2 ;
   
-  arg1 = (eh::Callback *)jarg1; 
+  arg1 = (swig::Callback *)jarg1; 
   arg2 = (float)jarg2; 
-  (arg1)->eh::Callback::call(arg2);
+  (arg1)->swig::Callback::call(arg2);
 }
 
 
 SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_Callback() {
   void * jresult ;
-  eh::Callback *result = 0 ;
+  swig::Callback *result = 0 ;
   
-  result = (eh::Callback *)new SwigDirector_Callback();
+  result = (swig::Callback *)new SwigDirector_Callback();
   jresult = (void *)result; 
   return jresult;
 }
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_eh_Callback_director_connect(void *objarg, SwigDirector_Callback::SWIG_Callback0_t callback0) {
-  eh::Callback *obj = (eh::Callback *)objarg;
+  swig::Callback *obj = (swig::Callback *)objarg;
   SwigDirector_Callback *director = dynamic_cast<SwigDirector_Callback *>(obj);
   if (director) {
     director->swig_connect_director(callback0);
@@ -1743,16 +1743,16 @@ SWIGEXPORT void SWIGSTDCALL CSharp_eh_Callback_director_connect(void *objarg, Sw
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_eh_IViewport_setDisplayRect(void * jarg1, int jarg2, int jarg3, int jarg4, int jarg5) {
-  eh::IViewport *arg1 = (eh::IViewport *) 0 ;
+  swig::IViewport *arg1 = (swig::IViewport *) 0 ;
   int arg2 ;
   int arg3 ;
   int arg4 ;
   int arg5 ;
-  std::shared_ptr< eh::IViewport > *smartarg1 = 0 ;
+  std::shared_ptr< swig::IViewport > *smartarg1 = 0 ;
   
   
-  smartarg1 = (std::shared_ptr<  eh::IViewport > *)jarg1;
-  arg1 = (eh::IViewport *)(smartarg1 ? smartarg1->get() : 0); 
+  smartarg1 = (std::shared_ptr<  swig::IViewport > *)jarg1;
+  arg1 = (swig::IViewport *)(smartarg1 ? smartarg1->get() : 0); 
   arg2 = (int)jarg2; 
   arg3 = (int)jarg3; 
   arg4 = (int)jarg4; 
@@ -1762,84 +1762,40 @@ SWIGEXPORT void SWIGSTDCALL CSharp_eh_IViewport_setDisplayRect(void * jarg1, int
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_eh_IViewport_drawScene(void * jarg1) {
-  eh::IViewport *arg1 = (eh::IViewport *) 0 ;
-  std::shared_ptr< eh::IViewport > *smartarg1 = 0 ;
+  swig::IViewport *arg1 = (swig::IViewport *) 0 ;
+  std::shared_ptr< swig::IViewport > *smartarg1 = 0 ;
   
   
-  smartarg1 = (std::shared_ptr<  eh::IViewport > *)jarg1;
-  arg1 = (eh::IViewport *)(smartarg1 ? smartarg1->get() : 0); 
+  smartarg1 = (std::shared_ptr<  swig::IViewport > *)jarg1;
+  arg1 = (swig::IViewport *)(smartarg1 ? smartarg1->get() : 0); 
   (arg1)->drawScene();
 }
 
 
 SWIGEXPORT char * SWIGSTDCALL CSharp_eh_IViewport_getDriverInfo(void * jarg1) {
   char * jresult ;
-  eh::IViewport *arg1 = (eh::IViewport *) 0 ;
-  std::shared_ptr< eh::IViewport > *smartarg1 = 0 ;
+  swig::IViewport *arg1 = (swig::IViewport *) 0 ;
+  std::shared_ptr< swig::IViewport > *smartarg1 = 0 ;
   std::string result;
   
   
-  smartarg1 = (std::shared_ptr<  eh::IViewport > *)jarg1;
-  arg1 = (eh::IViewport *)(smartarg1 ? smartarg1->get() : 0); 
+  smartarg1 = (std::shared_ptr<  swig::IViewport > *)jarg1;
+  arg1 = (swig::IViewport *)(smartarg1 ? smartarg1->get() : 0); 
   result = (arg1)->getDriverInfo();
   jresult = SWIG_csharp_string_callback((&result)->c_str()); 
   return jresult;
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_IViewport_loadScene__SWIG_0(void * jarg1, wchar_t * jarg2, void * jarg3) {
-  unsigned int jresult ;
-  eh::IViewport *arg1 = (eh::IViewport *) 0 ;
-  std::wstring arg2 ;
-  eh::Callback *arg3 = (eh::Callback *) 0 ;
-  std::shared_ptr< eh::IViewport > *smartarg1 = 0 ;
-  bool result;
-  
-  
-  smartarg1 = (std::shared_ptr<  eh::IViewport > *)jarg1;
-  arg1 = (eh::IViewport *)(smartarg1 ? smartarg1->get() : 0); 
-  if (!jarg2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null wstring", 0);
-    return 0;
-  }
-  (&arg2)->assign(jarg2); 
-  arg3 = (eh::Callback *)jarg3; 
-  result = (bool)(arg1)->loadScene(arg2,arg3);
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_IViewport_loadScene__SWIG_1(void * jarg1, wchar_t * jarg2) {
-  unsigned int jresult ;
-  eh::IViewport *arg1 = (eh::IViewport *) 0 ;
-  std::wstring arg2 ;
-  std::shared_ptr< eh::IViewport > *smartarg1 = 0 ;
-  bool result;
-  
-  
-  smartarg1 = (std::shared_ptr<  eh::IViewport > *)jarg1;
-  arg1 = (eh::IViewport *)(smartarg1 ? smartarg1->get() : 0); 
-  if (!jarg2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null wstring", 0);
-    return 0;
-  }
-  (&arg2)->assign(jarg2); 
-  result = (bool)(arg1)->loadScene(arg2);
-  jresult = result; 
-  return jresult;
-}
-
-
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_IViewport_isValid(void * jarg1) {
   unsigned int jresult ;
-  eh::IViewport *arg1 = (eh::IViewport *) 0 ;
-  std::shared_ptr< eh::IViewport > *smartarg1 = 0 ;
+  swig::IViewport *arg1 = (swig::IViewport *) 0 ;
+  std::shared_ptr< swig::IViewport > *smartarg1 = 0 ;
   bool result;
   
   
-  smartarg1 = (std::shared_ptr<  eh::IViewport > *)jarg1;
-  arg1 = (eh::IViewport *)(smartarg1 ? smartarg1->get() : 0); 
+  smartarg1 = (std::shared_ptr<  swig::IViewport > *)jarg1;
+  arg1 = (swig::IViewport *)(smartarg1 ? smartarg1->get() : 0); 
   result = (bool)(arg1)->isValid();
   jresult = result; 
   return jresult;
@@ -1848,38 +1804,253 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_IViewport_isValid(void * jarg1) {
 
 SWIGEXPORT void * SWIGSTDCALL CSharp_eh_IViewport_control(void * jarg1) {
   void * jresult ;
-  eh::IViewport *arg1 = (eh::IViewport *) 0 ;
-  std::shared_ptr< eh::IViewport > *smartarg1 = 0 ;
-  eh::IController *result = 0 ;
+  swig::IViewport *arg1 = (swig::IViewport *) 0 ;
+  std::shared_ptr< swig::IViewport > *smartarg1 = 0 ;
+  swig::IController *result = 0 ;
   
   
-  smartarg1 = (std::shared_ptr<  eh::IViewport > *)jarg1;
-  arg1 = (eh::IViewport *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (eh::IController *)(arg1)->control();
+  smartarg1 = (std::shared_ptr<  swig::IViewport > *)jarg1;
+  arg1 = (swig::IViewport *)(smartarg1 ? smartarg1->get() : 0); 
+  result = (swig::IController *)(arg1)->control();
   jresult = (void *)result; 
   return jresult;
 }
 
 
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_IViewport_setModeFlag(void * jarg1, int jarg2, unsigned int jarg3) {
+  swig::IViewport *arg1 = (swig::IViewport *) 0 ;
+  Mode arg2 ;
+  bool arg3 ;
+  std::shared_ptr< swig::IViewport > *smartarg1 = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IViewport > *)jarg1;
+  arg1 = (swig::IViewport *)(smartarg1 ? smartarg1->get() : 0); 
+  arg2 = (Mode)jarg2; 
+  arg3 = jarg3 ? true : false; 
+  (arg1)->setModeFlag(arg2,arg3);
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_IViewport_getModeFlag(void * jarg1, int jarg2) {
+  unsigned int jresult ;
+  swig::IViewport *arg1 = (swig::IViewport *) 0 ;
+  Mode arg2 ;
+  std::shared_ptr< swig::IViewport > *smartarg1 = 0 ;
+  bool result;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IViewport > *)jarg1;
+  arg1 = (swig::IViewport *)(smartarg1 ? smartarg1->get() : 0); 
+  arg2 = (Mode)jarg2; 
+  result = (bool)(arg1)->getModeFlag(arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT int SWIGSTDCALL CSharp_eh_IViewport_getCameraCount(void * jarg1) {
+  int jresult ;
+  swig::IViewport *arg1 = (swig::IViewport *) 0 ;
+  std::shared_ptr< swig::IViewport > *smartarg1 = 0 ;
+  int result;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IViewport > *)jarg1;
+  arg1 = (swig::IViewport *)(smartarg1 ? smartarg1->get() : 0); 
+  result = (int)(arg1)->getCameraCount();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_IViewport_getCameraName(void * jarg1, int jarg2) {
+  void * jresult ;
+  swig::IViewport *arg1 = (swig::IViewport *) 0 ;
+  int arg2 ;
+  std::shared_ptr< swig::IViewport > *smartarg1 = 0 ;
+  std::wstring result;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IViewport > *)jarg1;
+  arg1 = (swig::IViewport *)(smartarg1 ? smartarg1->get() : 0); 
+  arg2 = (int)jarg2; 
+  result = (arg1)->getCameraName(arg2);
+  jresult = SWIG_csharp_wstring_callback((&result)->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_IViewport_setCamera(void * jarg1, int jarg2) {
+  swig::IViewport *arg1 = (swig::IViewport *) 0 ;
+  int arg2 ;
+  std::shared_ptr< swig::IViewport > *smartarg1 = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IViewport > *)jarg1;
+  arg1 = (swig::IViewport *)(smartarg1 ? smartarg1->get() : 0); 
+  arg2 = (int)jarg2; 
+  (arg1)->setCamera(arg2);
+}
+
+
 SWIGEXPORT void SWIGSTDCALL CSharp_eh_delete_IViewport(void * jarg1) {
-  eh::IViewport *arg1 = (eh::IViewport *) 0 ;
-  std::shared_ptr< eh::IViewport > *smartarg1 = 0 ;
+  swig::IViewport *arg1 = (swig::IViewport *) 0 ;
+  std::shared_ptr< swig::IViewport > *smartarg1 = 0 ;
   
   
-  smartarg1 = (std::shared_ptr<  eh::IViewport > *)jarg1;
-  arg1 = (eh::IViewport *)(smartarg1 ? smartarg1->get() : 0); 
+  smartarg1 = (std::shared_ptr<  swig::IViewport > *)jarg1;
+  arg1 = (swig::IViewport *)(smartarg1 ? smartarg1->get() : 0); 
   (void)arg1; delete smartarg1;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_SceneIO_read__SWIG_0(void * jarg1, wchar_t * jarg2, void * jarg3) {
+  unsigned int jresult ;
+  swig::IViewport *arg1 = (swig::IViewport *) 0 ;
+  std::wstring arg2 ;
+  swig::Callback *arg3 = (swig::Callback *) 0 ;
+  std::shared_ptr< swig::IViewport > *smartarg1 = 0 ;
+  bool result;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IViewport > *)jarg1;
+  arg1 = (swig::IViewport *)(smartarg1 ? smartarg1->get() : 0); 
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null wstring", 0);
+    return 0;
+  }
+  (&arg2)->assign(jarg2); 
+  arg3 = (swig::Callback *)jarg3; 
+  result = (bool)swig::SceneIO::read(arg1,arg2,arg3);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_SceneIO_read__SWIG_1(void * jarg1, wchar_t * jarg2) {
+  unsigned int jresult ;
+  swig::IViewport *arg1 = (swig::IViewport *) 0 ;
+  std::wstring arg2 ;
+  std::shared_ptr< swig::IViewport > *smartarg1 = 0 ;
+  bool result;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IViewport > *)jarg1;
+  arg1 = (swig::IViewport *)(smartarg1 ? smartarg1->get() : 0); 
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null wstring", 0);
+    return 0;
+  }
+  (&arg2)->assign(jarg2); 
+  result = (bool)swig::SceneIO::read(arg1,arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_SceneIO_write__SWIG_0(void * jarg1, wchar_t * jarg2, void * jarg3) {
+  unsigned int jresult ;
+  swig::IViewport *arg1 = (swig::IViewport *) 0 ;
+  std::wstring arg2 ;
+  swig::Callback *arg3 = (swig::Callback *) 0 ;
+  std::shared_ptr< swig::IViewport > *smartarg1 = 0 ;
+  bool result;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IViewport > *)jarg1;
+  arg1 = (swig::IViewport *)(smartarg1 ? smartarg1->get() : 0); 
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null wstring", 0);
+    return 0;
+  }
+  (&arg2)->assign(jarg2); 
+  arg3 = (swig::Callback *)jarg3; 
+  result = (bool)swig::SceneIO::write(arg1,arg2,arg3);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_SceneIO_write__SWIG_1(void * jarg1, wchar_t * jarg2) {
+  unsigned int jresult ;
+  swig::IViewport *arg1 = (swig::IViewport *) 0 ;
+  std::wstring arg2 ;
+  std::shared_ptr< swig::IViewport > *smartarg1 = 0 ;
+  bool result;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IViewport > *)jarg1;
+  arg1 = (swig::IViewport *)(smartarg1 ? smartarg1->get() : 0); 
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null wstring", 0);
+    return 0;
+  }
+  (&arg2)->assign(jarg2); 
+  result = (bool)swig::SceneIO::write(arg1,arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_SceneIO_getFileWildcards__SWIG_0(unsigned int jarg1) {
+  void * jresult ;
+  bool arg1 ;
+  std::wstring result;
+  
+  arg1 = jarg1 ? true : false; 
+  result = swig::SceneIO::getFileWildcards(arg1);
+  jresult = SWIG_csharp_wstring_callback((&result)->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_SceneIO_getFileWildcards__SWIG_1() {
+  void * jresult ;
+  std::wstring result;
+  
+  result = swig::SceneIO::getFileWildcards();
+  jresult = SWIG_csharp_wstring_callback((&result)->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_SceneIO_getAboutString() {
+  void * jresult ;
+  std::wstring result;
+  
+  result = swig::SceneIO::getAboutString();
+  jresult = SWIG_csharp_wstring_callback((&result)->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_SceneIO() {
+  void * jresult ;
+  swig::SceneIO *result = 0 ;
+  
+  result = (swig::SceneIO *)new swig::SceneIO();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_delete_SceneIO(void * jarg1) {
+  swig::SceneIO *arg1 = (swig::SceneIO *) 0 ;
+  
+  arg1 = (swig::SceneIO *)jarg1; 
+  delete arg1;
 }
 
 
 SWIGEXPORT void * SWIGSTDCALL CSharp_eh_CreateViewport(void * jarg1) {
   void * jresult ;
   void *arg1 = (void *) 0 ;
-  std::shared_ptr< eh::IViewport > result;
+  std::shared_ptr< swig::IViewport > result;
   
   arg1 = (void *)jarg1; 
-  result = eh::CreateViewport(arg1);
-  jresult = result ? new std::shared_ptr< eh::IViewport >(result) : 0; 
+  result = swig::CreateViewport(arg1);
+  jresult = result ? new std::shared_ptr< swig::IViewport >(result) : 0; 
   return jresult;
 }
 
