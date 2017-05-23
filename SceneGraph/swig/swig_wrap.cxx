@@ -374,6 +374,7 @@ namespace Swig {
 }
 
 
+		#include "..\src\math3d.hpp"
         #include "swig.h"
 
 
@@ -623,6 +624,107 @@ SWIGINTERN bool std_vector_Sl_std_wstring_Sg__Remove(std::vector< std::wstring >
         }
         return false;
       }
+SWIGINTERN std::vector< math3D::Vec3 > *new_std_vector_Sl_math3D_Vec3_Sg___SWIG_2(int capacity){
+        std::vector< math3D::Vec3 >* pv = 0;
+        if (capacity >= 0) {
+          pv = new std::vector< math3D::Vec3 >();
+          pv->reserve(capacity);
+       } else {
+          throw std::out_of_range("capacity");
+       }
+       return pv;
+      }
+SWIGINTERN math3D::Vec3 std_vector_Sl_math3D_Vec3_Sg__getitemcopy(std::vector< math3D::Vec3 > *self,int index){
+        if (index>=0 && index<(int)self->size())
+          return (*self)[index];
+        else
+          throw std::out_of_range("index");
+      }
+SWIGINTERN math3D::Vec3 const &std_vector_Sl_math3D_Vec3_Sg__getitem(std::vector< math3D::Vec3 > *self,int index){
+        if (index>=0 && index<(int)self->size())
+          return (*self)[index];
+        else
+          throw std::out_of_range("index");
+      }
+SWIGINTERN void std_vector_Sl_math3D_Vec3_Sg__setitem(std::vector< math3D::Vec3 > *self,int index,math3D::Vec3 const &val){
+        if (index>=0 && index<(int)self->size())
+          (*self)[index] = val;
+        else
+          throw std::out_of_range("index");
+      }
+SWIGINTERN void std_vector_Sl_math3D_Vec3_Sg__AddRange(std::vector< math3D::Vec3 > *self,std::vector< math3D::Vec3 > const &values){
+        self->insert(self->end(), values.begin(), values.end());
+      }
+SWIGINTERN std::vector< math3D::Vec3 > *std_vector_Sl_math3D_Vec3_Sg__GetRange(std::vector< math3D::Vec3 > *self,int index,int count){
+        if (index < 0)
+          throw std::out_of_range("index");
+        if (count < 0)
+          throw std::out_of_range("count");
+        if (index >= (int)self->size()+1 || index+count > (int)self->size())
+          throw std::invalid_argument("invalid range");
+        return new std::vector< math3D::Vec3 >(self->begin()+index, self->begin()+index+count);
+      }
+SWIGINTERN void std_vector_Sl_math3D_Vec3_Sg__Insert(std::vector< math3D::Vec3 > *self,int index,math3D::Vec3 const &x){
+        if (index>=0 && index<(int)self->size()+1)
+          self->insert(self->begin()+index, x);
+        else
+          throw std::out_of_range("index");
+      }
+SWIGINTERN void std_vector_Sl_math3D_Vec3_Sg__InsertRange(std::vector< math3D::Vec3 > *self,int index,std::vector< math3D::Vec3 > const &values){
+        if (index>=0 && index<(int)self->size()+1)
+          self->insert(self->begin()+index, values.begin(), values.end());
+        else
+          throw std::out_of_range("index");
+      }
+SWIGINTERN void std_vector_Sl_math3D_Vec3_Sg__RemoveAt(std::vector< math3D::Vec3 > *self,int index){
+        if (index>=0 && index<(int)self->size())
+          self->erase(self->begin() + index);
+        else
+          throw std::out_of_range("index");
+      }
+SWIGINTERN void std_vector_Sl_math3D_Vec3_Sg__RemoveRange(std::vector< math3D::Vec3 > *self,int index,int count){
+        if (index < 0)
+          throw std::out_of_range("index");
+        if (count < 0)
+          throw std::out_of_range("count");
+        if (index >= (int)self->size()+1 || index+count > (int)self->size())
+          throw std::invalid_argument("invalid range");
+        self->erase(self->begin()+index, self->begin()+index+count);
+      }
+SWIGINTERN std::vector< math3D::Vec3 > *std_vector_Sl_math3D_Vec3_Sg__Repeat(math3D::Vec3 const &value,int count){
+        if (count < 0)
+          throw std::out_of_range("count");
+        return new std::vector< math3D::Vec3 >(count, value);
+      }
+SWIGINTERN void std_vector_Sl_math3D_Vec3_Sg__Reverse__SWIG_0(std::vector< math3D::Vec3 > *self){
+        std::reverse(self->begin(), self->end());
+      }
+SWIGINTERN void std_vector_Sl_math3D_Vec3_Sg__Reverse__SWIG_1(std::vector< math3D::Vec3 > *self,int index,int count){
+        if (index < 0)
+          throw std::out_of_range("index");
+        if (count < 0)
+          throw std::out_of_range("count");
+        if (index >= (int)self->size()+1 || index+count > (int)self->size())
+          throw std::invalid_argument("invalid range");
+        std::reverse(self->begin()+index, self->begin()+index+count);
+      }
+SWIGINTERN void std_vector_Sl_math3D_Vec3_Sg__SetRange(std::vector< math3D::Vec3 > *self,int index,std::vector< math3D::Vec3 > const &values){
+        if (index < 0)
+          throw std::out_of_range("index");
+        if (index+values.size() > self->size())
+          throw std::out_of_range("index");
+        std::copy(values.begin(), values.end(), self->begin()+index);
+      }
+
+struct SWIG_null_deleter {
+  void operator() (void const *) const {
+  }
+};
+#define SWIG_NO_NULL_DELETER_0 , SWIG_null_deleter()
+#define SWIG_NO_NULL_DELETER_1
+#define SWIG_NO_NULL_DELETER_SWIG_POINTER_NEW
+#define SWIG_NO_NULL_DELETER_SWIG_POINTER_OWN
+
 
 
 /* ---------------------------------------------------
@@ -658,6 +760,172 @@ void SwigDirector_Callback::swig_connect_director(SWIG_Callback0_t callbackcall)
 
 void SwigDirector_Callback::swig_init_callbacks() {
   swig_callbackcall = 0;
+}
+
+SwigDirector_IPlugIn::SwigDirector_IPlugIn() : swig::IPlugIn(), Swig::Director() {
+  swig_init_callbacks();
+}
+
+std::wstring SwigDirector_IPlugIn::about() const {
+  std::wstring c_result ;
+  wchar_t * jresult = 0 ;
+  
+  if (!swig_callbackabout) {
+    return swig::IPlugIn::about();
+  } else {
+    jresult = (wchar_t *) swig_callbackabout();
+    if (!jresult) {
+      SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null wstring", 0);
+      return c_result;
+    }
+    c_result.assign(jresult); 
+  }
+  return c_result;
+}
+
+int SwigDirector_IPlugIn::file_type_count() const {
+  int c_result = SwigValueInit< int >() ;
+  int jresult = 0 ;
+  
+  if (!swig_callbackfile_type_count) {
+    return swig::IPlugIn::file_type_count();
+  } else {
+    jresult = (int) swig_callbackfile_type_count();
+    c_result = (int)jresult; 
+  }
+  return c_result;
+}
+
+std::wstring SwigDirector_IPlugIn::file_type(int i) {
+  std::wstring c_result ;
+  wchar_t * jresult = 0 ;
+  int ji  ;
+  
+  if (!swig_callbackfile_type) {
+    return swig::IPlugIn::file_type(i);
+  } else {
+    ji = i;
+    jresult = (wchar_t *) swig_callbackfile_type(ji);
+    if (!jresult) {
+      SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null wstring", 0);
+      return c_result;
+    }
+    c_result.assign(jresult); 
+  }
+  return c_result;
+}
+
+std::wstring SwigDirector_IPlugIn::file_exts(int i) {
+  std::wstring c_result ;
+  wchar_t * jresult = 0 ;
+  int ji  ;
+  
+  if (!swig_callbackfile_exts) {
+    return swig::IPlugIn::file_exts(i);
+  } else {
+    ji = i;
+    jresult = (wchar_t *) swig_callbackfile_exts(ji);
+    if (!jresult) {
+      SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null wstring", 0);
+      return c_result;
+    }
+    c_result.assign(jresult); 
+  }
+  return c_result;
+}
+
+bool SwigDirector_IPlugIn::canWrite(int i) const {
+  bool c_result = SwigValueInit< bool >() ;
+  unsigned int jresult = 0 ;
+  int ji  ;
+  
+  if (!swig_callbackcanWrite) {
+    return swig::IPlugIn::canWrite(i);
+  } else {
+    ji = i;
+    jresult = (unsigned int) swig_callbackcanWrite(ji);
+    c_result = jresult ? true : false; 
+  }
+  return c_result;
+}
+
+bool SwigDirector_IPlugIn::canRead(int i) const {
+  bool c_result = SwigValueInit< bool >() ;
+  unsigned int jresult = 0 ;
+  int ji  ;
+  
+  if (!swig_callbackcanRead) {
+    return swig::IPlugIn::canRead(i);
+  } else {
+    ji = i;
+    jresult = (unsigned int) swig_callbackcanRead(ji);
+    c_result = jresult ? true : false; 
+  }
+  return c_result;
+}
+
+bool SwigDirector_IPlugIn::readFile(std::wstring aFile, void *sceneHandle, swig::Callback *callback) {
+  bool c_result = SwigValueInit< bool >() ;
+  unsigned int jresult = 0 ;
+  void * jaFile  ;
+  void * jsceneHandle = 0 ;
+  void * jcallback = 0 ;
+  
+  if (!swig_callbackreadFile__SWIG_0) {
+    return swig::IPlugIn::readFile(aFile,sceneHandle,callback);
+  } else {
+    jaFile = SWIG_csharp_wstring_callback((&aFile)->c_str()); 
+    jsceneHandle = (void *) sceneHandle; 
+    jcallback = (void *) callback; 
+    jresult = (unsigned int) swig_callbackreadFile__SWIG_0(jaFile, jsceneHandle, jcallback);
+    c_result = jresult ? true : false; 
+  }
+  return c_result;
+}
+
+bool SwigDirector_IPlugIn::writeFile(std::wstring sFile, void *sceneHandle, swig::Callback *callback) {
+  bool c_result = SwigValueInit< bool >() ;
+  unsigned int jresult = 0 ;
+  void * jsFile  ;
+  void * jsceneHandle = 0 ;
+  void * jcallback = 0 ;
+  
+  if (!swig_callbackwriteFile__SWIG_0) {
+    return swig::IPlugIn::writeFile(sFile,sceneHandle,callback);
+  } else {
+    jsFile = SWIG_csharp_wstring_callback((&sFile)->c_str()); 
+    jsceneHandle = (void *) sceneHandle; 
+    jcallback = (void *) callback; 
+    jresult = (unsigned int) swig_callbackwriteFile__SWIG_0(jsFile, jsceneHandle, jcallback);
+    c_result = jresult ? true : false; 
+  }
+  return c_result;
+}
+
+void SwigDirector_IPlugIn::swig_connect_director(SWIG_Callback0_t callbackabout, SWIG_Callback1_t callbackfile_type_count, SWIG_Callback2_t callbackfile_type, SWIG_Callback3_t callbackfile_exts, SWIG_Callback4_t callbackcanWrite, SWIG_Callback5_t callbackcanRead, SWIG_Callback6_t callbackreadFile__SWIG_0, SWIG_Callback7_t callbackreadFile__SWIG_1, SWIG_Callback8_t callbackwriteFile__SWIG_0, SWIG_Callback9_t callbackwriteFile__SWIG_1) {
+  swig_callbackabout = callbackabout;
+  swig_callbackfile_type_count = callbackfile_type_count;
+  swig_callbackfile_type = callbackfile_type;
+  swig_callbackfile_exts = callbackfile_exts;
+  swig_callbackcanWrite = callbackcanWrite;
+  swig_callbackcanRead = callbackcanRead;
+  swig_callbackreadFile__SWIG_0 = callbackreadFile__SWIG_0;
+  swig_callbackreadFile__SWIG_1 = callbackreadFile__SWIG_1;
+  swig_callbackwriteFile__SWIG_0 = callbackwriteFile__SWIG_0;
+  swig_callbackwriteFile__SWIG_1 = callbackwriteFile__SWIG_1;
+}
+
+void SwigDirector_IPlugIn::swig_init_callbacks() {
+  swig_callbackabout = 0;
+  swig_callbackfile_type_count = 0;
+  swig_callbackfile_type = 0;
+  swig_callbackfile_exts = 0;
+  swig_callbackcanWrite = 0;
+  swig_callbackcanRead = 0;
+  swig_callbackreadFile__SWIG_0 = 0;
+  swig_callbackreadFile__SWIG_1 = 0;
+  swig_callbackwriteFile__SWIG_0 = 0;
+  swig_callbackwriteFile__SWIG_1 = 0;
 }
 
 
@@ -1561,6 +1829,3034 @@ SWIGEXPORT void SWIGSTDCALL CSharp_eh_delete_StringVector(void * jarg1) {
 }
 
 
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Vec3Vector_Clear(void * jarg1) {
+  std::vector< math3D::Vec3 > *arg1 = (std::vector< math3D::Vec3 > *) 0 ;
+  
+  arg1 = (std::vector< math3D::Vec3 > *)jarg1; 
+  (arg1)->clear();
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Vec3Vector_Add(void * jarg1, void * jarg2) {
+  std::vector< math3D::Vec3 > *arg1 = (std::vector< math3D::Vec3 > *) 0 ;
+  math3D::Vec3 *arg2 = 0 ;
+  
+  arg1 = (std::vector< math3D::Vec3 > *)jarg1; 
+  arg2 = (math3D::Vec3 *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return ;
+  } 
+  (arg1)->push_back((math3D::Vec3 const &)*arg2);
+}
+
+
+SWIGEXPORT unsigned long SWIGSTDCALL CSharp_eh_Vec3Vector_size(void * jarg1) {
+  unsigned long jresult ;
+  std::vector< math3D::Vec3 > *arg1 = (std::vector< math3D::Vec3 > *) 0 ;
+  std::vector< math3D::Vec3 >::size_type result;
+  
+  arg1 = (std::vector< math3D::Vec3 > *)jarg1; 
+  result = ((std::vector< math3D::Vec3 > const *)arg1)->size();
+  jresult = (unsigned long)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned long SWIGSTDCALL CSharp_eh_Vec3Vector_capacity(void * jarg1) {
+  unsigned long jresult ;
+  std::vector< math3D::Vec3 > *arg1 = (std::vector< math3D::Vec3 > *) 0 ;
+  std::vector< math3D::Vec3 >::size_type result;
+  
+  arg1 = (std::vector< math3D::Vec3 > *)jarg1; 
+  result = ((std::vector< math3D::Vec3 > const *)arg1)->capacity();
+  jresult = (unsigned long)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Vec3Vector_reserve(void * jarg1, unsigned long jarg2) {
+  std::vector< math3D::Vec3 > *arg1 = (std::vector< math3D::Vec3 > *) 0 ;
+  std::vector< math3D::Vec3 >::size_type arg2 ;
+  
+  arg1 = (std::vector< math3D::Vec3 > *)jarg1; 
+  arg2 = (std::vector< math3D::Vec3 >::size_type)jarg2; 
+  (arg1)->reserve(arg2);
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_Vec3Vector__SWIG_0() {
+  void * jresult ;
+  std::vector< math3D::Vec3 > *result = 0 ;
+  
+  result = (std::vector< math3D::Vec3 > *)new std::vector< math3D::Vec3 >();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_Vec3Vector__SWIG_1(void * jarg1) {
+  void * jresult ;
+  std::vector< math3D::Vec3 > *arg1 = 0 ;
+  std::vector< math3D::Vec3 > *result = 0 ;
+  
+  arg1 = (std::vector< math3D::Vec3 > *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< math3D::Vec3 > const & type is null", 0);
+    return 0;
+  } 
+  result = (std::vector< math3D::Vec3 > *)new std::vector< math3D::Vec3 >((std::vector< math3D::Vec3 > const &)*arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_Vec3Vector__SWIG_2(int jarg1) {
+  void * jresult ;
+  int arg1 ;
+  std::vector< math3D::Vec3 > *result = 0 ;
+  
+  arg1 = (int)jarg1; 
+  try {
+    result = (std::vector< math3D::Vec3 > *)new_std_vector_Sl_math3D_Vec3_Sg___SWIG_2(arg1);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
+    return 0;
+  }
+  
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Vec3Vector_getitemcopy(void * jarg1, int jarg2) {
+  void * jresult ;
+  std::vector< math3D::Vec3 > *arg1 = (std::vector< math3D::Vec3 > *) 0 ;
+  int arg2 ;
+  math3D::Vec3 result;
+  
+  arg1 = (std::vector< math3D::Vec3 > *)jarg1; 
+  arg2 = (int)jarg2; 
+  try {
+    result = std_vector_Sl_math3D_Vec3_Sg__getitemcopy(arg1,arg2);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
+    return 0;
+  }
+  
+  jresult = new math3D::Vec3((const math3D::Vec3 &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Vec3Vector_getitem(void * jarg1, int jarg2) {
+  void * jresult ;
+  std::vector< math3D::Vec3 > *arg1 = (std::vector< math3D::Vec3 > *) 0 ;
+  int arg2 ;
+  math3D::Vec3 *result = 0 ;
+  
+  arg1 = (std::vector< math3D::Vec3 > *)jarg1; 
+  arg2 = (int)jarg2; 
+  try {
+    result = (math3D::Vec3 *) &std_vector_Sl_math3D_Vec3_Sg__getitem(arg1,arg2);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
+    return 0;
+  }
+  
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Vec3Vector_setitem(void * jarg1, int jarg2, void * jarg3) {
+  std::vector< math3D::Vec3 > *arg1 = (std::vector< math3D::Vec3 > *) 0 ;
+  int arg2 ;
+  math3D::Vec3 *arg3 = 0 ;
+  
+  arg1 = (std::vector< math3D::Vec3 > *)jarg1; 
+  arg2 = (int)jarg2; 
+  arg3 = (math3D::Vec3 *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return ;
+  } 
+  try {
+    std_vector_Sl_math3D_Vec3_Sg__setitem(arg1,arg2,(math3D::Vec3 const &)*arg3);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
+    return ;
+  }
+  
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Vec3Vector_AddRange(void * jarg1, void * jarg2) {
+  std::vector< math3D::Vec3 > *arg1 = (std::vector< math3D::Vec3 > *) 0 ;
+  std::vector< math3D::Vec3 > *arg2 = 0 ;
+  
+  arg1 = (std::vector< math3D::Vec3 > *)jarg1; 
+  arg2 = (std::vector< math3D::Vec3 > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< math3D::Vec3 > const & type is null", 0);
+    return ;
+  } 
+  std_vector_Sl_math3D_Vec3_Sg__AddRange(arg1,(std::vector< math3D::Vec3 > const &)*arg2);
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Vec3Vector_GetRange(void * jarg1, int jarg2, int jarg3) {
+  void * jresult ;
+  std::vector< math3D::Vec3 > *arg1 = (std::vector< math3D::Vec3 > *) 0 ;
+  int arg2 ;
+  int arg3 ;
+  std::vector< math3D::Vec3 > *result = 0 ;
+  
+  arg1 = (std::vector< math3D::Vec3 > *)jarg1; 
+  arg2 = (int)jarg2; 
+  arg3 = (int)jarg3; 
+  try {
+    result = (std::vector< math3D::Vec3 > *)std_vector_Sl_math3D_Vec3_Sg__GetRange(arg1,arg2,arg3);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
+    return 0;
+  }
+  catch(std::invalid_argument &_e) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentException, (&_e)->what(), "");
+    return 0;
+  }
+  
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Vec3Vector_Insert(void * jarg1, int jarg2, void * jarg3) {
+  std::vector< math3D::Vec3 > *arg1 = (std::vector< math3D::Vec3 > *) 0 ;
+  int arg2 ;
+  math3D::Vec3 *arg3 = 0 ;
+  
+  arg1 = (std::vector< math3D::Vec3 > *)jarg1; 
+  arg2 = (int)jarg2; 
+  arg3 = (math3D::Vec3 *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return ;
+  } 
+  try {
+    std_vector_Sl_math3D_Vec3_Sg__Insert(arg1,arg2,(math3D::Vec3 const &)*arg3);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
+    return ;
+  }
+  
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Vec3Vector_InsertRange(void * jarg1, int jarg2, void * jarg3) {
+  std::vector< math3D::Vec3 > *arg1 = (std::vector< math3D::Vec3 > *) 0 ;
+  int arg2 ;
+  std::vector< math3D::Vec3 > *arg3 = 0 ;
+  
+  arg1 = (std::vector< math3D::Vec3 > *)jarg1; 
+  arg2 = (int)jarg2; 
+  arg3 = (std::vector< math3D::Vec3 > *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< math3D::Vec3 > const & type is null", 0);
+    return ;
+  } 
+  try {
+    std_vector_Sl_math3D_Vec3_Sg__InsertRange(arg1,arg2,(std::vector< math3D::Vec3 > const &)*arg3);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
+    return ;
+  }
+  
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Vec3Vector_RemoveAt(void * jarg1, int jarg2) {
+  std::vector< math3D::Vec3 > *arg1 = (std::vector< math3D::Vec3 > *) 0 ;
+  int arg2 ;
+  
+  arg1 = (std::vector< math3D::Vec3 > *)jarg1; 
+  arg2 = (int)jarg2; 
+  try {
+    std_vector_Sl_math3D_Vec3_Sg__RemoveAt(arg1,arg2);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
+    return ;
+  }
+  
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Vec3Vector_RemoveRange(void * jarg1, int jarg2, int jarg3) {
+  std::vector< math3D::Vec3 > *arg1 = (std::vector< math3D::Vec3 > *) 0 ;
+  int arg2 ;
+  int arg3 ;
+  
+  arg1 = (std::vector< math3D::Vec3 > *)jarg1; 
+  arg2 = (int)jarg2; 
+  arg3 = (int)jarg3; 
+  try {
+    std_vector_Sl_math3D_Vec3_Sg__RemoveRange(arg1,arg2,arg3);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
+    return ;
+  }
+  catch(std::invalid_argument &_e) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentException, (&_e)->what(), "");
+    return ;
+  }
+  
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Vec3Vector_Repeat(void * jarg1, int jarg2) {
+  void * jresult ;
+  math3D::Vec3 *arg1 = 0 ;
+  int arg2 ;
+  std::vector< math3D::Vec3 > *result = 0 ;
+  
+  arg1 = (math3D::Vec3 *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  arg2 = (int)jarg2; 
+  try {
+    result = (std::vector< math3D::Vec3 > *)std_vector_Sl_math3D_Vec3_Sg__Repeat((math3D::Vec3 const &)*arg1,arg2);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
+    return 0;
+  }
+  
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Vec3Vector_Reverse__SWIG_0(void * jarg1) {
+  std::vector< math3D::Vec3 > *arg1 = (std::vector< math3D::Vec3 > *) 0 ;
+  
+  arg1 = (std::vector< math3D::Vec3 > *)jarg1; 
+  std_vector_Sl_math3D_Vec3_Sg__Reverse__SWIG_0(arg1);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Vec3Vector_Reverse__SWIG_1(void * jarg1, int jarg2, int jarg3) {
+  std::vector< math3D::Vec3 > *arg1 = (std::vector< math3D::Vec3 > *) 0 ;
+  int arg2 ;
+  int arg3 ;
+  
+  arg1 = (std::vector< math3D::Vec3 > *)jarg1; 
+  arg2 = (int)jarg2; 
+  arg3 = (int)jarg3; 
+  try {
+    std_vector_Sl_math3D_Vec3_Sg__Reverse__SWIG_1(arg1,arg2,arg3);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
+    return ;
+  }
+  catch(std::invalid_argument &_e) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentException, (&_e)->what(), "");
+    return ;
+  }
+  
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Vec3Vector_SetRange(void * jarg1, int jarg2, void * jarg3) {
+  std::vector< math3D::Vec3 > *arg1 = (std::vector< math3D::Vec3 > *) 0 ;
+  int arg2 ;
+  std::vector< math3D::Vec3 > *arg3 = 0 ;
+  
+  arg1 = (std::vector< math3D::Vec3 > *)jarg1; 
+  arg2 = (int)jarg2; 
+  arg3 = (std::vector< math3D::Vec3 > *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< math3D::Vec3 > const & type is null", 0);
+    return ;
+  } 
+  try {
+    std_vector_Sl_math3D_Vec3_Sg__SetRange(arg1,arg2,(std::vector< math3D::Vec3 > const &)*arg3);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
+    return ;
+  }
+  
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_delete_Vec3Vector(void * jarg1) {
+  std::vector< math3D::Vec3 > *arg1 = (std::vector< math3D::Vec3 > *) 0 ;
+  
+  arg1 = (std::vector< math3D::Vec3 > *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_eh_PI_get() {
+  float jresult ;
+  math3D::Float result;
+  
+  result = (math3D::Float)(math3D::Float)math3D::PI;
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_fequal(float jarg1, float jarg2) {
+  unsigned int jresult ;
+  math3D::Float arg1 ;
+  math3D::Float arg2 ;
+  bool result;
+  
+  arg1 = (math3D::Float)jarg1; 
+  arg2 = (math3D::Float)jarg2; 
+  result = (bool)math3D::fequal(arg1,arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_eh_fmin(float jarg1, float jarg2) {
+  float jresult ;
+  math3D::Float arg1 ;
+  math3D::Float arg2 ;
+  math3D::Float result;
+  
+  arg1 = (math3D::Float)jarg1; 
+  arg2 = (math3D::Float)jarg2; 
+  result = (math3D::Float)math3D::fmin(arg1,arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_eh_fmax(float jarg1, float jarg2) {
+  float jresult ;
+  math3D::Float arg1 ;
+  math3D::Float arg2 ;
+  math3D::Float result;
+  
+  arg1 = (math3D::Float)jarg1; 
+  arg2 = (math3D::Float)jarg2; 
+  result = (math3D::Float)math3D::fmax(arg1,arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_fswap(void * jarg1, void * jarg2) {
+  math3D::Float *arg1 = 0 ;
+  math3D::Float *arg2 = 0 ;
+  
+  arg1 = (math3D::Float *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Float & type is null", 0);
+    return ;
+  } 
+  arg2 = (math3D::Float *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Float & type is null", 0);
+    return ;
+  } 
+  math3D::fswap(*arg1,*arg2);
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_eh_DEG2RAD(float jarg1) {
+  float jresult ;
+  math3D::Float arg1 ;
+  math3D::Float result;
+  
+  arg1 = (math3D::Float)jarg1; 
+  result = (math3D::Float)math3D::DEG2RAD(arg1);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_eh_RAD2DEG(float jarg1) {
+  float jresult ;
+  math3D::Float arg1 ;
+  math3D::Float result;
+  
+  arg1 = (math3D::Float)jarg1; 
+  result = (math3D::Float)math3D::RAD2DEG(arg1);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Point_x_set(void * jarg1, int jarg2) {
+  math3D::Point *arg1 = (math3D::Point *) 0 ;
+  int arg2 ;
+  
+  arg1 = (math3D::Point *)jarg1; 
+  arg2 = (int)jarg2; 
+  if (arg1) (arg1)->x = arg2;
+}
+
+
+SWIGEXPORT int SWIGSTDCALL CSharp_eh_Point_x_get(void * jarg1) {
+  int jresult ;
+  math3D::Point *arg1 = (math3D::Point *) 0 ;
+  int result;
+  
+  arg1 = (math3D::Point *)jarg1; 
+  result = (int) ((arg1)->x);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Point_y_set(void * jarg1, int jarg2) {
+  math3D::Point *arg1 = (math3D::Point *) 0 ;
+  int arg2 ;
+  
+  arg1 = (math3D::Point *)jarg1; 
+  arg2 = (int)jarg2; 
+  if (arg1) (arg1)->y = arg2;
+}
+
+
+SWIGEXPORT int SWIGSTDCALL CSharp_eh_Point_y_get(void * jarg1) {
+  int jresult ;
+  math3D::Point *arg1 = (math3D::Point *) 0 ;
+  int result;
+  
+  arg1 = (math3D::Point *)jarg1; 
+  result = (int) ((arg1)->y);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_Point__SWIG_0(int jarg1, int jarg2) {
+  void * jresult ;
+  int arg1 ;
+  int arg2 ;
+  math3D::Point *result = 0 ;
+  
+  arg1 = (int)jarg1; 
+  arg2 = (int)jarg2; 
+  result = (math3D::Point *)new math3D::Point(arg1,arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_Point__SWIG_1(int jarg1) {
+  void * jresult ;
+  int arg1 ;
+  math3D::Point *result = 0 ;
+  
+  arg1 = (int)jarg1; 
+  result = (math3D::Point *)new math3D::Point(arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_Point__SWIG_2() {
+  void * jresult ;
+  math3D::Point *result = 0 ;
+  
+  result = (math3D::Point *)new math3D::Point();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_delete_Point(void * jarg1) {
+  math3D::Point *arg1 = (math3D::Point *) 0 ;
+  
+  arg1 = (math3D::Point *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Vec3_x_set(void * jarg1, float jarg2) {
+  math3D::Vec3 *arg1 = (math3D::Vec3 *) 0 ;
+  math3D::Float arg2 ;
+  
+  arg1 = (math3D::Vec3 *)jarg1; 
+  arg2 = (math3D::Float)jarg2; 
+  if (arg1) (arg1)->x = arg2;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_eh_Vec3_x_get(void * jarg1) {
+  float jresult ;
+  math3D::Vec3 *arg1 = (math3D::Vec3 *) 0 ;
+  math3D::Float result;
+  
+  arg1 = (math3D::Vec3 *)jarg1; 
+  result = (math3D::Float) ((arg1)->x);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Vec3_y_set(void * jarg1, float jarg2) {
+  math3D::Vec3 *arg1 = (math3D::Vec3 *) 0 ;
+  math3D::Float arg2 ;
+  
+  arg1 = (math3D::Vec3 *)jarg1; 
+  arg2 = (math3D::Float)jarg2; 
+  if (arg1) (arg1)->y = arg2;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_eh_Vec3_y_get(void * jarg1) {
+  float jresult ;
+  math3D::Vec3 *arg1 = (math3D::Vec3 *) 0 ;
+  math3D::Float result;
+  
+  arg1 = (math3D::Vec3 *)jarg1; 
+  result = (math3D::Float) ((arg1)->y);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Vec3_z_set(void * jarg1, float jarg2) {
+  math3D::Vec3 *arg1 = (math3D::Vec3 *) 0 ;
+  math3D::Float arg2 ;
+  
+  arg1 = (math3D::Vec3 *)jarg1; 
+  arg2 = (math3D::Float)jarg2; 
+  if (arg1) (arg1)->z = arg2;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_eh_Vec3_z_get(void * jarg1) {
+  float jresult ;
+  math3D::Vec3 *arg1 = (math3D::Vec3 *) 0 ;
+  math3D::Float result;
+  
+  arg1 = (math3D::Vec3 *)jarg1; 
+  result = (math3D::Float) ((arg1)->z);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_Vec3__SWIG_0() {
+  void * jresult ;
+  math3D::Vec3 *result = 0 ;
+  
+  result = (math3D::Vec3 *)new math3D::Vec3();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_Vec3__SWIG_1(float jarg1, float jarg2, float jarg3) {
+  void * jresult ;
+  math3D::Float arg1 ;
+  math3D::Float arg2 ;
+  math3D::Float arg3 ;
+  math3D::Vec3 *result = 0 ;
+  
+  arg1 = (math3D::Float)jarg1; 
+  arg2 = (math3D::Float)jarg2; 
+  arg3 = (math3D::Float)jarg3; 
+  result = (math3D::Vec3 *)new math3D::Vec3(arg1,arg2,arg3);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_Vec3__SWIG_2(void * jarg1) {
+  void * jresult ;
+  math3D::Vec3 *arg1 = 0 ;
+  math3D::Vec3 *result = 0 ;
+  
+  arg1 = (math3D::Vec3 *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  result = (math3D::Vec3 *)new math3D::Vec3((math3D::Vec3 const &)*arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Vec3_Null() {
+  void * jresult ;
+  math3D::Vec3 *result = 0 ;
+  
+  result = (math3D::Vec3 *) &math3D::Vec3::Null();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_eh_Vec3_getLen(void * jarg1) {
+  float jresult ;
+  math3D::Vec3 *arg1 = (math3D::Vec3 *) 0 ;
+  math3D::Float result;
+  
+  arg1 = (math3D::Vec3 *)jarg1; 
+  result = (math3D::Float)((math3D::Vec3 const *)arg1)->getLen();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_eh_Vec3_getSqLen(void * jarg1) {
+  float jresult ;
+  math3D::Vec3 *arg1 = (math3D::Vec3 *) 0 ;
+  math3D::Float result;
+  
+  arg1 = (math3D::Vec3 *)jarg1; 
+  result = (math3D::Float)((math3D::Vec3 const *)arg1)->getSqLen();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Vec3_abs(void * jarg1) {
+  void * jresult ;
+  math3D::Vec3 *arg1 = (math3D::Vec3 *) 0 ;
+  math3D::Vec3 result;
+  
+  arg1 = (math3D::Vec3 *)jarg1; 
+  result = (arg1)->abs();
+  jresult = new math3D::Vec3((const math3D::Vec3 &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Vec3_normalized(void * jarg1) {
+  void * jresult ;
+  math3D::Vec3 *arg1 = (math3D::Vec3 *) 0 ;
+  math3D::Vec3 result;
+  
+  arg1 = (math3D::Vec3 *)jarg1; 
+  result = ((math3D::Vec3 const *)arg1)->normalized();
+  jresult = new math3D::Vec3((const math3D::Vec3 &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_delete_Vec3(void * jarg1) {
+  math3D::Vec3 *arg1 = (math3D::Vec3 *) 0 ;
+  
+  arg1 = (math3D::Vec3 *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_eh_dot(void * jarg1, void * jarg2) {
+  float jresult ;
+  math3D::Vec3 *arg1 = 0 ;
+  math3D::Vec3 *arg2 = 0 ;
+  math3D::Float result;
+  
+  arg1 = (math3D::Vec3 *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  arg2 = (math3D::Vec3 *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  result = (math3D::Float)math3D::dot((math3D::Vec3 const &)*arg1,(math3D::Vec3 const &)*arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_eh_distance(void * jarg1, void * jarg2) {
+  float jresult ;
+  math3D::Vec3 *arg1 = 0 ;
+  math3D::Vec3 *arg2 = 0 ;
+  math3D::Float result;
+  
+  arg1 = (math3D::Vec3 *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  arg2 = (math3D::Vec3 *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  result = (math3D::Float)math3D::distance((math3D::Vec3 const &)*arg1,(math3D::Vec3 const &)*arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_eh_distanceSq(void * jarg1, void * jarg2) {
+  float jresult ;
+  math3D::Vec3 *arg1 = 0 ;
+  math3D::Vec3 *arg2 = 0 ;
+  math3D::Float result;
+  
+  arg1 = (math3D::Vec3 *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  arg2 = (math3D::Vec3 *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  result = (math3D::Float)math3D::distanceSq((math3D::Vec3 const &)*arg1,(math3D::Vec3 const &)*arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_eh_angle(void * jarg1, void * jarg2) {
+  float jresult ;
+  math3D::Vec3 *arg1 = 0 ;
+  math3D::Vec3 *arg2 = 0 ;
+  math3D::Float result;
+  
+  arg1 = (math3D::Vec3 *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  arg2 = (math3D::Vec3 *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  result = (math3D::Float)math3D::angle((math3D::Vec3 const &)*arg1,(math3D::Vec3 const &)*arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_cross(void * jarg1, void * jarg2) {
+  void * jresult ;
+  math3D::Vec3 *arg1 = 0 ;
+  math3D::Vec3 *arg2 = 0 ;
+  math3D::Vec3 result;
+  
+  arg1 = (math3D::Vec3 *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  arg2 = (math3D::Vec3 *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  result = math3D::cross((math3D::Vec3 const &)*arg1,(math3D::Vec3 const &)*arg2);
+  jresult = new math3D::Vec3((const math3D::Vec3 &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_calcNormal(void * jarg1, void * jarg2, void * jarg3) {
+  void * jresult ;
+  math3D::Vec3 *arg1 = 0 ;
+  math3D::Vec3 *arg2 = 0 ;
+  math3D::Vec3 *arg3 = 0 ;
+  math3D::Vec3 result;
+  
+  arg1 = (math3D::Vec3 *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  arg2 = (math3D::Vec3 *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  arg3 = (math3D::Vec3 *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  result = math3D::calcNormal((math3D::Vec3 const &)*arg1,(math3D::Vec3 const &)*arg2,(math3D::Vec3 const &)*arg3);
+  jresult = new math3D::Vec3((const math3D::Vec3 &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Vec4_x_set(void * jarg1, float jarg2) {
+  math3D::Vec4 *arg1 = (math3D::Vec4 *) 0 ;
+  math3D::Float arg2 ;
+  
+  arg1 = (math3D::Vec4 *)jarg1; 
+  arg2 = (math3D::Float)jarg2; 
+  if (arg1) (arg1)->x = arg2;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_eh_Vec4_x_get(void * jarg1) {
+  float jresult ;
+  math3D::Vec4 *arg1 = (math3D::Vec4 *) 0 ;
+  math3D::Float result;
+  
+  arg1 = (math3D::Vec4 *)jarg1; 
+  result = (math3D::Float) ((arg1)->x);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Vec4_y_set(void * jarg1, float jarg2) {
+  math3D::Vec4 *arg1 = (math3D::Vec4 *) 0 ;
+  math3D::Float arg2 ;
+  
+  arg1 = (math3D::Vec4 *)jarg1; 
+  arg2 = (math3D::Float)jarg2; 
+  if (arg1) (arg1)->y = arg2;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_eh_Vec4_y_get(void * jarg1) {
+  float jresult ;
+  math3D::Vec4 *arg1 = (math3D::Vec4 *) 0 ;
+  math3D::Float result;
+  
+  arg1 = (math3D::Vec4 *)jarg1; 
+  result = (math3D::Float) ((arg1)->y);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Vec4_z_set(void * jarg1, float jarg2) {
+  math3D::Vec4 *arg1 = (math3D::Vec4 *) 0 ;
+  math3D::Float arg2 ;
+  
+  arg1 = (math3D::Vec4 *)jarg1; 
+  arg2 = (math3D::Float)jarg2; 
+  if (arg1) (arg1)->z = arg2;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_eh_Vec4_z_get(void * jarg1) {
+  float jresult ;
+  math3D::Vec4 *arg1 = (math3D::Vec4 *) 0 ;
+  math3D::Float result;
+  
+  arg1 = (math3D::Vec4 *)jarg1; 
+  result = (math3D::Float) ((arg1)->z);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Vec4_w_set(void * jarg1, float jarg2) {
+  math3D::Vec4 *arg1 = (math3D::Vec4 *) 0 ;
+  math3D::Float arg2 ;
+  
+  arg1 = (math3D::Vec4 *)jarg1; 
+  arg2 = (math3D::Float)jarg2; 
+  if (arg1) (arg1)->w = arg2;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_eh_Vec4_w_get(void * jarg1) {
+  float jresult ;
+  math3D::Vec4 *arg1 = (math3D::Vec4 *) 0 ;
+  math3D::Float result;
+  
+  arg1 = (math3D::Vec4 *)jarg1; 
+  result = (math3D::Float) ((arg1)->w);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_Vec4__SWIG_0(float jarg1, float jarg2, float jarg3, float jarg4) {
+  void * jresult ;
+  math3D::Float arg1 ;
+  math3D::Float arg2 ;
+  math3D::Float arg3 ;
+  math3D::Float arg4 ;
+  math3D::Vec4 *result = 0 ;
+  
+  arg1 = (math3D::Float)jarg1; 
+  arg2 = (math3D::Float)jarg2; 
+  arg3 = (math3D::Float)jarg3; 
+  arg4 = (math3D::Float)jarg4; 
+  result = (math3D::Vec4 *)new math3D::Vec4(arg1,arg2,arg3,arg4);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_Vec4__SWIG_1(void * jarg1, float jarg2) {
+  void * jresult ;
+  math3D::Vec3 *arg1 = 0 ;
+  math3D::Float arg2 ;
+  math3D::Vec4 *result = 0 ;
+  
+  arg1 = (math3D::Vec3 *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  arg2 = (math3D::Float)jarg2; 
+  result = (math3D::Vec4 *)new math3D::Vec4((math3D::Vec3 const &)*arg1,arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_Vec4__SWIG_2(void * jarg1) {
+  void * jresult ;
+  math3D::Vec4 *arg1 = 0 ;
+  math3D::Vec4 *result = 0 ;
+  
+  arg1 = (math3D::Vec4 *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec4 const & type is null", 0);
+    return 0;
+  } 
+  result = (math3D::Vec4 *)new math3D::Vec4((math3D::Vec4 const &)*arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_delete_Vec4(void * jarg1) {
+  math3D::Vec4 *arg1 = (math3D::Vec4 *) 0 ;
+  
+  arg1 = (math3D::Vec4 *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_Rect__SWIG_0() {
+  void * jresult ;
+  math3D::Rect *result = 0 ;
+  
+  result = (math3D::Rect *)new math3D::Rect();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_Rect__SWIG_1(float jarg1, float jarg2, float jarg3, float jarg4) {
+  void * jresult ;
+  math3D::Float arg1 ;
+  math3D::Float arg2 ;
+  math3D::Float arg3 ;
+  math3D::Float arg4 ;
+  math3D::Rect *result = 0 ;
+  
+  arg1 = (math3D::Float)jarg1; 
+  arg2 = (math3D::Float)jarg2; 
+  arg3 = (math3D::Float)jarg3; 
+  arg4 = (math3D::Float)jarg4; 
+  result = (math3D::Rect *)new math3D::Rect(arg1,arg2,arg3,arg4);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Rect_OffsetRect(void * jarg1, float jarg2, float jarg3) {
+  math3D::Rect *arg1 = (math3D::Rect *) 0 ;
+  math3D::Float arg2 ;
+  math3D::Float arg3 ;
+  
+  arg1 = (math3D::Rect *)jarg1; 
+  arg2 = (math3D::Float)jarg2; 
+  arg3 = (math3D::Float)jarg3; 
+  (arg1)->OffsetRect(arg2,arg3);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Rect_setLTRB(void * jarg1, float jarg2, float jarg3, float jarg4, float jarg5) {
+  math3D::Rect *arg1 = (math3D::Rect *) 0 ;
+  math3D::Float arg2 ;
+  math3D::Float arg3 ;
+  math3D::Float arg4 ;
+  math3D::Float arg5 ;
+  
+  arg1 = (math3D::Rect *)jarg1; 
+  arg2 = (math3D::Float)jarg2; 
+  arg3 = (math3D::Float)jarg3; 
+  arg4 = (math3D::Float)jarg4; 
+  arg5 = (math3D::Float)jarg5; 
+  (arg1)->setLTRB(arg2,arg3,arg4,arg5);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Rect_setRight(void * jarg1, float jarg2) {
+  math3D::Rect *arg1 = (math3D::Rect *) 0 ;
+  math3D::Float arg2 ;
+  
+  arg1 = (math3D::Rect *)jarg1; 
+  arg2 = (math3D::Float)jarg2; 
+  (arg1)->setRight(arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Rect_setBottom(void * jarg1, float jarg2) {
+  math3D::Rect *arg1 = (math3D::Rect *) 0 ;
+  math3D::Float arg2 ;
+  
+  arg1 = (math3D::Rect *)jarg1; 
+  arg2 = (math3D::Float)jarg2; 
+  (arg1)->setBottom(arg2);
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_eh_Rect_Width(void * jarg1) {
+  float jresult ;
+  math3D::Rect *arg1 = (math3D::Rect *) 0 ;
+  math3D::Float result;
+  
+  arg1 = (math3D::Rect *)jarg1; 
+  result = (math3D::Float)((math3D::Rect const *)arg1)->Width();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_eh_Rect_Height(void * jarg1) {
+  float jresult ;
+  math3D::Rect *arg1 = (math3D::Rect *) 0 ;
+  math3D::Float result;
+  
+  arg1 = (math3D::Rect *)jarg1; 
+  result = (math3D::Float)((math3D::Rect const *)arg1)->Height();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_eh_Rect_Left(void * jarg1) {
+  float jresult ;
+  math3D::Rect *arg1 = (math3D::Rect *) 0 ;
+  math3D::Float result;
+  
+  arg1 = (math3D::Rect *)jarg1; 
+  result = (math3D::Float)((math3D::Rect const *)arg1)->Left();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_eh_Rect_Right(void * jarg1) {
+  float jresult ;
+  math3D::Rect *arg1 = (math3D::Rect *) 0 ;
+  math3D::Float result;
+  
+  arg1 = (math3D::Rect *)jarg1; 
+  result = (math3D::Float)((math3D::Rect const *)arg1)->Right();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_eh_Rect_Top(void * jarg1) {
+  float jresult ;
+  math3D::Rect *arg1 = (math3D::Rect *) 0 ;
+  math3D::Float result;
+  
+  arg1 = (math3D::Rect *)jarg1; 
+  result = (math3D::Float)((math3D::Rect const *)arg1)->Top();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_eh_Rect_Bottom(void * jarg1) {
+  float jresult ;
+  math3D::Rect *arg1 = (math3D::Rect *) 0 ;
+  math3D::Float result;
+  
+  arg1 = (math3D::Rect *)jarg1; 
+  result = (math3D::Float)((math3D::Rect const *)arg1)->Bottom();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_delete_Rect(void * jarg1) {
+  math3D::Rect *arg1 = (math3D::Rect *) 0 ;
+  
+  arg1 = (math3D::Rect *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_Matrix__SWIG_0(unsigned int jarg1) {
+  void * jresult ;
+  bool arg1 ;
+  math3D::Matrix *result = 0 ;
+  
+  arg1 = jarg1 ? true : false; 
+  result = (math3D::Matrix *)new math3D::Matrix(arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_Matrix__SWIG_1() {
+  void * jresult ;
+  math3D::Matrix *result = 0 ;
+  
+  result = (math3D::Matrix *)new math3D::Matrix();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_Matrix__SWIG_2(void * jarg1) {
+  void * jresult ;
+  math3D::Matrix *arg1 = 0 ;
+  math3D::Matrix *result = 0 ;
+  
+  arg1 = (math3D::Matrix *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Matrix const & type is null", 0);
+    return 0;
+  } 
+  result = (math3D::Matrix *)new math3D::Matrix((math3D::Matrix const &)*arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_Matrix__SWIG_3(float jarg1, float jarg2, float jarg3, float jarg4, float jarg5, float jarg6, float jarg7, float jarg8, float jarg9, float jarg10, float jarg11, float jarg12, float jarg13, float jarg14, float jarg15, float jarg16) {
+  void * jresult ;
+  math3D::Float arg1 ;
+  math3D::Float arg2 ;
+  math3D::Float arg3 ;
+  math3D::Float arg4 ;
+  math3D::Float arg5 ;
+  math3D::Float arg6 ;
+  math3D::Float arg7 ;
+  math3D::Float arg8 ;
+  math3D::Float arg9 ;
+  math3D::Float arg10 ;
+  math3D::Float arg11 ;
+  math3D::Float arg12 ;
+  math3D::Float arg13 ;
+  math3D::Float arg14 ;
+  math3D::Float arg15 ;
+  math3D::Float arg16 ;
+  math3D::Matrix *result = 0 ;
+  
+  arg1 = (math3D::Float)jarg1; 
+  arg2 = (math3D::Float)jarg2; 
+  arg3 = (math3D::Float)jarg3; 
+  arg4 = (math3D::Float)jarg4; 
+  arg5 = (math3D::Float)jarg5; 
+  arg6 = (math3D::Float)jarg6; 
+  arg7 = (math3D::Float)jarg7; 
+  arg8 = (math3D::Float)jarg8; 
+  arg9 = (math3D::Float)jarg9; 
+  arg10 = (math3D::Float)jarg10; 
+  arg11 = (math3D::Float)jarg11; 
+  arg12 = (math3D::Float)jarg12; 
+  arg13 = (math3D::Float)jarg13; 
+  arg14 = (math3D::Float)jarg14; 
+  arg15 = (math3D::Float)jarg15; 
+  arg16 = (math3D::Float)jarg16; 
+  result = (math3D::Matrix *)new math3D::Matrix(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15,arg16);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_delete_Matrix(void * jarg1) {
+  math3D::Matrix *arg1 = (math3D::Matrix *) 0 ;
+  
+  arg1 = (math3D::Matrix *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Matrix_loadIdentity(void * jarg1) {
+  math3D::Matrix *arg1 = (math3D::Matrix *) 0 ;
+  
+  arg1 = (math3D::Matrix *)jarg1; 
+  (arg1)->loadIdentity();
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Matrix_Identity() {
+  void * jresult ;
+  math3D::Matrix *result = 0 ;
+  
+  result = (math3D::Matrix *) &math3D::Matrix::Identity();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Matrix_Inverse(void * jarg1) {
+  void * jresult ;
+  math3D::Matrix *arg1 = 0 ;
+  math3D::Matrix result;
+  
+  arg1 = (math3D::Matrix *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Matrix const & type is null", 0);
+    return 0;
+  } 
+  result = math3D::Matrix::Inverse((math3D::Matrix const &)*arg1);
+  jresult = new math3D::Matrix((const math3D::Matrix &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Matrix_Translation(void * jarg1) {
+  void * jresult ;
+  math3D::Vec3 *arg1 = 0 ;
+  math3D::Matrix result;
+  
+  arg1 = (math3D::Vec3 *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  result = math3D::Matrix::Translation((math3D::Vec3 const &)*arg1);
+  jresult = new math3D::Matrix((const math3D::Matrix &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Matrix_Scale(void * jarg1) {
+  void * jresult ;
+  math3D::Vec3 *arg1 = 0 ;
+  math3D::Matrix result;
+  
+  arg1 = (math3D::Vec3 *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  result = math3D::Matrix::Scale((math3D::Vec3 const &)*arg1);
+  jresult = new math3D::Matrix((const math3D::Matrix &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Matrix_Rotation(void * jarg1, float jarg2) {
+  void * jresult ;
+  math3D::Vec3 *arg1 = 0 ;
+  math3D::Float arg2 ;
+  math3D::Matrix result;
+  
+  arg1 = (math3D::Vec3 *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  arg2 = (math3D::Float)jarg2; 
+  result = math3D::Matrix::Rotation((math3D::Vec3 const &)*arg1,arg2);
+  jresult = new math3D::Matrix((const math3D::Matrix &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Matrix_Frustum(float jarg1, float jarg2, float jarg3, float jarg4, float jarg5, float jarg6) {
+  void * jresult ;
+  math3D::Float arg1 ;
+  math3D::Float arg2 ;
+  math3D::Float arg3 ;
+  math3D::Float arg4 ;
+  math3D::Float arg5 ;
+  math3D::Float arg6 ;
+  math3D::Matrix result;
+  
+  arg1 = (math3D::Float)jarg1; 
+  arg2 = (math3D::Float)jarg2; 
+  arg3 = (math3D::Float)jarg3; 
+  arg4 = (math3D::Float)jarg4; 
+  arg5 = (math3D::Float)jarg5; 
+  arg6 = (math3D::Float)jarg6; 
+  result = math3D::Matrix::Frustum(arg1,arg2,arg3,arg4,arg5,arg6);
+  jresult = new math3D::Matrix((const math3D::Matrix &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Matrix_Ortho(float jarg1, float jarg2, float jarg3, float jarg4, float jarg5, float jarg6) {
+  void * jresult ;
+  math3D::Float arg1 ;
+  math3D::Float arg2 ;
+  math3D::Float arg3 ;
+  math3D::Float arg4 ;
+  math3D::Float arg5 ;
+  math3D::Float arg6 ;
+  math3D::Matrix result;
+  
+  arg1 = (math3D::Float)jarg1; 
+  arg2 = (math3D::Float)jarg2; 
+  arg3 = (math3D::Float)jarg3; 
+  arg4 = (math3D::Float)jarg4; 
+  arg5 = (math3D::Float)jarg5; 
+  arg6 = (math3D::Float)jarg6; 
+  result = math3D::Matrix::Ortho(arg1,arg2,arg3,arg4,arg5,arg6);
+  jresult = new math3D::Matrix((const math3D::Matrix &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Matrix_Lookat(void * jarg1, void * jarg2, void * jarg3) {
+  void * jresult ;
+  math3D::Vec3 *arg1 = 0 ;
+  math3D::Vec3 *arg2 = 0 ;
+  math3D::Vec3 *arg3 = 0 ;
+  math3D::Matrix result;
+  
+  arg1 = (math3D::Vec3 *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  arg2 = (math3D::Vec3 *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  arg3 = (math3D::Vec3 *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  result = math3D::Matrix::Lookat((math3D::Vec3 const &)*arg1,(math3D::Vec3 const &)*arg2,(math3D::Vec3 const &)*arg3);
+  jresult = new math3D::Matrix((const math3D::Matrix &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Matrix_Shadow(void * jarg1, void * jarg2) {
+  void * jresult ;
+  math3D::Plane *arg1 = 0 ;
+  math3D::Vec3 *arg2 = 0 ;
+  math3D::Matrix result;
+  
+  arg1 = (math3D::Plane *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Plane const & type is null", 0);
+    return 0;
+  } 
+  arg2 = (math3D::Vec3 *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  result = math3D::Matrix::Shadow((math3D::Plane const &)*arg1,(math3D::Vec3 const &)*arg2);
+  jresult = new math3D::Matrix((const math3D::Matrix &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Matrix_getInverted(void * jarg1) {
+  void * jresult ;
+  math3D::Matrix *arg1 = (math3D::Matrix *) 0 ;
+  math3D::Matrix result;
+  
+  arg1 = (math3D::Matrix *)jarg1; 
+  result = ((math3D::Matrix const *)arg1)->getInverted();
+  jresult = new math3D::Matrix((const math3D::Matrix &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_Matrix_Stack() {
+  void * jresult ;
+  math3D::Matrix::Stack *result = 0 ;
+  
+  result = (math3D::Matrix::Stack *)new math3D::Matrix::Stack();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_delete_Matrix_Stack(void * jarg1) {
+  math3D::Matrix::Stack *arg1 = (math3D::Matrix::Stack *) 0 ;
+  
+  arg1 = (math3D::Matrix::Stack *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Matrix_Stack_clear(void * jarg1, void * jarg2) {
+  math3D::Matrix::Stack *arg1 = (math3D::Matrix::Stack *) 0 ;
+  math3D::Matrix *arg2 = 0 ;
+  
+  arg1 = (math3D::Matrix::Stack *)jarg1; 
+  arg2 = (math3D::Matrix *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Matrix const & type is null", 0);
+    return ;
+  } 
+  (arg1)->clear((math3D::Matrix const &)*arg2);
+}
+
+
+SWIGEXPORT unsigned long SWIGSTDCALL CSharp_eh_Matrix_Stack_getStackSize(void * jarg1) {
+  unsigned long jresult ;
+  math3D::Matrix::Stack *arg1 = (math3D::Matrix::Stack *) 0 ;
+  size_t result;
+  
+  arg1 = (math3D::Matrix::Stack *)jarg1; 
+  result = ((math3D::Matrix::Stack const *)arg1)->getStackSize();
+  jresult = (unsigned long)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Matrix_Stack_getTop(void * jarg1) {
+  void * jresult ;
+  math3D::Matrix::Stack *arg1 = (math3D::Matrix::Stack *) 0 ;
+  math3D::Matrix *result = 0 ;
+  
+  arg1 = (math3D::Matrix::Stack *)jarg1; 
+  result = (math3D::Matrix *) &((math3D::Matrix::Stack const *)arg1)->getTop();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Matrix_Stack_set(void * jarg1, void * jarg2) {
+  math3D::Matrix::Stack *arg1 = (math3D::Matrix::Stack *) 0 ;
+  math3D::Matrix *arg2 = 0 ;
+  
+  arg1 = (math3D::Matrix::Stack *)jarg1; 
+  arg2 = (math3D::Matrix *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Matrix const & type is null", 0);
+    return ;
+  } 
+  (arg1)->set((math3D::Matrix const &)*arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Matrix_Stack_translate(void * jarg1, void * jarg2) {
+  math3D::Matrix::Stack *arg1 = (math3D::Matrix::Stack *) 0 ;
+  math3D::Vec3 *arg2 = 0 ;
+  
+  arg1 = (math3D::Matrix::Stack *)jarg1; 
+  arg2 = (math3D::Vec3 *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return ;
+  } 
+  (arg1)->translate((math3D::Vec3 const &)*arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Matrix_Stack_rotate(void * jarg1, void * jarg2, float jarg3) {
+  math3D::Matrix::Stack *arg1 = (math3D::Matrix::Stack *) 0 ;
+  math3D::Vec3 *arg2 = 0 ;
+  math3D::Float arg3 ;
+  
+  arg1 = (math3D::Matrix::Stack *)jarg1; 
+  arg2 = (math3D::Vec3 *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return ;
+  } 
+  arg3 = (math3D::Float)jarg3; 
+  (arg1)->rotate((math3D::Vec3 const &)*arg2,arg3);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Matrix_Stack_scale(void * jarg1, void * jarg2) {
+  math3D::Matrix::Stack *arg1 = (math3D::Matrix::Stack *) 0 ;
+  math3D::Vec3 *arg2 = 0 ;
+  
+  arg1 = (math3D::Matrix::Stack *)jarg1; 
+  arg2 = (math3D::Vec3 *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return ;
+  } 
+  (arg1)->scale((math3D::Vec3 const &)*arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Matrix_Stack_mult(void * jarg1, void * jarg2) {
+  math3D::Matrix::Stack *arg1 = (math3D::Matrix::Stack *) 0 ;
+  math3D::Matrix *arg2 = 0 ;
+  
+  arg1 = (math3D::Matrix::Stack *)jarg1; 
+  arg2 = (math3D::Matrix *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Matrix const & type is null", 0);
+    return ;
+  } 
+  (arg1)->mult((math3D::Matrix const &)*arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Matrix_Stack_push(void * jarg1) {
+  math3D::Matrix::Stack *arg1 = (math3D::Matrix::Stack *) 0 ;
+  
+  arg1 = (math3D::Matrix::Stack *)jarg1; 
+  (arg1)->push();
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Matrix_Stack_pop(void * jarg1) {
+  math3D::Matrix::Stack *arg1 = (math3D::Matrix::Stack *) 0 ;
+  
+  arg1 = (math3D::Matrix::Stack *)jarg1; 
+  (arg1)->pop();
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Matrix_Stack_loadIdentity(void * jarg1) {
+  math3D::Matrix::Stack *arg1 = (math3D::Matrix::Stack *) 0 ;
+  
+  arg1 = (math3D::Matrix::Stack *)jarg1; 
+  (arg1)->loadIdentity();
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_transform__SWIG_0(void * jarg1, void * jarg2) {
+  void * jresult ;
+  math3D::Vec3 *arg1 = 0 ;
+  math3D::Matrix *arg2 = 0 ;
+  math3D::Vec3 result;
+  
+  arg1 = (math3D::Vec3 *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  arg2 = (math3D::Matrix *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Matrix const & type is null", 0);
+    return 0;
+  } 
+  result = math3D::transform((math3D::Vec3 const &)*arg1,(math3D::Matrix const &)*arg2);
+  jresult = new math3D::Vec3((const math3D::Vec3 &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_transform__SWIG_1(void * jarg1, void * jarg2) {
+  void * jresult ;
+  math3D::Vec4 *arg1 = 0 ;
+  math3D::Matrix *arg2 = 0 ;
+  SwigValueWrapper< math3D::Vec4 > result;
+  
+  arg1 = (math3D::Vec4 *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec4 const & type is null", 0);
+    return 0;
+  } 
+  arg2 = (math3D::Matrix *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Matrix const & type is null", 0);
+    return 0;
+  } 
+  result = math3D::transform((math3D::Vec4 const &)*arg1,(math3D::Matrix const &)*arg2);
+  jresult = new math3D::Vec4((const math3D::Vec4 &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_project(void * jarg1, void * jarg2, void * jarg3, void * jarg4) {
+  void * jresult ;
+  math3D::Vec3 *arg1 = 0 ;
+  math3D::Rect *arg2 = 0 ;
+  math3D::Matrix *arg3 = 0 ;
+  math3D::Matrix *arg4 = 0 ;
+  math3D::Vec3 result;
+  
+  arg1 = (math3D::Vec3 *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  arg2 = (math3D::Rect *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Rect const & type is null", 0);
+    return 0;
+  } 
+  arg3 = (math3D::Matrix *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Matrix const & type is null", 0);
+    return 0;
+  } 
+  arg4 = (math3D::Matrix *)jarg4;
+  if (!arg4) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Matrix const & type is null", 0);
+    return 0;
+  } 
+  result = math3D::project((math3D::Vec3 const &)*arg1,(math3D::Rect const &)*arg2,(math3D::Matrix const &)*arg3,(math3D::Matrix const &)*arg4);
+  jresult = new math3D::Vec3((const math3D::Vec3 &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_unproject(void * jarg1, void * jarg2, void * jarg3, void * jarg4) {
+  void * jresult ;
+  math3D::Vec3 *arg1 = 0 ;
+  math3D::Rect *arg2 = 0 ;
+  math3D::Matrix *arg3 = 0 ;
+  math3D::Matrix *arg4 = 0 ;
+  math3D::Vec3 result;
+  
+  arg1 = (math3D::Vec3 *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  arg2 = (math3D::Rect *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Rect const & type is null", 0);
+    return 0;
+  } 
+  arg3 = (math3D::Matrix *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Matrix const & type is null", 0);
+    return 0;
+  } 
+  arg4 = (math3D::Matrix *)jarg4;
+  if (!arg4) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Matrix const & type is null", 0);
+    return 0;
+  } 
+  result = math3D::unproject((math3D::Vec3 const &)*arg1,(math3D::Rect const &)*arg2,(math3D::Matrix const &)*arg3,(math3D::Matrix const &)*arg4);
+  jresult = new math3D::Vec3((const math3D::Vec3 &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_Plane__SWIG_0(void * jarg1, void * jarg2, void * jarg3) {
+  void * jresult ;
+  math3D::Vec3 *arg1 = 0 ;
+  math3D::Vec3 *arg2 = 0 ;
+  math3D::Vec3 *arg3 = 0 ;
+  math3D::Plane *result = 0 ;
+  
+  arg1 = (math3D::Vec3 *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  arg2 = (math3D::Vec3 *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  arg3 = (math3D::Vec3 *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  result = (math3D::Plane *)new math3D::Plane((math3D::Vec3 const &)*arg1,(math3D::Vec3 const &)*arg2,(math3D::Vec3 const &)*arg3);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_Plane__SWIG_1(float jarg1, float jarg2, float jarg3, float jarg4) {
+  void * jresult ;
+  math3D::Float arg1 ;
+  math3D::Float arg2 ;
+  math3D::Float arg3 ;
+  math3D::Float arg4 ;
+  math3D::Plane *result = 0 ;
+  
+  arg1 = (math3D::Float)jarg1; 
+  arg2 = (math3D::Float)jarg2; 
+  arg3 = (math3D::Float)jarg3; 
+  arg4 = (math3D::Float)jarg4; 
+  result = (math3D::Plane *)new math3D::Plane(arg1,arg2,arg3,arg4);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_Plane__SWIG_2(float jarg1, float jarg2, float jarg3) {
+  void * jresult ;
+  math3D::Float arg1 ;
+  math3D::Float arg2 ;
+  math3D::Float arg3 ;
+  math3D::Plane *result = 0 ;
+  
+  arg1 = (math3D::Float)jarg1; 
+  arg2 = (math3D::Float)jarg2; 
+  arg3 = (math3D::Float)jarg3; 
+  result = (math3D::Plane *)new math3D::Plane(arg1,arg2,arg3);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_Plane__SWIG_3(float jarg1, float jarg2) {
+  void * jresult ;
+  math3D::Float arg1 ;
+  math3D::Float arg2 ;
+  math3D::Plane *result = 0 ;
+  
+  arg1 = (math3D::Float)jarg1; 
+  arg2 = (math3D::Float)jarg2; 
+  result = (math3D::Plane *)new math3D::Plane(arg1,arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_Plane__SWIG_4(float jarg1) {
+  void * jresult ;
+  math3D::Float arg1 ;
+  math3D::Plane *result = 0 ;
+  
+  arg1 = (math3D::Float)jarg1; 
+  result = (math3D::Plane *)new math3D::Plane(arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_Plane__SWIG_5() {
+  void * jresult ;
+  math3D::Plane *result = 0 ;
+  
+  result = (math3D::Plane *)new math3D::Plane();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_delete_Plane(void * jarg1) {
+  math3D::Plane *arg1 = (math3D::Plane *) 0 ;
+  
+  arg1 = (math3D::Plane *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Plane_getNormal(void * jarg1) {
+  void * jresult ;
+  math3D::Plane *arg1 = (math3D::Plane *) 0 ;
+  math3D::Vec3 *result = 0 ;
+  
+  arg1 = (math3D::Plane *)jarg1; 
+  result = (math3D::Vec3 *) &((math3D::Plane const *)arg1)->getNormal();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_eh_Plane_getD(void * jarg1) {
+  float jresult ;
+  math3D::Plane *arg1 = (math3D::Plane *) 0 ;
+  math3D::Float result;
+  
+  arg1 = (math3D::Plane *)jarg1; 
+  result = (math3D::Float)((math3D::Plane const *)arg1)->getD();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_Plane_getIntersectionWithLine(void * jarg1, void * jarg2, void * jarg3, void * jarg4) {
+  unsigned int jresult ;
+  math3D::Plane *arg1 = (math3D::Plane *) 0 ;
+  math3D::Vec3 *arg2 = 0 ;
+  math3D::Vec3 *arg3 = 0 ;
+  math3D::Float *arg4 = 0 ;
+  bool result;
+  
+  arg1 = (math3D::Plane *)jarg1; 
+  arg2 = (math3D::Vec3 *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  arg3 = (math3D::Vec3 *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  arg4 = (math3D::Float *)jarg4;
+  if (!arg4) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Float & type is null", 0);
+    return 0;
+  } 
+  result = (bool)((math3D::Plane const *)arg1)->getIntersectionWithLine((math3D::Vec3 const &)*arg2,(math3D::Vec3 const &)*arg3,*arg4);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_Plane_getIntersectionWithPlane(void * jarg1, void * jarg2, void * jarg3, void * jarg4) {
+  unsigned int jresult ;
+  math3D::Plane *arg1 = (math3D::Plane *) 0 ;
+  math3D::Plane *arg2 = 0 ;
+  math3D::Vec3 *arg3 = 0 ;
+  math3D::Vec3 *arg4 = 0 ;
+  bool result;
+  
+  arg1 = (math3D::Plane *)jarg1; 
+  arg2 = (math3D::Plane *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Plane const & type is null", 0);
+    return 0;
+  } 
+  arg3 = (math3D::Vec3 *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 & type is null", 0);
+    return 0;
+  } 
+  arg4 = (math3D::Vec3 *)jarg4;
+  if (!arg4) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 & type is null", 0);
+    return 0;
+  } 
+  result = (bool)((math3D::Plane const *)arg1)->getIntersectionWithPlane((math3D::Plane const &)*arg2,*arg3,*arg4);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_Ray__SWIG_0(void * jarg1, void * jarg2) {
+  void * jresult ;
+  math3D::Vec3 *arg1 = 0 ;
+  math3D::Vec3 *arg2 = 0 ;
+  math3D::Ray *result = 0 ;
+  
+  arg1 = (math3D::Vec3 *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  arg2 = (math3D::Vec3 *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  result = (math3D::Ray *)new math3D::Ray((math3D::Vec3 const &)*arg1,(math3D::Vec3 const &)*arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_Ray__SWIG_1(int jarg1, int jarg2, void * jarg3, void * jarg4, void * jarg5) {
+  void * jresult ;
+  int arg1 ;
+  int arg2 ;
+  math3D::Rect *arg3 = 0 ;
+  math3D::Matrix *arg4 = 0 ;
+  math3D::Matrix *arg5 = 0 ;
+  math3D::Ray *result = 0 ;
+  
+  arg1 = (int)jarg1; 
+  arg2 = (int)jarg2; 
+  arg3 = (math3D::Rect *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Rect const & type is null", 0);
+    return 0;
+  } 
+  arg4 = (math3D::Matrix *)jarg4;
+  if (!arg4) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Matrix const & type is null", 0);
+    return 0;
+  } 
+  arg5 = (math3D::Matrix *)jarg5;
+  if (!arg5) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Matrix const & type is null", 0);
+    return 0;
+  } 
+  result = (math3D::Ray *)new math3D::Ray(arg1,arg2,(math3D::Rect const &)*arg3,(math3D::Matrix const &)*arg4,(math3D::Matrix const &)*arg5);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_delete_Ray(void * jarg1) {
+  math3D::Ray *arg1 = (math3D::Ray *) 0 ;
+  
+  arg1 = (math3D::Ray *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Ray_getOrigin(void * jarg1) {
+  void * jresult ;
+  math3D::Ray *arg1 = (math3D::Ray *) 0 ;
+  math3D::Vec3 *result = 0 ;
+  
+  arg1 = (math3D::Ray *)jarg1; 
+  result = (math3D::Vec3 *) &((math3D::Ray const *)arg1)->getOrigin();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Ray_getDirection(void * jarg1) {
+  void * jresult ;
+  math3D::Ray *arg1 = (math3D::Ray *) 0 ;
+  math3D::Vec3 *result = 0 ;
+  
+  arg1 = (math3D::Ray *)jarg1; 
+  result = (math3D::Vec3 *) &((math3D::Ray const *)arg1)->getDirection();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_Ray_getIntersectionWithTriangle(void * jarg1, void * jarg2, void * jarg3, void * jarg4, void * jarg5) {
+  unsigned int jresult ;
+  math3D::Ray *arg1 = (math3D::Ray *) 0 ;
+  math3D::Vec3 *arg2 = 0 ;
+  math3D::Vec3 *arg3 = 0 ;
+  math3D::Vec3 *arg4 = 0 ;
+  math3D::Float *arg5 = 0 ;
+  bool result;
+  
+  arg1 = (math3D::Ray *)jarg1; 
+  arg2 = (math3D::Vec3 *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  arg3 = (math3D::Vec3 *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  arg4 = (math3D::Vec3 *)jarg4;
+  if (!arg4) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  arg5 = (math3D::Float *)jarg5;
+  if (!arg5) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Float & type is null", 0);
+    return 0;
+  } 
+  result = (bool)((math3D::Ray const *)arg1)->getIntersectionWithTriangle((math3D::Vec3 const &)*arg2,(math3D::Vec3 const &)*arg3,(math3D::Vec3 const &)*arg4,*arg5);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_Ray_getIntersectionWithAABBox__SWIG_0(void * jarg1, void * jarg2, void * jarg3, float jarg4, float jarg5) {
+  unsigned int jresult ;
+  math3D::Ray *arg1 = (math3D::Ray *) 0 ;
+  math3D::AABBox *arg2 = 0 ;
+  math3D::Float *arg3 = 0 ;
+  math3D::Float arg4 ;
+  math3D::Float arg5 ;
+  bool result;
+  
+  arg1 = (math3D::Ray *)jarg1; 
+  arg2 = (math3D::AABBox *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::AABBox const & type is null", 0);
+    return 0;
+  } 
+  arg3 = (math3D::Float *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Float & type is null", 0);
+    return 0;
+  } 
+  arg4 = (math3D::Float)jarg4; 
+  arg5 = (math3D::Float)jarg5; 
+  result = (bool)((math3D::Ray const *)arg1)->getIntersectionWithAABBox((math3D::AABBox const &)*arg2,*arg3,arg4,arg5);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_Ray_getIntersectionWithAABBox__SWIG_1(void * jarg1, void * jarg2, void * jarg3, float jarg4) {
+  unsigned int jresult ;
+  math3D::Ray *arg1 = (math3D::Ray *) 0 ;
+  math3D::AABBox *arg2 = 0 ;
+  math3D::Float *arg3 = 0 ;
+  math3D::Float arg4 ;
+  bool result;
+  
+  arg1 = (math3D::Ray *)jarg1; 
+  arg2 = (math3D::AABBox *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::AABBox const & type is null", 0);
+    return 0;
+  } 
+  arg3 = (math3D::Float *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Float & type is null", 0);
+    return 0;
+  } 
+  arg4 = (math3D::Float)jarg4; 
+  result = (bool)((math3D::Ray const *)arg1)->getIntersectionWithAABBox((math3D::AABBox const &)*arg2,*arg3,arg4);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_Ray_getIntersectionWithAABBox__SWIG_2(void * jarg1, void * jarg2, void * jarg3) {
+  unsigned int jresult ;
+  math3D::Ray *arg1 = (math3D::Ray *) 0 ;
+  math3D::AABBox *arg2 = 0 ;
+  math3D::Float *arg3 = 0 ;
+  bool result;
+  
+  arg1 = (math3D::Ray *)jarg1; 
+  arg2 = (math3D::AABBox *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::AABBox const & type is null", 0);
+    return 0;
+  } 
+  arg3 = (math3D::Float *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Float & type is null", 0);
+    return 0;
+  } 
+  result = (bool)((math3D::Ray const *)arg1)->getIntersectionWithAABBox((math3D::AABBox const &)*arg2,*arg3);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_eh_Ray_getSqDistanceToPoint(void * jarg1, void * jarg2, void * jarg3) {
+  float jresult ;
+  math3D::Ray *arg1 = (math3D::Ray *) 0 ;
+  math3D::Vec3 *arg2 = 0 ;
+  math3D::Float *arg3 = 0 ;
+  math3D::Float result;
+  
+  arg1 = (math3D::Ray *)jarg1; 
+  arg2 = (math3D::Vec3 *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  arg3 = (math3D::Float *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Float & type is null", 0);
+    return 0;
+  } 
+  result = (math3D::Float)((math3D::Ray const *)arg1)->getSqDistanceToPoint((math3D::Vec3 const &)*arg2,*arg3);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_Ray_getIntersectionWithSphere(void * jarg1, void * jarg2, float jarg3, void * jarg4) {
+  unsigned int jresult ;
+  math3D::Ray *arg1 = (math3D::Ray *) 0 ;
+  math3D::Vec3 *arg2 = 0 ;
+  math3D::Float arg3 ;
+  math3D::Float *arg4 = 0 ;
+  bool result;
+  
+  arg1 = (math3D::Ray *)jarg1; 
+  arg2 = (math3D::Vec3 *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  arg3 = (math3D::Float)jarg3; 
+  arg4 = (math3D::Float *)jarg4;
+  if (!arg4) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Float & type is null", 0);
+    return 0;
+  } 
+  result = (bool)((math3D::Ray const *)arg1)->getIntersectionWithSphere((math3D::Vec3 const &)*arg2,arg3,*arg4);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_eh_Ray_getSqDistanceToRay__SWIG_0(void * jarg1, void * jarg2, void * jarg3) {
+  float jresult ;
+  math3D::Ray *arg1 = (math3D::Ray *) 0 ;
+  math3D::Ray *arg2 = 0 ;
+  math3D::Float *arg3 = (math3D::Float *) 0 ;
+  math3D::Float result;
+  
+  arg1 = (math3D::Ray *)jarg1; 
+  arg2 = (math3D::Ray *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Ray const & type is null", 0);
+    return 0;
+  } 
+  arg3 = (math3D::Float *)jarg3; 
+  result = (math3D::Float)((math3D::Ray const *)arg1)->getSqDistanceToRay((math3D::Ray const &)*arg2,arg3);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_eh_Ray_getSqDistanceToRay__SWIG_1(void * jarg1, void * jarg2) {
+  float jresult ;
+  math3D::Ray *arg1 = (math3D::Ray *) 0 ;
+  math3D::Ray *arg2 = 0 ;
+  math3D::Float result;
+  
+  arg1 = (math3D::Ray *)jarg1; 
+  arg2 = (math3D::Ray *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Ray const & type is null", 0);
+    return 0;
+  } 
+  result = (math3D::Float)((math3D::Ray const *)arg1)->getSqDistanceToRay((math3D::Ray const &)*arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Ray_getClosestPointToRay(void * jarg1, void * jarg2, void * jarg3) {
+  math3D::Ray *arg1 = (math3D::Ray *) 0 ;
+  math3D::Ray *arg2 = 0 ;
+  math3D::Float *arg3 = 0 ;
+  
+  arg1 = (math3D::Ray *)jarg1; 
+  arg2 = (math3D::Ray *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Ray const & type is null", 0);
+    return ;
+  } 
+  arg3 = (math3D::Float *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Float & type is null", 0);
+    return ;
+  } 
+  ((math3D::Ray const *)arg1)->getClosestPointToRay((math3D::Ray const &)*arg2,*arg3);
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Ray_getPointAt(void * jarg1, float jarg2) {
+  void * jresult ;
+  math3D::Ray *arg1 = (math3D::Ray *) 0 ;
+  math3D::Float arg2 ;
+  math3D::Vec3 result;
+  
+  arg1 = (math3D::Ray *)jarg1; 
+  arg2 = (math3D::Float)jarg2; 
+  result = ((math3D::Ray const *)arg1)->getPointAt(arg2);
+  jresult = new math3D::Vec3((const math3D::Vec3 &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_transform__SWIG_2(void * jarg1, void * jarg2) {
+  void * jresult ;
+  math3D::Ray *arg1 = 0 ;
+  math3D::Matrix *arg2 = 0 ;
+  SwigValueWrapper< math3D::Ray > result;
+  
+  arg1 = (math3D::Ray *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Ray const & type is null", 0);
+    return 0;
+  } 
+  arg2 = (math3D::Matrix *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Matrix const & type is null", 0);
+    return 0;
+  } 
+  result = math3D::transform((math3D::Ray const &)*arg1,(math3D::Matrix const &)*arg2);
+  jresult = new math3D::Ray((const math3D::Ray &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_AABBox__SWIG_0() {
+  void * jresult ;
+  math3D::AABBox *result = 0 ;
+  
+  result = (math3D::AABBox *)new math3D::AABBox();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_AABBox__SWIG_1(void * jarg1, void * jarg2) {
+  void * jresult ;
+  math3D::Vec3 *arg1 = 0 ;
+  math3D::Vec3 *arg2 = 0 ;
+  math3D::AABBox *result = 0 ;
+  
+  arg1 = (math3D::Vec3 *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  arg2 = (math3D::Vec3 *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  result = (math3D::AABBox *)new math3D::AABBox((math3D::Vec3 const &)*arg1,(math3D::Vec3 const &)*arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_delete_AABBox(void * jarg1) {
+  math3D::AABBox *arg1 = (math3D::AABBox *) 0 ;
+  
+  arg1 = (math3D::AABBox *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_AABBox_getMin(void * jarg1) {
+  void * jresult ;
+  math3D::AABBox *arg1 = (math3D::AABBox *) 0 ;
+  math3D::Vec3 *result = 0 ;
+  
+  arg1 = (math3D::AABBox *)jarg1; 
+  result = (math3D::Vec3 *) &((math3D::AABBox const *)arg1)->getMin();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_AABBox_getMax(void * jarg1) {
+  void * jresult ;
+  math3D::AABBox *arg1 = (math3D::AABBox *) 0 ;
+  math3D::Vec3 *result = 0 ;
+  
+  arg1 = (math3D::AABBox *)jarg1; 
+  result = (math3D::Vec3 *) &((math3D::AABBox const *)arg1)->getMax();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_AABBox_getSize(void * jarg1) {
+  void * jresult ;
+  math3D::AABBox *arg1 = (math3D::AABBox *) 0 ;
+  math3D::Vec3 *result = 0 ;
+  
+  arg1 = (math3D::AABBox *)jarg1; 
+  result = (math3D::Vec3 *) &((math3D::AABBox const *)arg1)->getSize();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_AABBox_getCenter(void * jarg1) {
+  void * jresult ;
+  math3D::AABBox *arg1 = (math3D::AABBox *) 0 ;
+  math3D::Vec3 *result = 0 ;
+  
+  arg1 = (math3D::AABBox *)jarg1; 
+  result = (math3D::Vec3 *) &((math3D::AABBox const *)arg1)->getCenter();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_eh_AABBox_getRadius(void * jarg1) {
+  float jresult ;
+  math3D::AABBox *arg1 = (math3D::AABBox *) 0 ;
+  math3D::Float result;
+  
+  arg1 = (math3D::AABBox *)jarg1; 
+  result = (math3D::Float)((math3D::AABBox const *)arg1)->getRadius();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_AABBox_getCorners(void * jarg1) {
+  void * jresult ;
+  math3D::AABBox *arg1 = (math3D::AABBox *) 0 ;
+  std::vector< math3D::Vec3 > result;
+  
+  arg1 = (math3D::AABBox *)jarg1; 
+  result = ((math3D::AABBox const *)arg1)->getCorners();
+  jresult = new std::vector< math3D::Vec3 >((const std::vector< math3D::Vec3 > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT int SWIGSTDCALL CSharp_eh_AABBox_isInside__SWIG_0(void * jarg1, void * jarg2) {
+  int jresult ;
+  math3D::AABBox *arg1 = (math3D::AABBox *) 0 ;
+  math3D::Vec3 *arg2 = 0 ;
+  math3D::AABBox::INSIDE_RESULT result;
+  
+  arg1 = (math3D::AABBox *)jarg1; 
+  arg2 = (math3D::Vec3 *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  result = (math3D::AABBox::INSIDE_RESULT)((math3D::AABBox const *)arg1)->isInside((math3D::Vec3 const &)*arg2);
+  jresult = (int)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT int SWIGSTDCALL CSharp_eh_AABBox_isInside__SWIG_1(void * jarg1, void * jarg2) {
+  int jresult ;
+  math3D::AABBox *arg1 = (math3D::AABBox *) 0 ;
+  math3D::AABBox *arg2 = 0 ;
+  math3D::AABBox::INSIDE_RESULT result;
+  
+  arg1 = (math3D::AABBox *)jarg1; 
+  arg2 = (math3D::AABBox *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::AABBox const & type is null", 0);
+    return 0;
+  } 
+  result = (math3D::AABBox::INSIDE_RESULT)((math3D::AABBox const *)arg1)->isInside((math3D::AABBox const &)*arg2);
+  jresult = (int)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_AABBox_intersect(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  math3D::AABBox *arg1 = (math3D::AABBox *) 0 ;
+  math3D::AABBox *arg2 = 0 ;
+  bool result;
+  
+  arg1 = (math3D::AABBox *)jarg1; 
+  arg2 = (math3D::AABBox *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::AABBox const & type is null", 0);
+    return 0;
+  } 
+  result = (bool)((math3D::AABBox const *)arg1)->intersect((math3D::AABBox const &)*arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_AABBox_divide(void * jarg1, void * jarg2, void * jarg3) {
+  math3D::AABBox *arg1 = (math3D::AABBox *) 0 ;
+  math3D::AABBox *arg2 = 0 ;
+  math3D::AABBox *arg3 = 0 ;
+  
+  arg1 = (math3D::AABBox *)jarg1; 
+  arg2 = (math3D::AABBox *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::AABBox & type is null", 0);
+    return ;
+  } 
+  arg3 = (math3D::AABBox *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::AABBox & type is null", 0);
+    return ;
+  } 
+  ((math3D::AABBox const *)arg1)->divide(*arg2,*arg3);
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_eh_AABBox_getVolume(void * jarg1) {
+  float jresult ;
+  math3D::AABBox *arg1 = (math3D::AABBox *) 0 ;
+  math3D::Float result;
+  
+  arg1 = (math3D::AABBox *)jarg1; 
+  result = (math3D::Float)((math3D::AABBox const *)arg1)->getVolume();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_AABBox_valid(void * jarg1) {
+  unsigned int jresult ;
+  math3D::AABBox *arg1 = (math3D::AABBox *) 0 ;
+  bool result;
+  
+  arg1 = (math3D::AABBox *)jarg1; 
+  result = (bool)((math3D::AABBox const *)arg1)->valid();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_transform__SWIG_3(void * jarg1, void * jarg2) {
+  void * jresult ;
+  math3D::AABBox *arg1 = 0 ;
+  math3D::Matrix *arg2 = 0 ;
+  math3D::AABBox result;
+  
+  arg1 = (math3D::AABBox *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::AABBox const & type is null", 0);
+    return 0;
+  } 
+  arg2 = (math3D::Matrix *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Matrix const & type is null", 0);
+    return 0;
+  } 
+  result = math3D::transform((math3D::AABBox const &)*arg1,(math3D::Matrix const &)*arg2);
+  jresult = new math3D::AABBox((const math3D::AABBox &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_Frustum_extractFrom(void * jarg1, void * jarg2, void * jarg3) {
+  math3D::Frustum *arg1 = (math3D::Frustum *) 0 ;
+  math3D::Matrix *arg2 = 0 ;
+  math3D::Matrix *arg3 = 0 ;
+  
+  arg1 = (math3D::Frustum *)jarg1; 
+  arg2 = (math3D::Matrix *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Matrix const & type is null", 0);
+    return ;
+  } 
+  arg3 = (math3D::Matrix *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Matrix const & type is null", 0);
+    return ;
+  } 
+  (arg1)->extractFrom((math3D::Matrix const &)*arg2,(math3D::Matrix const &)*arg3);
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_Frustum_isPointInside(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  math3D::Frustum *arg1 = (math3D::Frustum *) 0 ;
+  math3D::Vec3 *arg2 = 0 ;
+  bool result;
+  
+  arg1 = (math3D::Frustum *)jarg1; 
+  arg2 = (math3D::Vec3 *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  result = (bool)((math3D::Frustum const *)arg1)->isPointInside((math3D::Vec3 const &)*arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_Frustum_isAABBInside__SWIG_0(void * jarg1, void * jarg2, void * jarg3) {
+  unsigned int jresult ;
+  math3D::Frustum *arg1 = (math3D::Frustum *) 0 ;
+  math3D::Vec3 *arg2 = 0 ;
+  math3D::Vec3 *arg3 = 0 ;
+  unsigned int result;
+  
+  arg1 = (math3D::Frustum *)jarg1; 
+  arg2 = (math3D::Vec3 *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  arg3 = (math3D::Vec3 *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return 0;
+  } 
+  result = (unsigned int)((math3D::Frustum const *)arg1)->isAABBInside((math3D::Vec3 const &)*arg2,(math3D::Vec3 const &)*arg3);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_Frustum_isAABBInside__SWIG_1(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  math3D::Frustum *arg1 = (math3D::Frustum *) 0 ;
+  math3D::AABBox *arg2 = 0 ;
+  unsigned int result;
+  
+  arg1 = (math3D::Frustum *)jarg1; 
+  arg2 = (math3D::AABBox *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::AABBox const & type is null", 0);
+    return 0;
+  } 
+  result = (unsigned int)((math3D::Frustum const *)arg1)->isAABBInside((math3D::AABBox const &)*arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_Frustum_isSphereInside(void * jarg1, float jarg2, float jarg3, float jarg4, float jarg5) {
+  unsigned int jresult ;
+  math3D::Frustum *arg1 = (math3D::Frustum *) 0 ;
+  math3D::Float arg2 ;
+  math3D::Float arg3 ;
+  math3D::Float arg4 ;
+  math3D::Float arg5 ;
+  bool result;
+  
+  arg1 = (math3D::Frustum *)jarg1; 
+  arg2 = (math3D::Float)jarg2; 
+  arg3 = (math3D::Float)jarg3; 
+  arg4 = (math3D::Float)jarg4; 
+  arg5 = (math3D::Float)jarg5; 
+  result = (bool)((math3D::Frustum const *)arg1)->isSphereInside(arg2,arg3,arg4,arg5);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_Frustum_isCubeInside(void * jarg1, float jarg2, float jarg3, float jarg4, float jarg5) {
+  unsigned int jresult ;
+  math3D::Frustum *arg1 = (math3D::Frustum *) 0 ;
+  math3D::Float arg2 ;
+  math3D::Float arg3 ;
+  math3D::Float arg4 ;
+  math3D::Float arg5 ;
+  bool result;
+  
+  arg1 = (math3D::Frustum *)jarg1; 
+  arg2 = (math3D::Float)jarg2; 
+  arg3 = (math3D::Float)jarg3; 
+  arg4 = (math3D::Float)jarg4; 
+  arg5 = (math3D::Float)jarg5; 
+  result = (bool)((math3D::Frustum const *)arg1)->isCubeInside(arg2,arg3,arg4,arg5);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Frustum_getTopPlane(void * jarg1) {
+  void * jresult ;
+  math3D::Frustum *arg1 = (math3D::Frustum *) 0 ;
+  math3D::Plane *result = 0 ;
+  
+  arg1 = (math3D::Frustum *)jarg1; 
+  result = (math3D::Plane *) &((math3D::Frustum const *)arg1)->getTopPlane();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Frustum_getBottomPlane(void * jarg1) {
+  void * jresult ;
+  math3D::Frustum *arg1 = (math3D::Frustum *) 0 ;
+  math3D::Plane *result = 0 ;
+  
+  arg1 = (math3D::Frustum *)jarg1; 
+  result = (math3D::Plane *) &((math3D::Frustum const *)arg1)->getBottomPlane();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Frustum_getLeftPlane(void * jarg1) {
+  void * jresult ;
+  math3D::Frustum *arg1 = (math3D::Frustum *) 0 ;
+  math3D::Plane *result = 0 ;
+  
+  arg1 = (math3D::Frustum *)jarg1; 
+  result = (math3D::Plane *) &((math3D::Frustum const *)arg1)->getLeftPlane();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Frustum_getRightPlane(void * jarg1) {
+  void * jresult ;
+  math3D::Frustum *arg1 = (math3D::Frustum *) 0 ;
+  math3D::Plane *result = 0 ;
+  
+  arg1 = (math3D::Frustum *)jarg1; 
+  result = (math3D::Plane *) &((math3D::Frustum const *)arg1)->getRightPlane();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Frustum_getBackPlane(void * jarg1) {
+  void * jresult ;
+  math3D::Frustum *arg1 = (math3D::Frustum *) 0 ;
+  math3D::Plane *result = 0 ;
+  
+  arg1 = (math3D::Frustum *)jarg1; 
+  result = (math3D::Plane *) &((math3D::Frustum const *)arg1)->getBackPlane();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Frustum_getFrontPlane(void * jarg1) {
+  void * jresult ;
+  math3D::Frustum *arg1 = (math3D::Frustum *) 0 ;
+  math3D::Plane *result = 0 ;
+  
+  arg1 = (math3D::Frustum *)jarg1; 
+  result = (math3D::Plane *) &((math3D::Frustum const *)arg1)->getFrontPlane();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_Frustum() {
+  void * jresult ;
+  math3D::Frustum *result = 0 ;
+  
+  result = (math3D::Frustum *)new math3D::Frustum();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_delete_Frustum(void * jarg1) {
+  math3D::Frustum *arg1 = (math3D::Frustum *) 0 ;
+  
+  arg1 = (math3D::Frustum *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_IGeometry_AddVertex(void * jarg1, void * jarg2, void * jarg3, void * jarg4) {
+  swig::IGeometry *arg1 = (swig::IGeometry *) 0 ;
+  math3D::Vec3 *arg2 = 0 ;
+  math3D::Vec3 *arg3 = 0 ;
+  math3D::Vec3 *arg4 = 0 ;
+  std::shared_ptr< swig::IGeometry > *smartarg1 = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IGeometry > *)jarg1;
+  arg1 = (swig::IGeometry *)(smartarg1 ? smartarg1->get() : 0); 
+  arg2 = (math3D::Vec3 *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return ;
+  } 
+  arg3 = (math3D::Vec3 *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return ;
+  } 
+  arg4 = (math3D::Vec3 *)jarg4;
+  if (!arg4) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Vec3 const & type is null", 0);
+    return ;
+  } 
+  (arg1)->AddVertex((math3D::Vec3 const &)*arg2,(math3D::Vec3 const &)*arg3,(math3D::Vec3 const &)*arg4);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_delete_IGeometry(void * jarg1) {
+  swig::IGeometry *arg1 = (swig::IGeometry *) 0 ;
+  std::shared_ptr< swig::IGeometry > *smartarg1 = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IGeometry > *)jarg1;
+  arg1 = (swig::IGeometry *)(smartarg1 ? smartarg1->get() : 0); 
+  (void)arg1; delete smartarg1;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_IMaterial_SetDiffuseColor(void * jarg1, float jarg2, float jarg3, float jarg4, float jarg5) {
+  swig::IMaterial *arg1 = (swig::IMaterial *) 0 ;
+  float arg2 ;
+  float arg3 ;
+  float arg4 ;
+  float arg5 ;
+  std::shared_ptr< swig::IMaterial > *smartarg1 = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IMaterial > *)jarg1;
+  arg1 = (swig::IMaterial *)(smartarg1 ? smartarg1->get() : 0); 
+  arg2 = (float)jarg2; 
+  arg3 = (float)jarg3; 
+  arg4 = (float)jarg4; 
+  arg5 = (float)jarg5; 
+  (arg1)->SetDiffuseColor(arg2,arg3,arg4,arg5);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_IMaterial_SetAmbientColor(void * jarg1, float jarg2, float jarg3, float jarg4, float jarg5) {
+  swig::IMaterial *arg1 = (swig::IMaterial *) 0 ;
+  float arg2 ;
+  float arg3 ;
+  float arg4 ;
+  float arg5 ;
+  std::shared_ptr< swig::IMaterial > *smartarg1 = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IMaterial > *)jarg1;
+  arg1 = (swig::IMaterial *)(smartarg1 ? smartarg1->get() : 0); 
+  arg2 = (float)jarg2; 
+  arg3 = (float)jarg3; 
+  arg4 = (float)jarg4; 
+  arg5 = (float)jarg5; 
+  (arg1)->SetAmbientColor(arg2,arg3,arg4,arg5);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_IMaterial_SetSpecularColor(void * jarg1, float jarg2, float jarg3, float jarg4, float jarg5) {
+  swig::IMaterial *arg1 = (swig::IMaterial *) 0 ;
+  float arg2 ;
+  float arg3 ;
+  float arg4 ;
+  float arg5 ;
+  std::shared_ptr< swig::IMaterial > *smartarg1 = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IMaterial > *)jarg1;
+  arg1 = (swig::IMaterial *)(smartarg1 ? smartarg1->get() : 0); 
+  arg2 = (float)jarg2; 
+  arg3 = (float)jarg3; 
+  arg4 = (float)jarg4; 
+  arg5 = (float)jarg5; 
+  (arg1)->SetSpecularColor(arg2,arg3,arg4,arg5);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_IMaterial_SetSpecularFactor(void * jarg1, float jarg2) {
+  swig::IMaterial *arg1 = (swig::IMaterial *) 0 ;
+  float arg2 ;
+  std::shared_ptr< swig::IMaterial > *smartarg1 = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IMaterial > *)jarg1;
+  arg1 = (swig::IMaterial *)(smartarg1 ? smartarg1->get() : 0); 
+  arg2 = (float)jarg2; 
+  (arg1)->SetSpecularFactor(arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_IMaterial_SetEmissionColor(void * jarg1, float jarg2, float jarg3, float jarg4, float jarg5) {
+  swig::IMaterial *arg1 = (swig::IMaterial *) 0 ;
+  float arg2 ;
+  float arg3 ;
+  float arg4 ;
+  float arg5 ;
+  std::shared_ptr< swig::IMaterial > *smartarg1 = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IMaterial > *)jarg1;
+  arg1 = (swig::IMaterial *)(smartarg1 ? smartarg1->get() : 0); 
+  arg2 = (float)jarg2; 
+  arg3 = (float)jarg3; 
+  arg4 = (float)jarg4; 
+  arg5 = (float)jarg5; 
+  (arg1)->SetEmissionColor(arg2,arg3,arg4,arg5);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_IMaterial_SetDiffuseTexture(void * jarg1, wchar_t * jarg2) {
+  swig::IMaterial *arg1 = (swig::IMaterial *) 0 ;
+  std::wstring arg2 ;
+  std::shared_ptr< swig::IMaterial > *smartarg1 = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IMaterial > *)jarg1;
+  arg1 = (swig::IMaterial *)(smartarg1 ? smartarg1->get() : 0); 
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null wstring", 0);
+    return ;
+  }
+  (&arg2)->assign(jarg2); 
+  (arg1)->SetDiffuseTexture(arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_IMaterial_SetReflectionTexture(void * jarg1, wchar_t * jarg2) {
+  swig::IMaterial *arg1 = (swig::IMaterial *) 0 ;
+  std::wstring arg2 ;
+  std::shared_ptr< swig::IMaterial > *smartarg1 = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IMaterial > *)jarg1;
+  arg1 = (swig::IMaterial *)(smartarg1 ? smartarg1->get() : 0); 
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null wstring", 0);
+    return ;
+  }
+  (&arg2)->assign(jarg2); 
+  (arg1)->SetReflectionTexture(arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_IMaterial_SetBumpTexture(void * jarg1, wchar_t * jarg2) {
+  swig::IMaterial *arg1 = (swig::IMaterial *) 0 ;
+  std::wstring arg2 ;
+  std::shared_ptr< swig::IMaterial > *smartarg1 = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IMaterial > *)jarg1;
+  arg1 = (swig::IMaterial *)(smartarg1 ? smartarg1->get() : 0); 
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null wstring", 0);
+    return ;
+  }
+  (&arg2)->assign(jarg2); 
+  (arg1)->SetBumpTexture(arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_delete_IMaterial(void * jarg1) {
+  swig::IMaterial *arg1 = (swig::IMaterial *) 0 ;
+  std::shared_ptr< swig::IMaterial > *smartarg1 = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IMaterial > *)jarg1;
+  arg1 = (swig::IMaterial *)(smartarg1 ? smartarg1->get() : 0); 
+  (void)arg1; delete smartarg1;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_delete_ISceneNode(void * jarg1) {
+  swig::ISceneNode *arg1 = (swig::ISceneNode *) 0 ;
+  std::shared_ptr< swig::ISceneNode > *smartarg1 = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::ISceneNode > *)jarg1;
+  arg1 = (swig::ISceneNode *)(smartarg1 ? smartarg1->get() : 0); 
+  (void)arg1; delete smartarg1;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_ISceneNode_Handle(void * jarg1) {
+  void * jresult ;
+  swig::ISceneNode *arg1 = (swig::ISceneNode *) 0 ;
+  std::shared_ptr< swig::ISceneNode > *smartarg1 = 0 ;
+  void *result = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::ISceneNode > *)jarg1;
+  arg1 = (swig::ISceneNode *)(smartarg1 ? smartarg1->get() : 0); 
+  result = (void *)(arg1)->Handle();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_delete_IShapeNode(void * jarg1) {
+  swig::IShapeNode *arg1 = (swig::IShapeNode *) 0 ;
+  std::shared_ptr< swig::IShapeNode > *smartarg1 = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IShapeNode > *)jarg1;
+  arg1 = (swig::IShapeNode *)(smartarg1 ? smartarg1->get() : 0); 
+  (void)arg1; delete smartarg1;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_IGroupNode_AddChildNode(void * jarg1, void * jarg2) {
+  swig::IGroupNode *arg1 = (swig::IGroupNode *) 0 ;
+  std::shared_ptr< swig::ISceneNode > arg2 ;
+  std::shared_ptr< swig::IGroupNode > *smartarg1 = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IGroupNode > *)jarg1;
+  arg1 = (swig::IGroupNode *)(smartarg1 ? smartarg1->get() : 0); 
+  if (jarg2) arg2 = *(std::shared_ptr< swig::ISceneNode > *)jarg2; 
+  (arg1)->AddChildNode(arg2);
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_IGroupNode_FromHandle(void * jarg1) {
+  void * jresult ;
+  void *arg1 = (void *) 0 ;
+  std::shared_ptr< swig::IGroupNode > result;
+  
+  arg1 = (void *)jarg1; 
+  result = swig::IGroupNode::FromHandle(arg1);
+  jresult = result ? new std::shared_ptr< swig::IGroupNode >(result) : 0; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_delete_IGroupNode(void * jarg1) {
+  swig::IGroupNode *arg1 = (swig::IGroupNode *) 0 ;
+  std::shared_ptr< swig::IGroupNode > *smartarg1 = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IGroupNode > *)jarg1;
+  arg1 = (swig::IGroupNode *)(smartarg1 ? smartarg1->get() : 0); 
+  (void)arg1; delete smartarg1;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Scene_CreateGeometry() {
+  void * jresult ;
+  std::shared_ptr< swig::IGeometry > result;
+  
+  result = swig::Scene::CreateGeometry();
+  jresult = result ? new std::shared_ptr< swig::IGeometry >(result) : 0; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Scene_CreateMaterial() {
+  void * jresult ;
+  std::shared_ptr< swig::IMaterial > result;
+  
+  result = swig::Scene::CreateMaterial();
+  jresult = result ? new std::shared_ptr< swig::IMaterial >(result) : 0; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Scene_CreateShapeNode(void * jarg1, void * jarg2) {
+  void * jresult ;
+  std::shared_ptr< swig::IMaterial > arg1 ;
+  std::shared_ptr< swig::IGeometry > arg2 ;
+  std::shared_ptr< swig::IShapeNode > result;
+  
+  if (jarg1) arg1 = *(std::shared_ptr< swig::IMaterial > *)jarg1; 
+  if (jarg2) arg2 = *(std::shared_ptr< swig::IGeometry > *)jarg2; 
+  result = swig::Scene::CreateShapeNode(arg1,arg2);
+  jresult = result ? new std::shared_ptr< swig::IShapeNode >(result) : 0; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Scene_CreateGroupNode(void * jarg1) {
+  void * jresult ;
+  math3D::Matrix *arg1 = 0 ;
+  std::shared_ptr< swig::IGroupNode > result;
+  
+  arg1 = (math3D::Matrix *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "math3D::Matrix const & type is null", 0);
+    return 0;
+  } 
+  result = swig::Scene::CreateGroupNode((math3D::Matrix const &)*arg1);
+  jresult = result ? new std::shared_ptr< swig::IGroupNode >(result) : 0; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_Scene() {
+  void * jresult ;
+  swig::Scene *result = 0 ;
+  
+  result = (swig::Scene *)new swig::Scene();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_delete_Scene(void * jarg1) {
+  swig::Scene *arg1 = (swig::Scene *) 0 ;
+  
+  arg1 = (swig::Scene *)jarg1; 
+  delete arg1;
+}
+
+
 SWIGEXPORT int SWIGSTDCALL CSharp_eh_IController_LBUTTON_get() {
   int jresult ;
   int result;
@@ -1894,6 +5190,19 @@ SWIGEXPORT void SWIGSTDCALL CSharp_eh_IViewport_setCamera(void * jarg1, int jarg
 }
 
 
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_IViewport_setScene(void * jarg1, void * jarg2) {
+  swig::IViewport *arg1 = (swig::IViewport *) 0 ;
+  std::shared_ptr< swig::ISceneNode > arg2 ;
+  std::shared_ptr< swig::IViewport > *smartarg1 = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IViewport > *)jarg1;
+  arg1 = (swig::IViewport *)(smartarg1 ? smartarg1->get() : 0); 
+  if (jarg2) arg2 = *(std::shared_ptr< swig::ISceneNode > *)jarg2; 
+  (arg1)->setScene(arg2);
+}
+
+
 SWIGEXPORT void SWIGSTDCALL CSharp_eh_delete_IViewport(void * jarg1) {
   swig::IViewport *arg1 = (swig::IViewport *) 0 ;
   std::shared_ptr< swig::IViewport > *smartarg1 = 0 ;
@@ -1905,17 +5214,456 @@ SWIGEXPORT void SWIGSTDCALL CSharp_eh_delete_IViewport(void * jarg1) {
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_SceneIO_read__SWIG_0(void * jarg1, wchar_t * jarg2, void * jarg3) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_CreateViewport(void * jarg1) {
+  void * jresult ;
+  void *arg1 = (void *) 0 ;
+  std::shared_ptr< swig::IViewport > result;
+  
+  arg1 = (void *)jarg1; 
+  result = swig::CreateViewport(arg1);
+  jresult = result ? new std::shared_ptr< swig::IViewport >(result) : 0; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_IPlugIn_about(void * jarg1) {
+  void * jresult ;
+  swig::IPlugIn *arg1 = (swig::IPlugIn *) 0 ;
+  std::shared_ptr< swig::IPlugIn const > *smartarg1 = 0 ;
+  std::wstring result;
+  
+  
+  smartarg1 = (std::shared_ptr< const swig::IPlugIn > *)jarg1;
+  arg1 = (swig::IPlugIn *)(smartarg1 ? smartarg1->get() : 0); 
+  result = ((swig::IPlugIn const *)arg1)->about();
+  jresult = SWIG_csharp_wstring_callback((&result)->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_IPlugIn_aboutSwigExplicitIPlugIn(void * jarg1) {
+  void * jresult ;
+  swig::IPlugIn *arg1 = (swig::IPlugIn *) 0 ;
+  std::shared_ptr< swig::IPlugIn const > *smartarg1 = 0 ;
+  std::wstring result;
+  
+  
+  smartarg1 = (std::shared_ptr< const swig::IPlugIn > *)jarg1;
+  arg1 = (swig::IPlugIn *)(smartarg1 ? smartarg1->get() : 0); 
+  result = ((swig::IPlugIn const *)arg1)->swig::IPlugIn::about();
+  jresult = SWIG_csharp_wstring_callback((&result)->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT int SWIGSTDCALL CSharp_eh_IPlugIn_file_type_count(void * jarg1) {
+  int jresult ;
+  swig::IPlugIn *arg1 = (swig::IPlugIn *) 0 ;
+  std::shared_ptr< swig::IPlugIn const > *smartarg1 = 0 ;
+  int result;
+  
+  
+  smartarg1 = (std::shared_ptr< const swig::IPlugIn > *)jarg1;
+  arg1 = (swig::IPlugIn *)(smartarg1 ? smartarg1->get() : 0); 
+  result = (int)((swig::IPlugIn const *)arg1)->file_type_count();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT int SWIGSTDCALL CSharp_eh_IPlugIn_file_type_countSwigExplicitIPlugIn(void * jarg1) {
+  int jresult ;
+  swig::IPlugIn *arg1 = (swig::IPlugIn *) 0 ;
+  std::shared_ptr< swig::IPlugIn const > *smartarg1 = 0 ;
+  int result;
+  
+  
+  smartarg1 = (std::shared_ptr< const swig::IPlugIn > *)jarg1;
+  arg1 = (swig::IPlugIn *)(smartarg1 ? smartarg1->get() : 0); 
+  result = (int)((swig::IPlugIn const *)arg1)->swig::IPlugIn::file_type_count();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_IPlugIn_file_type(void * jarg1, int jarg2) {
+  void * jresult ;
+  swig::IPlugIn *arg1 = (swig::IPlugIn *) 0 ;
+  int arg2 ;
+  std::shared_ptr< swig::IPlugIn > *smartarg1 = 0 ;
+  std::wstring result;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IPlugIn > *)jarg1;
+  arg1 = (swig::IPlugIn *)(smartarg1 ? smartarg1->get() : 0); 
+  arg2 = (int)jarg2; 
+  result = (arg1)->file_type(arg2);
+  jresult = SWIG_csharp_wstring_callback((&result)->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_IPlugIn_file_typeSwigExplicitIPlugIn(void * jarg1, int jarg2) {
+  void * jresult ;
+  swig::IPlugIn *arg1 = (swig::IPlugIn *) 0 ;
+  int arg2 ;
+  std::shared_ptr< swig::IPlugIn > *smartarg1 = 0 ;
+  std::wstring result;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IPlugIn > *)jarg1;
+  arg1 = (swig::IPlugIn *)(smartarg1 ? smartarg1->get() : 0); 
+  arg2 = (int)jarg2; 
+  result = (arg1)->swig::IPlugIn::file_type(arg2);
+  jresult = SWIG_csharp_wstring_callback((&result)->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_IPlugIn_file_exts(void * jarg1, int jarg2) {
+  void * jresult ;
+  swig::IPlugIn *arg1 = (swig::IPlugIn *) 0 ;
+  int arg2 ;
+  std::shared_ptr< swig::IPlugIn > *smartarg1 = 0 ;
+  std::wstring result;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IPlugIn > *)jarg1;
+  arg1 = (swig::IPlugIn *)(smartarg1 ? smartarg1->get() : 0); 
+  arg2 = (int)jarg2; 
+  result = (arg1)->file_exts(arg2);
+  jresult = SWIG_csharp_wstring_callback((&result)->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_IPlugIn_file_extsSwigExplicitIPlugIn(void * jarg1, int jarg2) {
+  void * jresult ;
+  swig::IPlugIn *arg1 = (swig::IPlugIn *) 0 ;
+  int arg2 ;
+  std::shared_ptr< swig::IPlugIn > *smartarg1 = 0 ;
+  std::wstring result;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IPlugIn > *)jarg1;
+  arg1 = (swig::IPlugIn *)(smartarg1 ? smartarg1->get() : 0); 
+  arg2 = (int)jarg2; 
+  result = (arg1)->swig::IPlugIn::file_exts(arg2);
+  jresult = SWIG_csharp_wstring_callback((&result)->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_IPlugIn_canWrite(void * jarg1, int jarg2) {
   unsigned int jresult ;
-  swig::IViewport *arg1 = (swig::IViewport *) 0 ;
-  std::wstring arg2 ;
-  swig::Callback *arg3 = (swig::Callback *) 0 ;
-  std::shared_ptr< swig::IViewport > *smartarg1 = 0 ;
+  swig::IPlugIn *arg1 = (swig::IPlugIn *) 0 ;
+  int arg2 ;
+  std::shared_ptr< swig::IPlugIn const > *smartarg1 = 0 ;
   bool result;
   
   
-  smartarg1 = (std::shared_ptr<  swig::IViewport > *)jarg1;
-  arg1 = (swig::IViewport *)(smartarg1 ? smartarg1->get() : 0); 
+  smartarg1 = (std::shared_ptr< const swig::IPlugIn > *)jarg1;
+  arg1 = (swig::IPlugIn *)(smartarg1 ? smartarg1->get() : 0); 
+  arg2 = (int)jarg2; 
+  result = (bool)((swig::IPlugIn const *)arg1)->canWrite(arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_IPlugIn_canWriteSwigExplicitIPlugIn(void * jarg1, int jarg2) {
+  unsigned int jresult ;
+  swig::IPlugIn *arg1 = (swig::IPlugIn *) 0 ;
+  int arg2 ;
+  std::shared_ptr< swig::IPlugIn const > *smartarg1 = 0 ;
+  bool result;
+  
+  
+  smartarg1 = (std::shared_ptr< const swig::IPlugIn > *)jarg1;
+  arg1 = (swig::IPlugIn *)(smartarg1 ? smartarg1->get() : 0); 
+  arg2 = (int)jarg2; 
+  result = (bool)((swig::IPlugIn const *)arg1)->swig::IPlugIn::canWrite(arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_IPlugIn_canRead(void * jarg1, int jarg2) {
+  unsigned int jresult ;
+  swig::IPlugIn *arg1 = (swig::IPlugIn *) 0 ;
+  int arg2 ;
+  std::shared_ptr< swig::IPlugIn const > *smartarg1 = 0 ;
+  bool result;
+  
+  
+  smartarg1 = (std::shared_ptr< const swig::IPlugIn > *)jarg1;
+  arg1 = (swig::IPlugIn *)(smartarg1 ? smartarg1->get() : 0); 
+  arg2 = (int)jarg2; 
+  result = (bool)((swig::IPlugIn const *)arg1)->canRead(arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_IPlugIn_canReadSwigExplicitIPlugIn(void * jarg1, int jarg2) {
+  unsigned int jresult ;
+  swig::IPlugIn *arg1 = (swig::IPlugIn *) 0 ;
+  int arg2 ;
+  std::shared_ptr< swig::IPlugIn const > *smartarg1 = 0 ;
+  bool result;
+  
+  
+  smartarg1 = (std::shared_ptr< const swig::IPlugIn > *)jarg1;
+  arg1 = (swig::IPlugIn *)(smartarg1 ? smartarg1->get() : 0); 
+  arg2 = (int)jarg2; 
+  result = (bool)((swig::IPlugIn const *)arg1)->swig::IPlugIn::canRead(arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_IPlugIn_readFile__SWIG_0(void * jarg1, wchar_t * jarg2, void * jarg3, void * jarg4) {
+  unsigned int jresult ;
+  swig::IPlugIn *arg1 = (swig::IPlugIn *) 0 ;
+  std::wstring arg2 ;
+  void *arg3 = (void *) 0 ;
+  swig::Callback *arg4 = (swig::Callback *) 0 ;
+  std::shared_ptr< swig::IPlugIn > *smartarg1 = 0 ;
+  bool result;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IPlugIn > *)jarg1;
+  arg1 = (swig::IPlugIn *)(smartarg1 ? smartarg1->get() : 0); 
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null wstring", 0);
+    return 0;
+  }
+  (&arg2)->assign(jarg2); 
+  arg3 = (void *)jarg3; 
+  arg4 = (swig::Callback *)jarg4; 
+  result = (bool)(arg1)->readFile(arg2,arg3,arg4);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_IPlugIn_readFileSwigExplicitIPlugIn__SWIG_0(void * jarg1, wchar_t * jarg2, void * jarg3, void * jarg4) {
+  unsigned int jresult ;
+  swig::IPlugIn *arg1 = (swig::IPlugIn *) 0 ;
+  std::wstring arg2 ;
+  void *arg3 = (void *) 0 ;
+  swig::Callback *arg4 = (swig::Callback *) 0 ;
+  std::shared_ptr< swig::IPlugIn > *smartarg1 = 0 ;
+  bool result;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IPlugIn > *)jarg1;
+  arg1 = (swig::IPlugIn *)(smartarg1 ? smartarg1->get() : 0); 
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null wstring", 0);
+    return 0;
+  }
+  (&arg2)->assign(jarg2); 
+  arg3 = (void *)jarg3; 
+  arg4 = (swig::Callback *)jarg4; 
+  result = (bool)(arg1)->swig::IPlugIn::readFile(arg2,arg3,arg4);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_IPlugIn_readFile__SWIG_1(void * jarg1, wchar_t * jarg2, void * jarg3) {
+  unsigned int jresult ;
+  swig::IPlugIn *arg1 = (swig::IPlugIn *) 0 ;
+  std::wstring arg2 ;
+  void *arg3 = (void *) 0 ;
+  std::shared_ptr< swig::IPlugIn > *smartarg1 = 0 ;
+  bool result;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IPlugIn > *)jarg1;
+  arg1 = (swig::IPlugIn *)(smartarg1 ? smartarg1->get() : 0); 
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null wstring", 0);
+    return 0;
+  }
+  (&arg2)->assign(jarg2); 
+  arg3 = (void *)jarg3; 
+  result = (bool)(arg1)->readFile(arg2,arg3);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_IPlugIn_readFileSwigExplicitIPlugIn__SWIG_1(void * jarg1, wchar_t * jarg2, void * jarg3) {
+  unsigned int jresult ;
+  swig::IPlugIn *arg1 = (swig::IPlugIn *) 0 ;
+  std::wstring arg2 ;
+  void *arg3 = (void *) 0 ;
+  std::shared_ptr< swig::IPlugIn > *smartarg1 = 0 ;
+  bool result;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IPlugIn > *)jarg1;
+  arg1 = (swig::IPlugIn *)(smartarg1 ? smartarg1->get() : 0); 
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null wstring", 0);
+    return 0;
+  }
+  (&arg2)->assign(jarg2); 
+  arg3 = (void *)jarg3; 
+  result = (bool)(arg1)->swig::IPlugIn::readFile(arg2,arg3);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_IPlugIn_writeFile__SWIG_0(void * jarg1, wchar_t * jarg2, void * jarg3, void * jarg4) {
+  unsigned int jresult ;
+  swig::IPlugIn *arg1 = (swig::IPlugIn *) 0 ;
+  std::wstring arg2 ;
+  void *arg3 = (void *) 0 ;
+  swig::Callback *arg4 = (swig::Callback *) 0 ;
+  std::shared_ptr< swig::IPlugIn > *smartarg1 = 0 ;
+  bool result;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IPlugIn > *)jarg1;
+  arg1 = (swig::IPlugIn *)(smartarg1 ? smartarg1->get() : 0); 
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null wstring", 0);
+    return 0;
+  }
+  (&arg2)->assign(jarg2); 
+  arg3 = (void *)jarg3; 
+  arg4 = (swig::Callback *)jarg4; 
+  result = (bool)(arg1)->writeFile(arg2,arg3,arg4);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_IPlugIn_writeFileSwigExplicitIPlugIn__SWIG_0(void * jarg1, wchar_t * jarg2, void * jarg3, void * jarg4) {
+  unsigned int jresult ;
+  swig::IPlugIn *arg1 = (swig::IPlugIn *) 0 ;
+  std::wstring arg2 ;
+  void *arg3 = (void *) 0 ;
+  swig::Callback *arg4 = (swig::Callback *) 0 ;
+  std::shared_ptr< swig::IPlugIn > *smartarg1 = 0 ;
+  bool result;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IPlugIn > *)jarg1;
+  arg1 = (swig::IPlugIn *)(smartarg1 ? smartarg1->get() : 0); 
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null wstring", 0);
+    return 0;
+  }
+  (&arg2)->assign(jarg2); 
+  arg3 = (void *)jarg3; 
+  arg4 = (swig::Callback *)jarg4; 
+  result = (bool)(arg1)->swig::IPlugIn::writeFile(arg2,arg3,arg4);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_IPlugIn_writeFile__SWIG_1(void * jarg1, wchar_t * jarg2, void * jarg3) {
+  unsigned int jresult ;
+  swig::IPlugIn *arg1 = (swig::IPlugIn *) 0 ;
+  std::wstring arg2 ;
+  void *arg3 = (void *) 0 ;
+  std::shared_ptr< swig::IPlugIn > *smartarg1 = 0 ;
+  bool result;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IPlugIn > *)jarg1;
+  arg1 = (swig::IPlugIn *)(smartarg1 ? smartarg1->get() : 0); 
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null wstring", 0);
+    return 0;
+  }
+  (&arg2)->assign(jarg2); 
+  arg3 = (void *)jarg3; 
+  result = (bool)(arg1)->writeFile(arg2,arg3);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_IPlugIn_writeFileSwigExplicitIPlugIn__SWIG_1(void * jarg1, wchar_t * jarg2, void * jarg3) {
+  unsigned int jresult ;
+  swig::IPlugIn *arg1 = (swig::IPlugIn *) 0 ;
+  std::wstring arg2 ;
+  void *arg3 = (void *) 0 ;
+  std::shared_ptr< swig::IPlugIn > *smartarg1 = 0 ;
+  bool result;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IPlugIn > *)jarg1;
+  arg1 = (swig::IPlugIn *)(smartarg1 ? smartarg1->get() : 0); 
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null wstring", 0);
+    return 0;
+  }
+  (&arg2)->assign(jarg2); 
+  arg3 = (void *)jarg3; 
+  result = (bool)(arg1)->swig::IPlugIn::writeFile(arg2,arg3);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_IPlugIn() {
+  void * jresult ;
+  swig::IPlugIn *result = 0 ;
+  
+  result = (swig::IPlugIn *)new SwigDirector_IPlugIn();
+  
+  jresult = result ? new std::shared_ptr<  swig::IPlugIn >(result SWIG_NO_NULL_DELETER_1) : 0;
+  
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_delete_IPlugIn(void * jarg1) {
+  swig::IPlugIn *arg1 = (swig::IPlugIn *) 0 ;
+  std::shared_ptr< swig::IPlugIn > *smartarg1 = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IPlugIn > *)jarg1;
+  arg1 = (swig::IPlugIn *)(smartarg1 ? smartarg1->get() : 0); 
+  (void)arg1; delete smartarg1;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_IPlugIn_director_connect(void *objarg, SwigDirector_IPlugIn::SWIG_Callback0_t callback0, SwigDirector_IPlugIn::SWIG_Callback1_t callback1, SwigDirector_IPlugIn::SWIG_Callback2_t callback2, SwigDirector_IPlugIn::SWIG_Callback3_t callback3, SwigDirector_IPlugIn::SWIG_Callback4_t callback4, SwigDirector_IPlugIn::SWIG_Callback5_t callback5, SwigDirector_IPlugIn::SWIG_Callback6_t callback6, SwigDirector_IPlugIn::SWIG_Callback7_t callback7, SwigDirector_IPlugIn::SWIG_Callback8_t callback8, SwigDirector_IPlugIn::SWIG_Callback9_t callback9) {
+  std::shared_ptr< swig::IPlugIn > *obj = (std::shared_ptr< swig::IPlugIn > *)objarg;
+  // Keep a local instance of the smart pointer around while we are using the raw pointer
+  // Avoids using smart pointer specific API.
+  SwigDirector_IPlugIn *director = dynamic_cast<SwigDirector_IPlugIn *>(obj->operator->());
+  if (director) {
+    director->swig_connect_director(callback0, callback1, callback2, callback3, callback4, callback5, callback6, callback7, callback8, callback9);
+  }
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_SceneIO_RegisterPlugIn(void * jarg1) {
+  std::shared_ptr< swig::IPlugIn > arg1 ;
+  
+  if (jarg1) arg1 = *(std::shared_ptr< swig::IPlugIn > *)jarg1; 
+  swig::SceneIO::RegisterPlugIn(arg1);
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_SceneIO_read__SWIG_0(void * jarg1, wchar_t * jarg2, void * jarg3) {
+  unsigned int jresult ;
+  std::shared_ptr< swig::IViewport > arg1 ;
+  std::wstring arg2 ;
+  swig::Callback *arg3 = (swig::Callback *) 0 ;
+  bool result;
+  
+  if (jarg1) arg1 = *(std::shared_ptr< swig::IViewport > *)jarg1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null wstring", 0);
     return 0;
@@ -1930,14 +5678,11 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_SceneIO_read__SWIG_0(void * jarg1,
 
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_SceneIO_read__SWIG_1(void * jarg1, wchar_t * jarg2) {
   unsigned int jresult ;
-  swig::IViewport *arg1 = (swig::IViewport *) 0 ;
+  std::shared_ptr< swig::IViewport > arg1 ;
   std::wstring arg2 ;
-  std::shared_ptr< swig::IViewport > *smartarg1 = 0 ;
   bool result;
   
-  
-  smartarg1 = (std::shared_ptr<  swig::IViewport > *)jarg1;
-  arg1 = (swig::IViewport *)(smartarg1 ? smartarg1->get() : 0); 
+  if (jarg1) arg1 = *(std::shared_ptr< swig::IViewport > *)jarg1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null wstring", 0);
     return 0;
@@ -1951,15 +5696,12 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_SceneIO_read__SWIG_1(void * jarg1,
 
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_SceneIO_write__SWIG_0(void * jarg1, wchar_t * jarg2, void * jarg3) {
   unsigned int jresult ;
-  swig::IViewport *arg1 = (swig::IViewport *) 0 ;
+  std::shared_ptr< swig::IViewport > arg1 ;
   std::wstring arg2 ;
   swig::Callback *arg3 = (swig::Callback *) 0 ;
-  std::shared_ptr< swig::IViewport > *smartarg1 = 0 ;
   bool result;
   
-  
-  smartarg1 = (std::shared_ptr<  swig::IViewport > *)jarg1;
-  arg1 = (swig::IViewport *)(smartarg1 ? smartarg1->get() : 0); 
+  if (jarg1) arg1 = *(std::shared_ptr< swig::IViewport > *)jarg1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null wstring", 0);
     return 0;
@@ -1974,14 +5716,11 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_SceneIO_write__SWIG_0(void * jarg1
 
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_eh_SceneIO_write__SWIG_1(void * jarg1, wchar_t * jarg2) {
   unsigned int jresult ;
-  swig::IViewport *arg1 = (swig::IViewport *) 0 ;
+  std::shared_ptr< swig::IViewport > arg1 ;
   std::wstring arg2 ;
-  std::shared_ptr< swig::IViewport > *smartarg1 = 0 ;
   bool result;
   
-  
-  smartarg1 = (std::shared_ptr<  swig::IViewport > *)jarg1;
-  arg1 = (swig::IViewport *)(smartarg1 ? smartarg1->get() : 0); 
+  if (jarg1) arg1 = *(std::shared_ptr< swig::IViewport > *)jarg1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null wstring", 0);
     return 0;
@@ -2043,17 +5782,13 @@ SWIGEXPORT void SWIGSTDCALL CSharp_eh_delete_SceneIO(void * jarg1) {
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_eh_CreateViewport(void * jarg1) {
-  void * jresult ;
-  void *arg1 = (void *) 0 ;
-  std::shared_ptr< swig::IViewport > result;
-  
-  arg1 = (void *)jarg1; 
-  result = swig::CreateViewport(arg1);
-  jresult = result ? new std::shared_ptr< swig::IViewport >(result) : 0; 
-  return jresult;
+SWIGEXPORT std::shared_ptr< swig::ISceneNode > * SWIGSTDCALL CSharp_eh_IShapeNode_SWIGSmartPtrUpcast(std::shared_ptr< swig::IShapeNode > *jarg1) {
+    return jarg1 ? new std::shared_ptr< swig::ISceneNode >(*jarg1) : 0;
 }
 
+SWIGEXPORT std::shared_ptr< swig::ISceneNode > * SWIGSTDCALL CSharp_eh_IGroupNode_SWIGSmartPtrUpcast(std::shared_ptr< swig::IGroupNode > *jarg1) {
+    return jarg1 ? new std::shared_ptr< swig::ISceneNode >(*jarg1) : 0;
+}
 
 #ifdef __cplusplus
 }

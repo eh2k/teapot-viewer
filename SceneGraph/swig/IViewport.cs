@@ -97,6 +97,11 @@ public class IViewport : global::System.IDisposable {
     if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
   }
 
+  public virtual void setScene(ISceneNode scene) {
+    ehPINVOKE.IViewport_setScene(swigCPtr, ISceneNode.getCPtr(scene));
+    if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
+  }
+
 }
 
 }

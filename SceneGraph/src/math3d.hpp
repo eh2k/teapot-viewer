@@ -33,12 +33,9 @@ namespace math3D
 	typedef float    Float;
 	typedef unsigned Uint;
 
-#ifndef FLT_MAX
-	static const Float FLT_MAX = 3.402823466e+38F;
-#endif
 	static const Float PI = 3.14159265358979323846f;
 
-	class Uint_vec: public std::vector<Uint> {};
+	typedef std::vector<Uint> Uint_vec;
 
 	inline bool fequal(Float a, Float b)
 	{
@@ -281,7 +278,29 @@ namespace math3D
 		Matrix(const Matrix &m)
 		{
 		    for(int i = 0; i < 16; i++)
-                data[i] = m.data[i];
+			data[i] = m.data[i];
+		}
+		Matrix(Float a1, Float a2, Float a3, Float a4,
+		       Float b1, Float b2, Float b3, Float b4,
+		       Float c1, Float c2, Float c3, Float c4,
+		       Float d1, Float d2, Float d3, Float d4 )
+		{
+			data[0] = a1;
+			data[1] = a2;
+			data[2] = a3;
+			data[3] = a4;
+			data[4] = b1;
+			data[5] = b2;
+			data[6] = b3;
+			data[7] = b4;
+			data[8] = c1;
+			data[9] = c2;
+			data[10] = c3;
+			data[11] = c4;
+			data[12] = d1;
+			data[13] = d2;
+			data[14] = d3;
+			data[15] = d4;
 		}
 		~Matrix()
 		{};

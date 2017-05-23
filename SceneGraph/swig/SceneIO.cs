@@ -40,6 +40,10 @@ public class SceneIO : global::System.IDisposable {
     }
   }
 
+  public static void RegisterPlugIn(IPlugIn plugIn) {
+    ehPINVOKE.SceneIO_RegisterPlugIn(IPlugIn.getCPtr(plugIn));
+  }
+
   public static bool read(IViewport viewPort, string filePath, Callback callback) {
     bool ret = ehPINVOKE.SceneIO_read__SWIG_0(IViewport.getCPtr(viewPort), filePath, Callback.getCPtr(callback));
     if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();

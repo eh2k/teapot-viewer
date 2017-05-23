@@ -142,7 +142,7 @@ namespace eh
 			virtual Uint file_type_count() const = 0;
 			virtual std::wstring file_type(Uint i) const = 0;
 			virtual std::wstring file_exts(Uint i) const = 0;
-			virtual std::wstring rpath() const = 0;
+
 			virtual bool canWrite(Uint i) const = 0;
 			virtual bool canRead(Uint i) const = 0;
 
@@ -150,7 +150,8 @@ namespace eh
 			virtual bool write(const std::wstring& sFile, Ptr<Scene> pScene, SceneIO::progress_callback& progress) = 0;
 		};
 
-		SceneIO();
+		void RegisterPlugIn(std::shared_ptr<IPlugIn> plugIn);
+
 		~SceneIO();
 
 		static void setSetStatusTextCallback(status_callback);
@@ -159,12 +160,16 @@ namespace eh
 		static Ptr<Texture> createTexture(const std::wstring& text);
 		static Ptr<Texture> createTexture(const std::string& text);
 
+		static SceneIO& getInstance();
+
 		std::wstring getAboutString() const;
 		std::wstring getFileWildcards(bool bLoading = true) const;
 
 		bool read(const std::wstring& sFile, Ptr<Scene> pScene, progress_callback progress = NULL) const;
 		bool write(const std::wstring& sFile, Ptr<Scene> pScene, progress_callback progress = NULL) const;
 	private:
+		SceneIO();
+
 		bool execute(const std::wstring& file, Ptr<Scene> pScene, progress_callback progress, bool bLoading) const;
 
 		struct Impl;

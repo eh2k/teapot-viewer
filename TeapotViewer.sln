@@ -8,8 +8,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Direct3D9Driver", "Direct3D
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib3ds_loader", "lib3ds_loader\lib3ds_loader.vcxproj", "{1DC65348-E0BF-467F-AA48-9BE33C2A3CA9}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fcollada_loader", "fcollada_loader\fcollada_loader.vcxproj", "{C72D1BED-24B9-43A8-B1E3-48764FB89ACE}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "opencascade_loader", "opencascade_loader\opencascade_loader.vcxproj", "{B60B8DA4-6C0C-4582-B4BE-FCFEDCF26353}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sketchup_loader", "sketchup_loader\sketchup_loader.vcxproj", "{75925DEB-95F3-4B3C-94D5-10F5CFA67195}"
@@ -24,7 +22,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseUI", "BaseUI\BaseUI.csp
 		{39654846-427E-4C88-9F71-42E521CB8327} = {39654846-427E-4C88-9F71-42E521CB8327}
 		{1DC65348-E0BF-467F-AA48-9BE33C2A3CA9} = {1DC65348-E0BF-467F-AA48-9BE33C2A3CA9}
 		{B4CB9486-FDB1-4098-8A07-DB5AAAFF9241} = {B4CB9486-FDB1-4098-8A07-DB5AAAFF9241}
-		{C72D1BED-24B9-43A8-B1E3-48764FB89ACE} = {C72D1BED-24B9-43A8-B1E3-48764FB89ACE}
 	EndProjectSection
 EndProject
 Global
@@ -66,16 +63,6 @@ Global
 		{1DC65348-E0BF-467F-AA48-9BE33C2A3CA9}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{1DC65348-E0BF-467F-AA48-9BE33C2A3CA9}.Release|Win32.ActiveCfg = Release|Win32
 		{1DC65348-E0BF-467F-AA48-9BE33C2A3CA9}.Release|Win32.Build.0 = Release|Win32
-		{C72D1BED-24B9-43A8-B1E3-48764FB89ACE}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{C72D1BED-24B9-43A8-B1E3-48764FB89ACE}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{C72D1BED-24B9-43A8-B1E3-48764FB89ACE}.Debug|Mixed Platforms.Build.0 = Debug|Win32
-		{C72D1BED-24B9-43A8-B1E3-48764FB89ACE}.Debug|Win32.ActiveCfg = Debug|Win32
-		{C72D1BED-24B9-43A8-B1E3-48764FB89ACE}.Debug|Win32.Build.0 = Debug|Win32
-		{C72D1BED-24B9-43A8-B1E3-48764FB89ACE}.Release|Any CPU.ActiveCfg = Release|Win32
-		{C72D1BED-24B9-43A8-B1E3-48764FB89ACE}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{C72D1BED-24B9-43A8-B1E3-48764FB89ACE}.Release|Mixed Platforms.Build.0 = Release|Win32
-		{C72D1BED-24B9-43A8-B1E3-48764FB89ACE}.Release|Win32.ActiveCfg = Release|Win32
-		{C72D1BED-24B9-43A8-B1E3-48764FB89ACE}.Release|Win32.Build.0 = Release|Win32
 		{B60B8DA4-6C0C-4582-B4BE-FCFEDCF26353}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{B60B8DA4-6C0C-4582-B4BE-FCFEDCF26353}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
 		{B60B8DA4-6C0C-4582-B4BE-FCFEDCF26353}.Debug|Mixed Platforms.Build.0 = Debug|Win32

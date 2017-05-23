@@ -19,6 +19,7 @@ using System.Linq;
 
 namespace TeapotViewer
 {
+    using Assimp;
     using System.Runtime.InteropServices;
     using wx;
 
@@ -44,7 +45,9 @@ namespace TeapotViewer
         {
             this.Width = 640;
             this.Height = 480;
-            this.Icon = new Icon("BaseUI.Base.ico", BitmapType.wxBITMAP_TYPE_BMP_RESOURCE);
+            this.Icon = new Icon("TeapotViewer.Base.ico", BitmapType.wxBITMAP_TYPE_BMP_RESOURCE);
+
+            eh.SceneIO.RegisterPlugIn(new AssimpPlugIn());
 
             var menuBar = new MenuBar();
             Action updateCameraMenuItems = () => { };
@@ -53,6 +56,12 @@ namespace TeapotViewer
                 var fileMenu = new Menu();
                 fileMenu.AddMenuItem("&Open file\tCtrl-O", (a) =>
                 {
+                    //var importer = new AssimpContext();
+                    //var formats = "All known Formats|" + string.Join(";", importer.GetSupportedImportFormats().Select(f => "*" + f)) + ";*.zip|";
+
+                    //formats += "Zip Files (*.zip)|*.zip|";
+                    //formats += "All Files (*.*)|*.*||";
+
                     var fd = new FileDialog(this,
                         "Open..",
                         "",
@@ -210,13 +219,13 @@ namespace TeapotViewer
                 var helpMenu = new Menu();
                 helpMenu.AddMenuItem("&About", (a) =>
                 {
-                    var size = new wxSize(500, 400);
+                    var size = new wxSize(570, 400);
                     var pos = new Point(this.Rect.Location.X + this.Rect.Size.Width / 2 - size.Width / 2, this.Rect.Location.Y + this.Rect.Size.Height / 2 - size.Height / 2);
                     var dlg = new wx.Dialog(this, wxID_ANY, "About", pos, size);
 
                     var h = new wx.BoxSizer(wx.Orientation.wxHORIZONTAL);
 
-                    var hyperlink = new HtmlCtrl(dlg) { Width = 370, Height = 320 };
+                    var hyperlink = new HtmlCtrl(dlg) { Width = 450, Height = 320 };
                     hyperlink.SetPage(string.Format("<body bgcolor='{5}'><h5>Teapot-Viewer {2}</h5><p>Copyright (C) 2010-2017 by E.Heidt</p> <p> <a href='{0}'>{1}</a> </p><hr/><pre>{3}</pre><pre>{4}</pre></body>",
                         PROJECT_URL, PROJECT_URL, CURRENT_VERSION, eh.SceneIO.getAboutString(), _canvas._viewPort.getDriverInfo(),
                         System.Drawing.ColorTranslator.ToHtml(Color.FromArgb(dlg.BackgroundColour.Red, dlg.BackgroundColour.Green, dlg.BackgroundColour.Blue))));

@@ -6,6 +6,7 @@
 #include <..\src\Scene.h>
 #include <..\src\SceneIO.h>
 #include <..\src\Controller.h>
+#include <..\src\VertexBuffer.h>
 
 #if defined(_MSC_VER)
 #include <windows.h>
@@ -21,11 +22,9 @@
 
 namespace swig
 {
-	using namespace eh;
-
 	struct BaseViewPort : public IViewport
 	{
-		Ptr<Viewport> _viewPort;
+		eh::Ptr<eh::Viewport> _viewPort;
 
 		void setDisplayRect(int x, int y, int dx, int dy) override
 		{
@@ -83,6 +82,8 @@ namespace swig
 
 			_viewPort->invalidate();
 		}
+
+		void setScene(std::shared_ptr<ISceneNode> scene);
 	};
 
 	struct D3DViewPort : public BaseViewPort
@@ -100,13 +101,13 @@ namespace swig
 
 		D3DViewPort(HWND hWnd)
 		{
-			typedef IDriver* (*CreateDriverFunc)(void* pWindow);
+			typedef eh::IDriver* (*CreateDriverFunc)(void* pWindow);
 
 			if (HMODULE hModule = LoadLibraryA("Direct3D9Driver.dll"))
 			{
 				auto CreateDriver = (CreateDriverFunc)GetProcAddress(hModule, "CreateDirect3D9Driver");
 
-				_viewPort = new Viewport(CreateDriver(hWnd));
+				_viewPort = new eh::Viewport(CreateDriver(hWnd));
 				_viewPort->setDisplayRect(0, 0, 1, 1);
 				_viewPort->setScene(_viewPort->getScene(), _viewPort->getScene()->createOrbitalCamera());
 			}
@@ -211,13 +212,13 @@ namespace swig
 				}
 			}
 
-			typedef IDriver* (*CreateDriverFunc)(void* pWindow);
+			typedef eh::IDriver* (*CreateDriverFunc)(void* pWindow);
 
 			if (HMODULE hModule = LoadLibraryA("OpenGLDriver.dll"))
 			{
 				auto CreateDriver = (CreateDriverFunc)GetProcAddress(hModule, "CreateOpenGL1Driver");
 
-				_viewPort = new Viewport(CreateDriver(hWnd));
+				_viewPort = new eh::Viewport(CreateDriver(hWnd));
 
 				_viewPort->setScene(_viewPort->getScene(), _viewPort->getScene()->createOrbitalCamera());
 			}
@@ -225,7 +226,7 @@ namespace swig
 
 		~OpenGLViewPort()
 		{
-			auto scene = Scene::create();
+			auto scene = eh::Scene::create();
 			_viewPort->setScene(scene, scene->createOrbitalCamera());
 		}
 	};
@@ -240,40 +241,250 @@ namespace swig
 
 	std::wstring SceneIO::getFileWildcards(bool read)
 	{
-		eh::SceneIO io;
-		return io.getFileWildcards(read);
+		return eh::SceneIO::getInstance().getFileWildcards(read);
 	}
 
 	std::wstring SceneIO::getAboutString()
 	{
-		eh::SceneIO io;
-		return io.getAboutString();
+		return eh::SceneIO::getInstance().getAboutString();
 	}
 
 
-	bool SceneIO::read(IViewport* viewPort, std::wstring filePath, Callback* callback/* = nullptr*/)
+	bool SceneIO::read(std::shared_ptr<IViewport> viewPort, std::wstring filePath, Callback* callback/* = nullptr*/)
 	{
-		eh::SceneIO io;
-		auto scene = Scene::create();
-		if (io.read(filePath, scene, [callback](float value) { if (callback) callback->call(value); }))
+		auto scene = eh::Scene::create();
+		if (eh::SceneIO::getInstance().read(filePath, scene, [callback](float value) { if (callback) callback->call(value); }))
 		{
-			((BaseViewPort*)viewPort)->_viewPort->setScene(scene, scene->createOrbitalCamera());
-			((BaseViewPort*)viewPort)->_viewPort->invalidate();
+			((BaseViewPort*)viewPort.get())->_viewPort->setScene(scene, scene->createOrbitalCamera());
+			((BaseViewPort*)viewPort.get())->_viewPort->invalidate();
 			return true;
 		}
 		else
 			return false;
 	}
 
-	bool SceneIO::write(IViewport* viewPort, std::wstring filePath, Callback* callback/* = nullptr*/)
+	bool SceneIO::write(std::shared_ptr<IViewport> viewPort, std::wstring filePath, Callback* callback/* = nullptr*/)
 	{
-		eh::SceneIO io;
-		auto scene = ((BaseViewPort*)viewPort)->_viewPort->getScene();
-		if (io.write(filePath, scene, [callback](float value) { if (callback) callback->call(value); }))
+		auto scene = ((BaseViewPort*)viewPort.get())->_viewPort->getScene();
+		if (eh::SceneIO::getInstance().write(filePath, scene, [callback](float value) { if (callback) callback->call(value); }))
 		{
 			return true;
 		}
 		else
 			return false;
+	}
+
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+	struct Geometry : public IGeometry
+	{
+		eh::Ptr<eh::IVertexBuffer> _p = nullptr;
+		eh::Uint_vec _indices;
+
+		Geometry(eh::Ptr<eh::IVertexBuffer> p) : _p(p)
+		{}
+
+		void AddVertex(const math3D::Vec3& p, const math3D::Vec3& n, const math3D::Vec3& t) override
+		{
+			_indices.push_back(_p->addVertex(p, n, t));
+		}
+	};
+
+	struct Material : public IMaterial
+	{
+		eh::Ptr<eh::Material> _p = nullptr;
+
+		Material(eh::Ptr<eh::Material> p) : _p(p)
+		{}
+
+		void SetDiffuseColor(float r, float g, float b, float a) override
+		{
+			_p->setDiffuse(eh::RGBA(r, g, b, a));
+		}
+
+		virtual void SetAmbientColor(float r, float g, float b, float a) override
+		{
+			_p->setAmbient(eh::RGBA(r, g, b, a));
+		}
+		virtual void SetSpecularColor(float r, float g, float b, float a)  override
+		{
+			_p->setSpecular(eh::RGBA(r, g, b, a));
+		}
+		virtual void SetSpecularFactor(float f)  override
+		{
+			_p->setSpecularFactor(f);
+		}
+		virtual void SetEmissionColor(float r, float g, float b, float a) override
+		{
+			_p->setEmission(eh::RGBA(r, g, b, a));
+		}
+
+		void SetDiffuseTexture(std::wstring fileName) override
+		{
+			_p->setTexture(eh::Texture::createFromFile(fileName));
+		}
+
+		void SetReflectionTexture(std::wstring fileName) override
+		{
+			_p->setReflTexture(eh::Texture::createFromFile(fileName));
+		}
+
+		void SetBumpTexture(std::wstring fileName) override
+		{
+			_p->setBumpTexture(eh::Texture::createFromFile(fileName));
+		}
+	};
+
+	struct ShapeNode : public IShapeNode
+	{
+		eh::Ptr<eh::ShapeNode> _p = nullptr;
+
+		void* Handle() override
+		{
+			return _p.get();
+		}
+
+		ShapeNode(eh::Ptr<eh::ShapeNode> p) : _p(p)
+		{}
+	};
+
+	struct GroupNode : public IGroupNode
+	{
+		eh::Ptr<eh::GroupNode> _p = nullptr;
+
+		GroupNode(eh::Ptr<eh::GroupNode> p) : _p(p)
+		{}
+
+		void* Handle() override
+		{
+			return _p.get();
+		}
+
+		void AddChildNode(std::shared_ptr<ISceneNode> childNode) override
+		{
+			ISceneNode* p = childNode.get();
+			if (auto pp = dynamic_cast<ShapeNode*>(p))
+				_p->addChildNodes(pp->_p);
+			else if (auto pp = dynamic_cast<GroupNode*>(p))
+				_p->addChildNodes(pp->_p);
+		}
+	};
+
+	std::shared_ptr<IGroupNode> IGroupNode::FromHandle(void* handle)
+	{
+		eh::GroupNode* p = dynamic_cast<eh::GroupNode*>((eh::SceneNode*)handle);
+		return std::make_shared<GroupNode>(p);
+	}
+
+	std::shared_ptr<IGeometry> Scene::CreateGeometry()
+	{
+		return std::make_shared<Geometry>(eh::CreateVertexBuffer(sizeof(eh::Vec3) * 2 + sizeof(eh::Float) * 2));
+	}
+
+	std::shared_ptr<IMaterial> Scene::CreateMaterial()
+	{
+		return std::make_shared<Material>(eh::Material::create());
+	}
+
+	std::shared_ptr<IShapeNode> Scene::CreateShapeNode(std::shared_ptr<IMaterial> material, std::shared_ptr<IGeometry> geometry)
+	{
+		auto m = (Material*)material.get();
+		auto g = (Geometry*)geometry.get();
+		return std::make_shared<ShapeNode>(eh::ShapeNode::create(m->_p, eh::Geometry::create(eh::Geometry::TRIANGLES, g->_p, g->_indices)));
+	}
+
+	std::shared_ptr<IGroupNode> Scene::CreateGroupNode(const math3D::Matrix& transform)
+	{
+		return std::make_shared<GroupNode>(eh::GroupNode::create(eh::SceneNodeVector(), transform));
+	}
+
+	void BaseViewPort::setScene(std::shared_ptr<ISceneNode> sceneNode)
+	{
+		auto scene = eh::Scene::create();
+
+		ISceneNode* p = sceneNode.get();
+		if (auto pp = dynamic_cast<ShapeNode*>(p))
+			scene->insertNode(pp->_p);
+		else if (auto pp = dynamic_cast<GroupNode*>(p))
+			for (auto it : pp->_p->getChildNodes())
+				scene->insertNode(pp->_p);
+
+		this->_viewPort->setScene(scene, scene->createOrbitalCamera());
+		this->_viewPort->invalidate();
+	}
+
+	void SceneIO::RegisterPlugIn(std::shared_ptr<swig::IPlugIn> plugIn)
+	{
+		struct WrapPlugIn : public eh::SceneIO::IPlugIn
+		{
+			std::shared_ptr<swig::IPlugIn> _pImpl;
+
+			WrapPlugIn(std::shared_ptr<swig::IPlugIn> plugIn) : _pImpl(plugIn)
+			{}
+
+			virtual std::wstring about() const
+			{
+				return _pImpl->about();
+			}
+			virtual eh::Uint file_type_count() const
+			{
+				return _pImpl->file_type_count();
+			}
+			virtual std::wstring file_type(eh::Uint i) const
+			{
+				return _pImpl->file_type(i);
+			}
+			virtual std::wstring file_exts(eh::Uint i) const
+			{
+				return _pImpl->file_exts(i);
+			}
+			virtual bool canWrite(eh::Uint i) const
+			{
+				return _pImpl->canWrite(i);
+			}
+			virtual bool canRead(eh::Uint i) const
+			{
+				return _pImpl->canRead(i);
+			}
+			virtual bool read(const std::wstring& aFile, eh::Ptr<eh::Scene> pScene, eh::SceneIO::progress_callback& progress)
+			{
+				struct myCallBack : public swig::Callback
+				{
+					myCallBack(eh::SceneIO::progress_callback& progress) : _f(progress)
+					{}
+					eh::SceneIO::progress_callback& _f;
+					void call(float value) override
+					{
+						_f(value);
+					}
+				};
+
+				myCallBack cb(progress);
+				auto scene = Scene::CreateGroupNode(math3D::Matrix::Identity());
+				if (_pImpl->readFile(aFile, scene->Handle(), &cb))
+				{
+					ISceneNode* p = scene.get();
+					if (auto pp = dynamic_cast<ShapeNode*>(p))
+						pScene->insertNode(pp->_p);
+					else if (auto pp = dynamic_cast<GroupNode*>(p))
+						pScene->insertNode(pp->_p);
+
+					return true;
+				}
+				else
+					return false;
+			}
+
+			virtual bool write(const std::wstring& sFile, eh::Ptr<eh::Scene> pScene, eh::SceneIO::progress_callback& progress)
+			{
+				return false;
+			}
+		};
+
+				
+		eh::SceneIO::getInstance().RegisterPlugIn(std::make_shared<WrapPlugIn>(plugIn));
 	}
 }
