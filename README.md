@@ -1,4 +1,4 @@
-<b>Teapot-Viewer 0.9a</b>
+<b>Teapot-Viewer 1.0a</b>
 
 The Teapot-Viewer is a fast and extendable 3D-Model Viewer for Linux and Windows.
 
