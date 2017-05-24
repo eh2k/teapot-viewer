@@ -233,12 +233,17 @@ namespace swig
 		}
 	};
 
-	std::shared_ptr<IViewport> CreateViewport(void* hWindow)
+	std::shared_ptr<IViewport> Viewport::CreateViewport(void* hWindow, int driver)
 	{
 		if (::IsWindow((HWND)hWindow) == false)
 			return nullptr;
 
-		return std::make_shared<D3DViewPort>((HWND)hWindow);
+		if (driver == Viewport::OpenGL)
+			return std::make_shared<OpenGLViewPort>((HWND)hWindow);
+		if (driver == Viewport::Direct3D)
+			return std::make_shared<D3DViewPort>((HWND)hWindow);
+
+		return nullptr;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////

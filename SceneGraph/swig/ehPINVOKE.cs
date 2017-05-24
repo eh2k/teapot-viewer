@@ -1120,8 +1120,23 @@ class ehPINVOKE {
   [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_delete_IViewport")]
   public static extern void delete_IViewport(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_CreateViewport")]
-  public static extern global::System.IntPtr CreateViewport(global::System.IntPtr jarg1);
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_Viewport_OpenGL_get")]
+  public static extern int Viewport_OpenGL_get();
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_Viewport_Direct3D_get")]
+  public static extern int Viewport_Direct3D_get();
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_Viewport_CreateViewport__SWIG_0")]
+  public static extern global::System.IntPtr Viewport_CreateViewport__SWIG_0(global::System.IntPtr jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_Viewport_CreateViewport__SWIG_1")]
+  public static extern global::System.IntPtr Viewport_CreateViewport__SWIG_1(global::System.IntPtr jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_new_Viewport")]
+  public static extern global::System.IntPtr new_Viewport();
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_delete_Viewport")]
+  public static extern void delete_Viewport(global::System.Runtime.InteropServices.HandleRef jarg1);
 
   [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_IPlugIn_GetAboutString")]
   public static extern string IPlugIn_GetAboutString(global::System.Runtime.InteropServices.HandleRef jarg1);

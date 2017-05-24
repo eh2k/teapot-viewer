@@ -5675,15 +5675,67 @@ SWIGEXPORT void SWIGSTDCALL CSharp_eh_delete_IViewport(void * jarg1) {
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_eh_CreateViewport(void * jarg1) {
+SWIGEXPORT int SWIGSTDCALL CSharp_eh_Viewport_OpenGL_get() {
+  int jresult ;
+  int result;
+  
+  result = (int)swig::Viewport::OpenGL;
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT int SWIGSTDCALL CSharp_eh_Viewport_Direct3D_get() {
+  int jresult ;
+  int result;
+  
+  result = (int)swig::Viewport::Direct3D;
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Viewport_CreateViewport__SWIG_0(void * jarg1, int jarg2) {
+  void * jresult ;
+  void *arg1 = (void *) 0 ;
+  int arg2 ;
+  std::shared_ptr< swig::IViewport > result;
+  
+  arg1 = (void *)jarg1; 
+  arg2 = (int)jarg2; 
+  result = swig::Viewport::CreateViewport(arg1,arg2);
+  jresult = result ? new std::shared_ptr< swig::IViewport >(result) : 0; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Viewport_CreateViewport__SWIG_1(void * jarg1) {
   void * jresult ;
   void *arg1 = (void *) 0 ;
   std::shared_ptr< swig::IViewport > result;
   
   arg1 = (void *)jarg1; 
-  result = swig::CreateViewport(arg1);
+  result = swig::Viewport::CreateViewport(arg1);
   jresult = result ? new std::shared_ptr< swig::IViewport >(result) : 0; 
   return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_Viewport() {
+  void * jresult ;
+  swig::Viewport *result = 0 ;
+  
+  result = (swig::Viewport *)new swig::Viewport();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_delete_Viewport(void * jarg1) {
+  swig::Viewport *arg1 = (swig::Viewport *) 0 ;
+  
+  arg1 = (swig::Viewport *)jarg1; 
+  delete arg1;
 }
 
 

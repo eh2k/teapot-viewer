@@ -105,7 +105,13 @@ namespace swig
 		virtual std::shared_ptr<IGroupNode> GetScene() = 0;
 	};
 
-	std::shared_ptr<IViewport> CreateViewport(void* hWindow);
+	struct Viewport
+	{
+		static const int OpenGL = 0;
+		static const int Direct3D = 1;
+
+		static std::shared_ptr<IViewport> CreateViewport(void* hWindow, int driver = 1);
+	};
 
 	struct IPlugIn
 	{

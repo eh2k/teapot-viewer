@@ -120,12 +120,6 @@ public class eh {
     return ret;
   }
 
-  public static IViewport CreateViewport(global::System.IntPtr hWindow) {
-    global::System.IntPtr cPtr = ehPINVOKE.CreateViewport(hWindow);
-    IViewport ret = (cPtr == global::System.IntPtr.Zero) ? null : new IViewport(cPtr, true);
-    return ret;
-  }
-
 }
 
 }

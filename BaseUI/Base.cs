@@ -358,13 +358,19 @@ namespace TeapotViewer
 
             var hwnd = GetHWND(wxObject);
 
-            _viewPort = eh.eh.CreateViewport(hwnd);
+            _viewPort = eh.Viewport.CreateViewport(hwnd, 
+                Environment.GetCommandLineArgs().Any(a => a.Equals("/OpenGL", StringComparison.OrdinalIgnoreCase)) ? eh.Viewport.OpenGL : eh.Viewport.Direct3D);
 
-            var scene = eh.SceneIO.TryRead(
-                System.IO.Path.Combine(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), @"teapot.obj.zip"));
+            string file = Environment.GetCommandLineArgs().Skip(1).Where(File.Exists).FirstOrDefault() ??
+                Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), @"teapot.obj.zip");
 
-            if (scene != null)
-                _viewPort.SetScene(scene);
+            if (File.Exists(file))
+            {
+                var scene = eh.SceneIO.TryRead(file);
+
+                if (scene != null)
+                    _viewPort.SetScene(scene);
+            }
 
             EVT_PAINT(new EventListener((s, a) => { _viewPort.DrawScene(); a.Skip(); }));
             EVT_ERASE_BACKGROUND(new EventListener((s, a) => { _viewPort.DrawScene(); }));

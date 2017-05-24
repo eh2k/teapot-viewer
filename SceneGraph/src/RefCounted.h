@@ -30,9 +30,10 @@ namespace eh
 		Ptr(std::nullptr_t) : std::shared_ptr<T>(nullptr)
 		{}
 
-		Ptr(T* p) : std::shared_ptr<T>(p->_shared ? std::dynamic_pointer_cast<T>(p->shared_from_this()) : std::shared_ptr<T>(p))
+		Ptr(T* p) : std::shared_ptr<T>(p != nullptr ? p->_shared ? std::dynamic_pointer_cast<T>(p->shared_from_this()) : std::shared_ptr<T>(p) : nullptr)
 		{
-			p->_shared = true;
+			if (p != nullptr)
+				p->_shared = true;
 		}
 		virtual ~Ptr()
 		{
