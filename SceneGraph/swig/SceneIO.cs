@@ -44,42 +44,32 @@ public class SceneIO : global::System.IDisposable {
     ehPINVOKE.SceneIO_RegisterPlugIn(IPlugIn.getCPtr(plugIn));
   }
 
-  public static bool read(IViewport viewPort, string filePath, Callback callback) {
-    bool ret = ehPINVOKE.SceneIO_read__SWIG_0(IViewport.getCPtr(viewPort), filePath, Callback.getCPtr(callback));
+  public static IGroupNode TryRead(string filePath, Callback callback) {
+    global::System.IntPtr cPtr = ehPINVOKE.SceneIO_TryRead__SWIG_0(filePath, Callback.getCPtr(callback));
+    IGroupNode ret = (cPtr == global::System.IntPtr.Zero) ? null : new IGroupNode(cPtr, true);
     if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public static bool read(IViewport viewPort, string filePath) {
-    bool ret = ehPINVOKE.SceneIO_read__SWIG_1(IViewport.getCPtr(viewPort), filePath);
+  public static IGroupNode TryRead(string filePath) {
+    global::System.IntPtr cPtr = ehPINVOKE.SceneIO_TryRead__SWIG_1(filePath);
+    IGroupNode ret = (cPtr == global::System.IntPtr.Zero) ? null : new IGroupNode(cPtr, true);
     if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public static bool write(IViewport viewPort, string filePath, Callback callback) {
-    bool ret = ehPINVOKE.SceneIO_write__SWIG_0(IViewport.getCPtr(viewPort), filePath, Callback.getCPtr(callback));
-    if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
+  public static string GetFileWildcards(bool read) {
+    string ret = ehPINVOKE.SceneIO_GetFileWildcards__SWIG_0(read);
     return ret;
   }
 
-  public static bool write(IViewport viewPort, string filePath) {
-    bool ret = ehPINVOKE.SceneIO_write__SWIG_1(IViewport.getCPtr(viewPort), filePath);
-    if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
+  public static string GetFileWildcards() {
+    string ret = ehPINVOKE.SceneIO_GetFileWildcards__SWIG_1();
     return ret;
   }
 
-  public static string getFileWildcards(bool read) {
-    string ret = ehPINVOKE.SceneIO_getFileWildcards__SWIG_0(read);
-    return ret;
-  }
-
-  public static string getFileWildcards() {
-    string ret = ehPINVOKE.SceneIO_getFileWildcards__SWIG_1();
-    return ret;
-  }
-
-  public static string getAboutString() {
-    string ret = ehPINVOKE.SceneIO_getAboutString();
+  public static string GetAboutString() {
+    string ret = ehPINVOKE.SceneIO_GetAboutString();
     return ret;
   }
 

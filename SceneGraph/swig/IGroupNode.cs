@@ -46,12 +46,6 @@ public class IGroupNode : ISceneNode {
     if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public static IGroupNode FromHandle(global::System.IntPtr handle) {
-    global::System.IntPtr cPtr = ehPINVOKE.IGroupNode_FromHandle(handle);
-    IGroupNode ret = (cPtr == global::System.IntPtr.Zero) ? null : new IGroupNode(cPtr, true);
-    return ret;
-  }
-
 }
 
 }

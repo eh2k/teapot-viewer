@@ -40,65 +40,65 @@ public class IViewport : global::System.IDisposable {
     }
   }
 
-  public virtual void setDisplayRect(int x, int y, int dx, int dy) {
-    ehPINVOKE.IViewport_setDisplayRect(swigCPtr, x, y, dx, dy);
+  public virtual void SetDisplayRect(int x, int y, int dx, int dy) {
+    ehPINVOKE.IViewport_SetDisplayRect(swigCPtr, x, y, dx, dy);
     if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public virtual void drawScene() {
-    ehPINVOKE.IViewport_drawScene(swigCPtr);
+  public virtual void DrawScene() {
+    ehPINVOKE.IViewport_DrawScene(swigCPtr);
     if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public virtual string getDriverInfo() {
-    string ret = ehPINVOKE.IViewport_getDriverInfo(swigCPtr);
-    if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
-    return ret;
-  }
-
-  public virtual bool isValid() {
-    bool ret = ehPINVOKE.IViewport_isValid(swigCPtr);
+  public virtual string GetDriverInfo() {
+    string ret = ehPINVOKE.IViewport_GetDriverInfo(swigCPtr);
     if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public virtual IController control() {
-    global::System.IntPtr cPtr = ehPINVOKE.IViewport_control(swigCPtr);
+  public virtual bool IsValid() {
+    bool ret = ehPINVOKE.IViewport_IsValid(swigCPtr);
+    if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public virtual IController Control() {
+    global::System.IntPtr cPtr = ehPINVOKE.IViewport_Control(swigCPtr);
     IController ret = (cPtr == global::System.IntPtr.Zero) ? null : new IController(cPtr, false);
     if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public virtual void setModeFlag(Mode flag, bool enable) {
-    ehPINVOKE.IViewport_setModeFlag(swigCPtr, (int)flag, enable);
+  public virtual void SetModeFlag(Mode flag, bool enable) {
+    ehPINVOKE.IViewport_SetModeFlag(swigCPtr, (int)flag, enable);
     if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public virtual bool getModeFlag(Mode flag) {
-    bool ret = ehPINVOKE.IViewport_getModeFlag(swigCPtr, (int)flag);
-    if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
-    return ret;
-  }
-
-  public virtual int getCameraCount() {
-    int ret = ehPINVOKE.IViewport_getCameraCount(swigCPtr);
+  public virtual bool GetModeFlag(Mode flag) {
+    bool ret = ehPINVOKE.IViewport_GetModeFlag(swigCPtr, (int)flag);
     if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public virtual string getCameraName(int num) {
-    string ret = ehPINVOKE.IViewport_getCameraName(swigCPtr, num);
+  public virtual int GetCameraCount() {
+    int ret = ehPINVOKE.IViewport_GetCameraCount(swigCPtr);
     if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public virtual void setCamera(int num) {
-    ehPINVOKE.IViewport_setCamera(swigCPtr, num);
+  public virtual string GetCameraName(int num) {
+    string ret = ehPINVOKE.IViewport_GetCameraName(swigCPtr, num);
+    if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public virtual void SetCamera(int num) {
+    ehPINVOKE.IViewport_SetCamera(swigCPtr, num);
     if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public virtual void setScene(ISceneNode scene) {
-    ehPINVOKE.IViewport_setScene(swigCPtr, ISceneNode.getCPtr(scene));
+  public virtual void SetScene(ISceneNode scene) {
+    ehPINVOKE.IViewport_SetScene(swigCPtr, ISceneNode.getCPtr(scene));
     if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
   }
 

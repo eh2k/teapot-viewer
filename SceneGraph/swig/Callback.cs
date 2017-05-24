@@ -40,8 +40,8 @@ public class Callback : global::System.IDisposable {
     }
   }
 
-  public virtual void call(float value) {
-    if (SwigDerivedClassHasMethod("call", swigMethodTypes0)) ehPINVOKE.Callback_callSwigExplicitCallback(swigCPtr, value); else ehPINVOKE.Callback_call(swigCPtr, value);
+  public virtual void Call(float value) {
+    if (SwigDerivedClassHasMethod("Call", swigMethodTypes0)) ehPINVOKE.Callback_CallSwigExplicitCallback(swigCPtr, value); else ehPINVOKE.Callback_Call(swigCPtr, value);
   }
 
   public Callback() : this(ehPINVOKE.new_Callback(), true) {
@@ -49,8 +49,8 @@ public class Callback : global::System.IDisposable {
   }
 
   private void SwigDirectorConnect() {
-    if (SwigDerivedClassHasMethod("call", swigMethodTypes0))
-      swigDelegate0 = new SwigDelegateCallback_0(SwigDirectorcall);
+    if (SwigDerivedClassHasMethod("Call", swigMethodTypes0))
+      swigDelegate0 = new SwigDelegateCallback_0(SwigDirectorCall);
     ehPINVOKE.Callback_director_connect(swigCPtr, swigDelegate0);
   }
 
@@ -60,8 +60,8 @@ public class Callback : global::System.IDisposable {
     return hasDerivedMethod;
   }
 
-  private void SwigDirectorcall(float value) {
-    call(value);
+  private void SwigDirectorCall(float value) {
+    Call(value);
   }
 
   public delegate void SwigDelegateCallback_0(float value);

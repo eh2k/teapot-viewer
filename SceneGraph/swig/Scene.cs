@@ -65,6 +65,17 @@ public class Scene : global::System.IDisposable {
     return ret;
   }
 
+  public static IGroupNode TryGetGroupNodeFromHandle(global::System.IntPtr handle) {
+    global::System.IntPtr cPtr = ehPINVOKE.Scene_TryGetGroupNodeFromHandle(handle);
+    IGroupNode ret = (cPtr == global::System.IntPtr.Zero) ? null : new IGroupNode(cPtr, true);
+    return ret;
+  }
+
+  public static global::System.IntPtr NodeToHandle(ISceneNode arg0) {
+    global::System.IntPtr ret = ehPINVOKE.Scene_NodeToHandle(ISceneNode.getCPtr(arg0));
+    return ret;
+  }
+
   public Scene() : this(ehPINVOKE.new_Scene(), true) {
   }
 

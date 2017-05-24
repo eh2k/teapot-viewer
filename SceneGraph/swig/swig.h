@@ -30,7 +30,6 @@ namespace swig
 	struct ISceneNode
 	{
 		virtual ~ISceneNode() {}
-		virtual void* Handle() = 0;
 	};
 
 	struct IShapeNode : public ISceneNode
@@ -39,7 +38,6 @@ namespace swig
 	struct IGroupNode : public ISceneNode
 	{
 		virtual void AddChildNode(std::shared_ptr<ISceneNode> childNode) = 0;
-		static std::shared_ptr<IGroupNode> FromHandle(void* handle);
 	};
 
 	class Scene
@@ -49,6 +47,9 @@ namespace swig
 		static std::shared_ptr<IMaterial> CreateMaterial();
 		static std::shared_ptr<IShapeNode> CreateShapeNode(std::shared_ptr<IMaterial> material, std::shared_ptr<IGeometry> geometry);
 		static std::shared_ptr<IGroupNode> CreateGroupNode(const math3D::Matrix& transform);
+
+		static std::shared_ptr<IGroupNode> TryGetGroupNodeFromHandle(void* handle);
+		static void* NodeToHandle(std::shared_ptr<ISceneNode>);
 	};
 
 	///////////////
@@ -74,56 +75,50 @@ namespace swig
 	struct Callback
 	{
 		virtual ~Callback() { }
-		virtual void call(float value)
+		virtual void Call(float value)
 		{
 		}
 	};
 
 	struct IViewport
 	{
-		virtual void setDisplayRect(int x, int y, int dx, int dy) = 0;
-		virtual void drawScene() = 0;
-		virtual std::string getDriverInfo() = 0;
+		virtual void SetDisplayRect(int x, int y, int dx, int dy) = 0;
+		virtual void DrawScene() = 0;
+		virtual std::string GetDriverInfo() = 0;
 
-		virtual bool isValid() = 0;
+		virtual bool IsValid() = 0;
 
-		virtual IController* control() = 0;
+		virtual IController* Control() = 0;
 
-		virtual void setModeFlag(Mode flag, bool enable) = 0;
-		virtual bool getModeFlag(Mode flag) = 0;
+		virtual void SetModeFlag(Mode flag, bool enable) = 0;
+		virtual bool GetModeFlag(Mode flag) = 0;
 
-		virtual int getCameraCount() = 0;
-		virtual std::wstring getCameraName(int num) = 0;
-		virtual void setCamera(int num) = 0;
-		virtual void setScene(std::shared_ptr<ISceneNode> scene) = 0;
+		virtual int GetCameraCount() = 0;
+		virtual std::wstring GetCameraName(int num) = 0;
+		virtual void SetCamera(int num) = 0;
+
+		virtual void SetScene(std::shared_ptr<ISceneNode> scene) = 0;
 	};
 
 	std::shared_ptr<IViewport> CreateViewport(void* hWindow);
 
 	struct IPlugIn
 	{
-		virtual std::wstring about() const { return L""; }
-		virtual int file_type_count() const { return 0; }
-		virtual std::wstring file_type(int i) { return L""; }
-		virtual std::wstring file_exts(int i) { return L""; }
+		virtual std::wstring GetAboutString() const = 0;
+		virtual int GetFileTypeCount() const = 0;
+		virtual std::wstring GetFileType(int i) = 0;
+		virtual std::wstring GetFileExtention(int i) = 0;
 
-		virtual bool canWrite(int i) const { return false; }
-		virtual bool canRead(int i) const { return false; }
-
-		virtual bool readFile(std::wstring aFile, void* sceneHandle, Callback* callback = nullptr) { return false; }
-		virtual bool writeFile(std::wstring sFile, void* sceneHandle, Callback* callback = nullptr) { return false; }
+		virtual bool ReadFile(std::wstring aFile, void* sceneHandle, Callback* callback = nullptr) = 0;
 	};
 
 	struct SceneIO
 	{
 		static void RegisterPlugIn(std::shared_ptr<IPlugIn> plugIn);
 
-		static bool read(std::shared_ptr<IViewport> viewPort, std::wstring filePath, Callback* callback = nullptr);
-		static bool write(std::shared_ptr<IViewport> viewPort, std::wstring filePath, Callback* callback = nullptr);
-		static std::wstring getFileWildcards(bool read = true);
+		static std::shared_ptr<IGroupNode> TryRead(std::wstring filePath, Callback* callback = nullptr);
 
-		static std::wstring getAboutString();
+		static std::wstring GetFileWildcards(bool read = true);
+		static std::wstring GetAboutString();
 	};
-
-
 }

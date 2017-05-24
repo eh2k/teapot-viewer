@@ -26,50 +26,50 @@ namespace swig
 	{
 		eh::Ptr<eh::Viewport> _viewPort;
 
-		void setDisplayRect(int x, int y, int dx, int dy) override
+		void SetDisplayRect(int x, int y, int dx, int dy) override
 		{
 			_viewPort->setDisplayRect(x, y, dx, dy);
 		}
 
-		IController* control() override
+		IController* Control() override
 		{
 			return &_viewPort->control();
 		}
 
-		bool isValid() override
+		bool IsValid() override
 		{
 			return _viewPort->isValid();
 		}
 
-		std::string getDriverInfo() override
+		std::string GetDriverInfo() override
 		{
 			return _viewPort->getDriver()->getDriverInformation();
 		}
 
-		void setModeFlag(Mode flag, bool enable) override
+		void SetModeFlag(Mode flag, bool enable) override
 		{
 			_viewPort->setModeFlag(flag, enable);
 			_viewPort->invalidate();
 		}
 
-		bool getModeFlag(Mode flag) override
+		bool GetModeFlag(Mode flag) override
 		{
 			return _viewPort->getModeFlag(flag);
 			_viewPort->invalidate();
 		}
 
-		int getCameraCount() override
+		int GetCameraCount() override
 		{
 			return (int)_viewPort->getScene()->getCameras().size() + 1;
 		}
 
-		std::wstring getCameraName(int num)
+		std::wstring GetCameraName(int num)
 		{
 			auto name = _viewPort->getScene()->getCameras()[num - 1]->getName();
 			return std::wstring(name.cbegin(), name.cend());
 		}
 
-		void setCamera(int num) override
+		void SetCamera(int num) override
 		{
 			if (num == 0)
 			{
@@ -83,7 +83,7 @@ namespace swig
 			_viewPort->invalidate();
 		}
 
-		void setScene(std::shared_ptr<ISceneNode> scene);
+		void SetScene(std::shared_ptr<ISceneNode> scene) override;
 	};
 
 	struct D3DViewPort : public BaseViewPort
@@ -94,7 +94,7 @@ namespace swig
 		HGLRC m_hrc;
 		GLenum	m_glError;
 
-		void drawScene() override
+		void DrawScene() override
 		{
 			_viewPort->drawScene();
 		}
@@ -127,7 +127,7 @@ namespace swig
 		HGLRC m_hrc;
 		GLenum	m_glError;
 
-		void drawScene() override
+		void DrawScene() override
 		{
 			wglMakeCurrent(m_hdc, m_hrc);
 
@@ -239,45 +239,7 @@ namespace swig
 		return std::make_shared<D3DViewPort>((HWND)hWindow);
 	}
 
-	std::wstring SceneIO::getFileWildcards(bool read)
-	{
-		return eh::SceneIO::getInstance().getFileWildcards(read);
-	}
-
-	std::wstring SceneIO::getAboutString()
-	{
-		return eh::SceneIO::getInstance().getAboutString();
-	}
-
-
-	bool SceneIO::read(std::shared_ptr<IViewport> viewPort, std::wstring filePath, Callback* callback/* = nullptr*/)
-	{
-		auto scene = eh::Scene::create();
-		if (eh::SceneIO::getInstance().read(filePath, scene, [callback](float value) { if (callback) callback->call(value); }))
-		{
-			((BaseViewPort*)viewPort.get())->_viewPort->setScene(scene, scene->createOrbitalCamera());
-			((BaseViewPort*)viewPort.get())->_viewPort->invalidate();
-			return true;
-		}
-		else
-			return false;
-	}
-
-	bool SceneIO::write(std::shared_ptr<IViewport> viewPort, std::wstring filePath, Callback* callback/* = nullptr*/)
-	{
-		auto scene = ((BaseViewPort*)viewPort.get())->_viewPort->getScene();
-		if (eh::SceneIO::getInstance().write(filePath, scene, [callback](float value) { if (callback) callback->call(value); }))
-		{
-			return true;
-		}
-		else
-			return false;
-	}
-
-
 	//////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 	struct Geometry : public IGeometry
 	{
@@ -342,11 +304,6 @@ namespace swig
 	{
 		eh::Ptr<eh::ShapeNode> _p = nullptr;
 
-		void* Handle() override
-		{
-			return _p.get();
-		}
-
 		ShapeNode(eh::Ptr<eh::ShapeNode> p) : _p(p)
 		{}
 	};
@@ -358,11 +315,6 @@ namespace swig
 		GroupNode(eh::Ptr<eh::GroupNode> p) : _p(p)
 		{}
 
-		void* Handle() override
-		{
-			return _p.get();
-		}
-
 		void AddChildNode(std::shared_ptr<ISceneNode> childNode) override
 		{
 			ISceneNode* p = childNode.get();
@@ -373,10 +325,24 @@ namespace swig
 		}
 	};
 
-	std::shared_ptr<IGroupNode> IGroupNode::FromHandle(void* handle)
+	std::shared_ptr<IGroupNode> Scene::TryGetGroupNodeFromHandle(void* handle)
 	{
-		eh::GroupNode* p = dynamic_cast<eh::GroupNode*>((eh::SceneNode*)handle);
-		return std::make_shared<GroupNode>(p);
+		if(auto p = dynamic_cast<eh::GroupNode*>((eh::SceneNode*)handle))
+			return std::make_shared<GroupNode>(p);
+		//if (auto p = dynamic_cast<eh::ShapeNode*>((eh::SceneNode*)handle))
+		//	return std::make_shared<ShapeNode>(p);
+		else
+			return nullptr;
+	}
+
+	void* Scene::NodeToHandle(std::shared_ptr<ISceneNode> node)
+	{
+		if (auto pp = dynamic_cast<ShapeNode*>(node.get()))
+			return pp->_p.get();
+		else if (auto pp = dynamic_cast<GroupNode*>(node.get()))
+			return pp->_p.get();
+		else
+			return nullptr;
 	}
 
 	std::shared_ptr<IGeometry> Scene::CreateGeometry()
@@ -401,7 +367,7 @@ namespace swig
 		return std::make_shared<GroupNode>(eh::GroupNode::create(eh::SceneNodeVector(), transform));
 	}
 
-	void BaseViewPort::setScene(std::shared_ptr<ISceneNode> sceneNode)
+	void BaseViewPort::SetScene(std::shared_ptr<ISceneNode> sceneNode)
 	{
 		auto scene = eh::Scene::create();
 
@@ -427,27 +393,27 @@ namespace swig
 
 			virtual std::wstring about() const
 			{
-				return _pImpl->about();
+				return _pImpl->GetAboutString();
 			}
 			virtual eh::Uint file_type_count() const
 			{
-				return _pImpl->file_type_count();
+				return _pImpl->GetFileTypeCount();
 			}
 			virtual std::wstring file_type(eh::Uint i) const
 			{
-				return _pImpl->file_type(i);
+				return _pImpl->GetFileType(i);
 			}
 			virtual std::wstring file_exts(eh::Uint i) const
 			{
-				return _pImpl->file_exts(i);
+				return _pImpl->GetFileExtention(i);
 			}
 			virtual bool canWrite(eh::Uint i) const
 			{
-				return _pImpl->canWrite(i);
+				return false;
 			}
 			virtual bool canRead(eh::Uint i) const
 			{
-				return _pImpl->canRead(i);
+				return true;
 			}
 			virtual bool read(const std::wstring& aFile, eh::Ptr<eh::Scene> pScene, eh::SceneIO::progress_callback& progress)
 			{
@@ -456,7 +422,7 @@ namespace swig
 					myCallBack(eh::SceneIO::progress_callback& progress) : _f(progress)
 					{}
 					eh::SceneIO::progress_callback& _f;
-					void call(float value) override
+					void Call(float value) override
 					{
 						_f(value);
 					}
@@ -464,7 +430,7 @@ namespace swig
 
 				myCallBack cb(progress);
 				auto scene = Scene::CreateGroupNode(math3D::Matrix::Identity());
-				if (_pImpl->readFile(aFile, scene->Handle(), &cb))
+				if (_pImpl->ReadFile(aFile, Scene::NodeToHandle(scene), &cb))
 				{
 					ISceneNode* p = scene.get();
 					if (auto pp = dynamic_cast<ShapeNode*>(p))
@@ -487,4 +453,27 @@ namespace swig
 				
 		eh::SceneIO::getInstance().RegisterPlugIn(std::make_shared<WrapPlugIn>(plugIn));
 	}
+
+	std::wstring SceneIO::GetFileWildcards(bool read)
+	{
+		return eh::SceneIO::getInstance().getFileWildcards(read);
+	}
+
+	std::wstring SceneIO::GetAboutString()
+	{
+		return eh::SceneIO::getInstance().getAboutString();
+	}
+
+
+	std::shared_ptr<IGroupNode> SceneIO::TryRead(std::wstring filePath, Callback* callback/* = nullptr*/)
+	{
+		auto scene = eh::Scene::create();
+		if (eh::SceneIO::getInstance().read(filePath, scene, [callback](float value) { if (callback) callback->Call(value); }))
+		{
+			return std::make_shared<GroupNode>(eh::GroupNode::create(scene->getNodes(), math3D::Matrix::Identity()));
+		}
+		else
+			return nullptr;
+	}
+
 }

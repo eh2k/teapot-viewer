@@ -24,35 +24,29 @@ namespace TeapotViewer
     {
         AssimpContext _context = new AssimpContext();
         eh.IGroupNode _root = null;
+        private string _directory;
 
         public AssimpPlugIn()
         {
         }
-        public override string about()
+        public override string GetAboutString()
         {
             return _context.GetType().Assembly.GetName().Name + " " + _context.GetType().Assembly.GetName().Version + @" (https://github.com/assimp)";
         }
-        public override bool canRead(int i)
-        {
-            return true;
-        }
-        public override bool canWrite(int i)
-        {
-            return false;
-        }
-        public override string file_exts(int i)
+
+        public override string GetFileExtention(int i)
         {
             return "*" + _context.GetSupportedImportFormats()[i];
         }
-        public override string file_type(int i)
+        public override string GetFileType(int i)
         {
             return _context.GetSupportedImportFormats()[i].Replace(".", "").ToUpper() + " File";
         }
-        public override int file_type_count()
+        public override int GetFileTypeCount()
         {
             return _context.GetSupportedImportFormats().Length;
         }
-        public override bool readFile(string fileName, IntPtr handle, eh.Callback callback)
+        public override bool ReadFile(string fileName, IntPtr handle, eh.Callback callback)
         {
             try
             {
@@ -65,6 +59,8 @@ namespace TeapotViewer
                 if (System.IO.File.Exists(fileName) == false && directory.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
                     fileName = directory;
 
+                _root = eh.Scene.TryGetGroupNodeFromHandle(handle);
+
                 if (fileName.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
                 {
                     using (var zip = System.IO.Compression.ZipFile.OpenRead(fileName))
@@ -74,7 +70,6 @@ namespace TeapotViewer
                         {
                             var model = importer.ImportFileFromStream(stream, System.IO.Path.GetExtension(zipEntry.Name));
                             _directory = fileName;
-                            _root = eh.IGroupNode.FromHandle(handle);
                             var node = Translate(model, model.RootNode);
                         }
                     }
@@ -83,7 +78,6 @@ namespace TeapotViewer
                 {
                     var model = importer.ImportFile(fileName, PostProcessPreset.TargetRealTimeMaximumQuality);
                     _directory = System.IO.Path.GetDirectoryName(fileName);
-                    _root = eh.IGroupNode.FromHandle(handle);
                     var node = Translate(model, model.RootNode);
                 }
             }
@@ -95,12 +89,6 @@ namespace TeapotViewer
 
             return true;
         }
-        public override bool writeFile(string sFile, IntPtr scene, eh.Callback callback)
-        {
-            return false;
-        }
-
-        private string _directory;
 
         private eh.IGroupNode Translate(Scene scene, Node node)
         {

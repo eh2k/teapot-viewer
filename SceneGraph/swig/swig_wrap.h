@@ -16,13 +16,13 @@ struct SwigDirector_Callback : public swig::Callback, public Swig::Director {
 public:
     SwigDirector_Callback();
     virtual ~SwigDirector_Callback();
-    virtual void call(float value);
+    virtual void Call(float value);
 
     typedef void (SWIGSTDCALL* SWIG_Callback0_t)(float);
-    void swig_connect_director(SWIG_Callback0_t callbackcall);
+    void swig_connect_director(SWIG_Callback0_t callbackCall);
 
 private:
-    SWIG_Callback0_t swig_callbackcall;
+    SWIG_Callback0_t swig_callbackCall;
     void swig_init_callbacks();
 };
 
@@ -30,38 +30,27 @@ struct SwigDirector_IPlugIn : public swig::IPlugIn, public Swig::Director {
 
 public:
     SwigDirector_IPlugIn();
-    virtual std::wstring about() const;
-    virtual int file_type_count() const;
-    virtual std::wstring file_type(int i);
-    virtual std::wstring file_exts(int i);
-    virtual bool canWrite(int i) const;
-    virtual bool canRead(int i) const;
-    virtual bool readFile(std::wstring aFile, void *sceneHandle, swig::Callback *callback = nullptr);
-    virtual bool writeFile(std::wstring sFile, void *sceneHandle, swig::Callback *callback = nullptr);
+    virtual std::wstring GetAboutString() const;
+    virtual int GetFileTypeCount() const;
+    virtual std::wstring GetFileType(int i);
+    virtual std::wstring GetFileExtention(int i);
+    virtual bool ReadFile(std::wstring aFile, void *sceneHandle, swig::Callback *callback = nullptr);
 
     typedef wchar_t * (SWIGSTDCALL* SWIG_Callback0_t)();
     typedef int (SWIGSTDCALL* SWIG_Callback1_t)();
     typedef wchar_t * (SWIGSTDCALL* SWIG_Callback2_t)(int);
     typedef wchar_t * (SWIGSTDCALL* SWIG_Callback3_t)(int);
-    typedef unsigned int (SWIGSTDCALL* SWIG_Callback4_t)(int);
-    typedef unsigned int (SWIGSTDCALL* SWIG_Callback5_t)(int);
-    typedef unsigned int (SWIGSTDCALL* SWIG_Callback6_t)(void *, void *, void *);
-    typedef unsigned int (SWIGSTDCALL* SWIG_Callback7_t)(void *, void *);
-    typedef unsigned int (SWIGSTDCALL* SWIG_Callback8_t)(void *, void *, void *);
-    typedef unsigned int (SWIGSTDCALL* SWIG_Callback9_t)(void *, void *);
-    void swig_connect_director(SWIG_Callback0_t callbackabout, SWIG_Callback1_t callbackfile_type_count, SWIG_Callback2_t callbackfile_type, SWIG_Callback3_t callbackfile_exts, SWIG_Callback4_t callbackcanWrite, SWIG_Callback5_t callbackcanRead, SWIG_Callback6_t callbackreadFile__SWIG_0, SWIG_Callback7_t callbackreadFile__SWIG_1, SWIG_Callback8_t callbackwriteFile__SWIG_0, SWIG_Callback9_t callbackwriteFile__SWIG_1);
+    typedef unsigned int (SWIGSTDCALL* SWIG_Callback4_t)(void *, void *, void *);
+    typedef unsigned int (SWIGSTDCALL* SWIG_Callback5_t)(void *, void *);
+    void swig_connect_director(SWIG_Callback0_t callbackGetAboutString, SWIG_Callback1_t callbackGetFileTypeCount, SWIG_Callback2_t callbackGetFileType, SWIG_Callback3_t callbackGetFileExtention, SWIG_Callback4_t callbackReadFile__SWIG_0, SWIG_Callback5_t callbackReadFile__SWIG_1);
 
 private:
-    SWIG_Callback0_t swig_callbackabout;
-    SWIG_Callback1_t swig_callbackfile_type_count;
-    SWIG_Callback2_t swig_callbackfile_type;
-    SWIG_Callback3_t swig_callbackfile_exts;
-    SWIG_Callback4_t swig_callbackcanWrite;
-    SWIG_Callback5_t swig_callbackcanRead;
-    SWIG_Callback6_t swig_callbackreadFile__SWIG_0;
-    SWIG_Callback7_t swig_callbackreadFile__SWIG_1;
-    SWIG_Callback8_t swig_callbackwriteFile__SWIG_0;
-    SWIG_Callback9_t swig_callbackwriteFile__SWIG_1;
+    SWIG_Callback0_t swig_callbackGetAboutString;
+    SWIG_Callback1_t swig_callbackGetFileTypeCount;
+    SWIG_Callback2_t swig_callbackGetFileType;
+    SWIG_Callback3_t swig_callbackGetFileExtention;
+    SWIG_Callback4_t swig_callbackReadFile__SWIG_0;
+    SWIG_Callback5_t swig_callbackReadFile__SWIG_1;
     void swig_init_callbacks();
 };
 

@@ -40,62 +40,38 @@ public class IPlugIn : global::System.IDisposable {
     }
   }
 
-  public virtual string about() {
-    string ret = (SwigDerivedClassHasMethod("about", swigMethodTypes0) ? ehPINVOKE.IPlugIn_aboutSwigExplicitIPlugIn(swigCPtr) : ehPINVOKE.IPlugIn_about(swigCPtr));
+  public virtual string GetAboutString() {
+    string ret = ehPINVOKE.IPlugIn_GetAboutString(swigCPtr);
     if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public virtual int file_type_count() {
-    int ret = (SwigDerivedClassHasMethod("file_type_count", swigMethodTypes1) ? ehPINVOKE.IPlugIn_file_type_countSwigExplicitIPlugIn(swigCPtr) : ehPINVOKE.IPlugIn_file_type_count(swigCPtr));
+  public virtual int GetFileTypeCount() {
+    int ret = ehPINVOKE.IPlugIn_GetFileTypeCount(swigCPtr);
     if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public virtual string file_type(int i) {
-    string ret = (SwigDerivedClassHasMethod("file_type", swigMethodTypes2) ? ehPINVOKE.IPlugIn_file_typeSwigExplicitIPlugIn(swigCPtr, i) : ehPINVOKE.IPlugIn_file_type(swigCPtr, i));
+  public virtual string GetFileType(int i) {
+    string ret = ehPINVOKE.IPlugIn_GetFileType(swigCPtr, i);
     if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public virtual string file_exts(int i) {
-    string ret = (SwigDerivedClassHasMethod("file_exts", swigMethodTypes3) ? ehPINVOKE.IPlugIn_file_extsSwigExplicitIPlugIn(swigCPtr, i) : ehPINVOKE.IPlugIn_file_exts(swigCPtr, i));
+  public virtual string GetFileExtention(int i) {
+    string ret = ehPINVOKE.IPlugIn_GetFileExtention(swigCPtr, i);
     if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public virtual bool canWrite(int i) {
-    bool ret = (SwigDerivedClassHasMethod("canWrite", swigMethodTypes4) ? ehPINVOKE.IPlugIn_canWriteSwigExplicitIPlugIn(swigCPtr, i) : ehPINVOKE.IPlugIn_canWrite(swigCPtr, i));
+  public virtual bool ReadFile(string aFile, global::System.IntPtr sceneHandle, Callback callback) {
+    bool ret = ehPINVOKE.IPlugIn_ReadFile__SWIG_0(swigCPtr, aFile, sceneHandle, Callback.getCPtr(callback));
     if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public virtual bool canRead(int i) {
-    bool ret = (SwigDerivedClassHasMethod("canRead", swigMethodTypes5) ? ehPINVOKE.IPlugIn_canReadSwigExplicitIPlugIn(swigCPtr, i) : ehPINVOKE.IPlugIn_canRead(swigCPtr, i));
-    if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
-    return ret;
-  }
-
-  public virtual bool readFile(string aFile, global::System.IntPtr sceneHandle, Callback callback) {
-    bool ret = (SwigDerivedClassHasMethod("readFile", swigMethodTypes6) ? ehPINVOKE.IPlugIn_readFileSwigExplicitIPlugIn__SWIG_0(swigCPtr, aFile, sceneHandle, Callback.getCPtr(callback)) : ehPINVOKE.IPlugIn_readFile__SWIG_0(swigCPtr, aFile, sceneHandle, Callback.getCPtr(callback)));
-    if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
-    return ret;
-  }
-
-  public virtual bool readFile(string aFile, global::System.IntPtr sceneHandle) {
-    bool ret = (SwigDerivedClassHasMethod("readFile", swigMethodTypes7) ? ehPINVOKE.IPlugIn_readFileSwigExplicitIPlugIn__SWIG_1(swigCPtr, aFile, sceneHandle) : ehPINVOKE.IPlugIn_readFile__SWIG_1(swigCPtr, aFile, sceneHandle));
-    if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
-    return ret;
-  }
-
-  public virtual bool writeFile(string sFile, global::System.IntPtr sceneHandle, Callback callback) {
-    bool ret = (SwigDerivedClassHasMethod("writeFile", swigMethodTypes8) ? ehPINVOKE.IPlugIn_writeFileSwigExplicitIPlugIn__SWIG_0(swigCPtr, sFile, sceneHandle, Callback.getCPtr(callback)) : ehPINVOKE.IPlugIn_writeFile__SWIG_0(swigCPtr, sFile, sceneHandle, Callback.getCPtr(callback)));
-    if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
-    return ret;
-  }
-
-  public virtual bool writeFile(string sFile, global::System.IntPtr sceneHandle) {
-    bool ret = (SwigDerivedClassHasMethod("writeFile", swigMethodTypes9) ? ehPINVOKE.IPlugIn_writeFileSwigExplicitIPlugIn__SWIG_1(swigCPtr, sFile, sceneHandle) : ehPINVOKE.IPlugIn_writeFile__SWIG_1(swigCPtr, sFile, sceneHandle));
+  public virtual bool ReadFile(string aFile, global::System.IntPtr sceneHandle) {
+    bool ret = ehPINVOKE.IPlugIn_ReadFile__SWIG_1(swigCPtr, aFile, sceneHandle);
     if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
@@ -105,27 +81,19 @@ public class IPlugIn : global::System.IDisposable {
   }
 
   private void SwigDirectorConnect() {
-    if (SwigDerivedClassHasMethod("about", swigMethodTypes0))
-      swigDelegate0 = new SwigDelegateIPlugIn_0(SwigDirectorabout);
-    if (SwigDerivedClassHasMethod("file_type_count", swigMethodTypes1))
-      swigDelegate1 = new SwigDelegateIPlugIn_1(SwigDirectorfile_type_count);
-    if (SwigDerivedClassHasMethod("file_type", swigMethodTypes2))
-      swigDelegate2 = new SwigDelegateIPlugIn_2(SwigDirectorfile_type);
-    if (SwigDerivedClassHasMethod("file_exts", swigMethodTypes3))
-      swigDelegate3 = new SwigDelegateIPlugIn_3(SwigDirectorfile_exts);
-    if (SwigDerivedClassHasMethod("canWrite", swigMethodTypes4))
-      swigDelegate4 = new SwigDelegateIPlugIn_4(SwigDirectorcanWrite);
-    if (SwigDerivedClassHasMethod("canRead", swigMethodTypes5))
-      swigDelegate5 = new SwigDelegateIPlugIn_5(SwigDirectorcanRead);
-    if (SwigDerivedClassHasMethod("readFile", swigMethodTypes6))
-      swigDelegate6 = new SwigDelegateIPlugIn_6(SwigDirectorreadFile__SWIG_0);
-    if (SwigDerivedClassHasMethod("readFile", swigMethodTypes7))
-      swigDelegate7 = new SwigDelegateIPlugIn_7(SwigDirectorreadFile__SWIG_1);
-    if (SwigDerivedClassHasMethod("writeFile", swigMethodTypes8))
-      swigDelegate8 = new SwigDelegateIPlugIn_8(SwigDirectorwriteFile__SWIG_0);
-    if (SwigDerivedClassHasMethod("writeFile", swigMethodTypes9))
-      swigDelegate9 = new SwigDelegateIPlugIn_9(SwigDirectorwriteFile__SWIG_1);
-    ehPINVOKE.IPlugIn_director_connect(swigCPtr, swigDelegate0, swigDelegate1, swigDelegate2, swigDelegate3, swigDelegate4, swigDelegate5, swigDelegate6, swigDelegate7, swigDelegate8, swigDelegate9);
+    if (SwigDerivedClassHasMethod("GetAboutString", swigMethodTypes0))
+      swigDelegate0 = new SwigDelegateIPlugIn_0(SwigDirectorGetAboutString);
+    if (SwigDerivedClassHasMethod("GetFileTypeCount", swigMethodTypes1))
+      swigDelegate1 = new SwigDelegateIPlugIn_1(SwigDirectorGetFileTypeCount);
+    if (SwigDerivedClassHasMethod("GetFileType", swigMethodTypes2))
+      swigDelegate2 = new SwigDelegateIPlugIn_2(SwigDirectorGetFileType);
+    if (SwigDerivedClassHasMethod("GetFileExtention", swigMethodTypes3))
+      swigDelegate3 = new SwigDelegateIPlugIn_3(SwigDirectorGetFileExtention);
+    if (SwigDerivedClassHasMethod("ReadFile", swigMethodTypes4))
+      swigDelegate4 = new SwigDelegateIPlugIn_4(SwigDirectorReadFile__SWIG_0);
+    if (SwigDerivedClassHasMethod("ReadFile", swigMethodTypes5))
+      swigDelegate5 = new SwigDelegateIPlugIn_5(SwigDirectorReadFile__SWIG_1);
+    ehPINVOKE.IPlugIn_director_connect(swigCPtr, swigDelegate0, swigDelegate1, swigDelegate2, swigDelegate3, swigDelegate4, swigDelegate5);
   }
 
   private bool SwigDerivedClassHasMethod(string methodName, global::System.Type[] methodTypes) {
@@ -135,46 +103,30 @@ public class IPlugIn : global::System.IDisposable {
   }
 
   [return: global::System.Runtime.InteropServices.MarshalAs(global::System.Runtime.InteropServices.UnmanagedType.LPWStr)]
-  private string SwigDirectorabout() {
-    return about();
+  private string SwigDirectorGetAboutString() {
+    return GetAboutString();
   }
 
-  private int SwigDirectorfile_type_count() {
-    return file_type_count();
-  }
-
-  [return: global::System.Runtime.InteropServices.MarshalAs(global::System.Runtime.InteropServices.UnmanagedType.LPWStr)]
-  private string SwigDirectorfile_type(int i) {
-    return file_type(i);
+  private int SwigDirectorGetFileTypeCount() {
+    return GetFileTypeCount();
   }
 
   [return: global::System.Runtime.InteropServices.MarshalAs(global::System.Runtime.InteropServices.UnmanagedType.LPWStr)]
-  private string SwigDirectorfile_exts(int i) {
-    return file_exts(i);
+  private string SwigDirectorGetFileType(int i) {
+    return GetFileType(i);
   }
 
-  private bool SwigDirectorcanWrite(int i) {
-    return canWrite(i);
+  [return: global::System.Runtime.InteropServices.MarshalAs(global::System.Runtime.InteropServices.UnmanagedType.LPWStr)]
+  private string SwigDirectorGetFileExtention(int i) {
+    return GetFileExtention(i);
   }
 
-  private bool SwigDirectorcanRead(int i) {
-    return canRead(i);
+  private bool SwigDirectorReadFile__SWIG_0(string aFile, global::System.IntPtr sceneHandle, global::System.IntPtr callback) {
+    return ReadFile(aFile, sceneHandle, (callback == global::System.IntPtr.Zero) ? null : new Callback(callback, false));
   }
 
-  private bool SwigDirectorreadFile__SWIG_0(string aFile, global::System.IntPtr sceneHandle, global::System.IntPtr callback) {
-    return readFile(aFile, sceneHandle, (callback == global::System.IntPtr.Zero) ? null : new Callback(callback, false));
-  }
-
-  private bool SwigDirectorreadFile__SWIG_1(string aFile, global::System.IntPtr sceneHandle) {
-    return readFile(aFile, sceneHandle);
-  }
-
-  private bool SwigDirectorwriteFile__SWIG_0(string sFile, global::System.IntPtr sceneHandle, global::System.IntPtr callback) {
-    return writeFile(sFile, sceneHandle, (callback == global::System.IntPtr.Zero) ? null : new Callback(callback, false));
-  }
-
-  private bool SwigDirectorwriteFile__SWIG_1(string sFile, global::System.IntPtr sceneHandle) {
-    return writeFile(sFile, sceneHandle);
+  private bool SwigDirectorReadFile__SWIG_1(string aFile, global::System.IntPtr sceneHandle) {
+    return ReadFile(aFile, sceneHandle);
   }
 
   [return: global::System.Runtime.InteropServices.MarshalAs(global::System.Runtime.InteropServices.UnmanagedType.LPWStr)]
@@ -184,12 +136,8 @@ public class IPlugIn : global::System.IDisposable {
   public delegate string SwigDelegateIPlugIn_2(int i);
   [return: global::System.Runtime.InteropServices.MarshalAs(global::System.Runtime.InteropServices.UnmanagedType.LPWStr)]
   public delegate string SwigDelegateIPlugIn_3(int i);
-  public delegate bool SwigDelegateIPlugIn_4(int i);
-  public delegate bool SwigDelegateIPlugIn_5(int i);
-  public delegate bool SwigDelegateIPlugIn_6(string aFile, global::System.IntPtr sceneHandle, global::System.IntPtr callback);
-  public delegate bool SwigDelegateIPlugIn_7(string aFile, global::System.IntPtr sceneHandle);
-  public delegate bool SwigDelegateIPlugIn_8(string sFile, global::System.IntPtr sceneHandle, global::System.IntPtr callback);
-  public delegate bool SwigDelegateIPlugIn_9(string sFile, global::System.IntPtr sceneHandle);
+  public delegate bool SwigDelegateIPlugIn_4(string aFile, global::System.IntPtr sceneHandle, global::System.IntPtr callback);
+  public delegate bool SwigDelegateIPlugIn_5(string aFile, global::System.IntPtr sceneHandle);
 
   private SwigDelegateIPlugIn_0 swigDelegate0;
   private SwigDelegateIPlugIn_1 swigDelegate1;
@@ -197,21 +145,13 @@ public class IPlugIn : global::System.IDisposable {
   private SwigDelegateIPlugIn_3 swigDelegate3;
   private SwigDelegateIPlugIn_4 swigDelegate4;
   private SwigDelegateIPlugIn_5 swigDelegate5;
-  private SwigDelegateIPlugIn_6 swigDelegate6;
-  private SwigDelegateIPlugIn_7 swigDelegate7;
-  private SwigDelegateIPlugIn_8 swigDelegate8;
-  private SwigDelegateIPlugIn_9 swigDelegate9;
 
   private static global::System.Type[] swigMethodTypes0 = new global::System.Type[] {  };
   private static global::System.Type[] swigMethodTypes1 = new global::System.Type[] {  };
   private static global::System.Type[] swigMethodTypes2 = new global::System.Type[] { typeof(int) };
   private static global::System.Type[] swigMethodTypes3 = new global::System.Type[] { typeof(int) };
-  private static global::System.Type[] swigMethodTypes4 = new global::System.Type[] { typeof(int) };
-  private static global::System.Type[] swigMethodTypes5 = new global::System.Type[] { typeof(int) };
-  private static global::System.Type[] swigMethodTypes6 = new global::System.Type[] { typeof(string), typeof(global::System.IntPtr), typeof(Callback) };
-  private static global::System.Type[] swigMethodTypes7 = new global::System.Type[] { typeof(string), typeof(global::System.IntPtr) };
-  private static global::System.Type[] swigMethodTypes8 = new global::System.Type[] { typeof(string), typeof(global::System.IntPtr), typeof(Callback) };
-  private static global::System.Type[] swigMethodTypes9 = new global::System.Type[] { typeof(string), typeof(global::System.IntPtr) };
+  private static global::System.Type[] swigMethodTypes4 = new global::System.Type[] { typeof(string), typeof(global::System.IntPtr), typeof(Callback) };
+  private static global::System.Type[] swigMethodTypes5 = new global::System.Type[] { typeof(string), typeof(global::System.IntPtr) };
 }
 
 }

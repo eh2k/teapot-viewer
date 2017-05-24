@@ -41,6 +41,9 @@ public class IShapeNode : ISceneNode {
     }
   }
 
+  public IShapeNode() : this(ehPINVOKE.new_IShapeNode(), true) {
+  }
+
 }
 
 }

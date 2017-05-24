@@ -40,10 +40,7 @@ public class ISceneNode : global::System.IDisposable {
     }
   }
 
-  public virtual global::System.IntPtr Handle() {
-    global::System.IntPtr ret = ehPINVOKE.ISceneNode_Handle(swigCPtr);
-    if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
-    return ret;
+  public ISceneNode() : this(ehPINVOKE.new_ISceneNode(), true) {
   }
 
 }

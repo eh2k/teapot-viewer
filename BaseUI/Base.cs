@@ -19,15 +19,20 @@ using System.Linq;
 
 namespace TeapotViewer
 {
-    using Assimp;
     using System.Runtime.InteropServices;
     using wx;
 
+    public class WX
+    {
+        public static IntPtr SafePtr(wx.Object obj)
+        {
+            var SafePtr = typeof(wx.Object).GetMethod("SafePtr", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+            return (IntPtr)SafePtr.Invoke(null, new object[] { obj });
+        }
+    }
+
     public class MainFrame : Frame
     {
-        const string CURRENT_VERSION = @"1.0a";
-        const string PROJECT_URL = @"https://github.com/eh2k/teapot-viewer";
-
         GLCanvas _canvas = null;
 
         private class HtmlCtrl : HtmlWindow
@@ -43,6 +48,8 @@ namespace TeapotViewer
         public MainFrame(string title)
             : base(title)
         {
+            Application.TrackScreenView("MainFrame");
+
             this.Width = 640;
             this.Height = 480;
             this.Icon = new Icon("TeapotViewer.Base.ico", BitmapType.wxBITMAP_TYPE_BMP_RESOURCE);
@@ -56,22 +63,20 @@ namespace TeapotViewer
                 var fileMenu = new Menu();
                 fileMenu.AddMenuItem("&Open file\tCtrl-O", (a) =>
                 {
-                    //var importer = new AssimpContext();
-                    //var formats = "All known Formats|" + string.Join(";", importer.GetSupportedImportFormats().Select(f => "*" + f)) + ";*.zip|";
-
-                    //formats += "Zip Files (*.zip)|*.zip|";
-                    //formats += "All Files (*.*)|*.*||";
-
                     var fd = new FileDialog(this,
                         "Open..",
                         "",
                         "",
-                        eh.SceneIO.getFileWildcards(true));
+                        eh.SceneIO.GetFileWildcards(true));
 
                     if (fd.ShowModal() == wxID_OK)
                     {
                         using (var callBack = new ProgressCallback(this.StatusBar))
-                            eh.SceneIO.read(_canvas._viewPort, fd.Path, callBack);
+                        {
+                            Application.TrackEvent("FileOpen", System.IO.Path.GetExtension(fd.Path));
+                            var scene = eh.SceneIO.TryRead(fd.Path, callBack);
+                            _canvas._viewPort.SetScene(scene);
+                        }
 
                         updateCameraMenuItems();
 
@@ -79,22 +84,22 @@ namespace TeapotViewer
                     }
                 });
 
-                fileMenu.AddMenuItem("&Export..\tCtrl-S", (a) =>
-                {
-                    var fd = new FileDialog(this,
-                        "Export..",
-                        "",
-                        "",
-                        eh.SceneIO.getFileWildcards(false), wx.FileDialogStyle.wxSAVE);
+                //fileMenu.AddMenuItem("&Export..\tCtrl-S", (a) =>
+                //{
+                //    var fd = new FileDialog(this,
+                //        "Export..",
+                //        "",
+                //        "",
+                //        eh.SceneIO.getFileWildcards(false), wx.FileDialogStyle.wxSAVE);
 
-                    if (fd.ShowModal() == wxID_OK)
-                    {
-                        using (var callBack = new ProgressCallback(this.StatusBar))
-                            eh.SceneIO.write(_canvas._viewPort, fd.Path, callBack);
+                //    if (fd.ShowModal() == wxID_OK)
+                //    {
+                //        using (var callBack = new ProgressCallback(this.StatusBar))
+                //            eh.SceneIO.write(_canvas._viewPort, fd.Path, callBack);
 
-                        this.Title = fd.Path;
-                    }
-                });
+                //        this.Title = fd.Path;
+                //    }
+                //});
 
                 fileMenu.AppendSeparator();
 
@@ -111,26 +116,26 @@ namespace TeapotViewer
 
                 viewMenu.AddMenuCheckItem("&Wireframe\tW", (a) =>
                 {
-                    _canvas._viewPort.setModeFlag(eh.Mode.MODE_WIREFRAME, a.Checked);
+                    _canvas._viewPort.SetModeFlag(eh.Mode.MODE_WIREFRAME, a.Checked);
                     _canvas.Refresh();
                 }, false);
 
                 viewMenu.AddMenuCheckItem("&Lighting\tL", (a) =>
                 {
-                    _canvas._viewPort.setModeFlag(eh.Mode.MODE_LIGHTING, a.Checked);
+                    _canvas._viewPort.SetModeFlag(eh.Mode.MODE_LIGHTING, a.Checked);
                     _canvas.Refresh();
                 }, true);
 
 
                 viewMenu.AddMenuCheckItem("&Shadow\tS", (a) =>
                 {
-                    _canvas._viewPort.setModeFlag(eh.Mode.MODE_SHADOW, a.Checked);
+                    _canvas._viewPort.SetModeFlag(eh.Mode.MODE_SHADOW, a.Checked);
                     _canvas.Refresh();
                 }, true);
 
                 viewMenu.AddMenuCheckItem("&Background\tG", (a) =>
                 {
-                    _canvas._viewPort.setModeFlag(eh.Mode.MODE_BACKGROUND, a.Checked);
+                    _canvas._viewPort.SetModeFlag(eh.Mode.MODE_BACKGROUND, a.Checked);
                     _canvas.Refresh();
                 }, true);
 
@@ -138,13 +143,13 @@ namespace TeapotViewer
 
                 viewMenu.AddMenuCheckItem("&BoundingBoxes\tB", (a) =>
                 {
-                    _canvas._viewPort.setModeFlag(eh.Mode.MODE_DRAWPRIMBOUNDS, a.Checked);
+                    _canvas._viewPort.SetModeFlag(eh.Mode.MODE_DRAWPRIMBOUNDS, a.Checked);
                     _canvas.Refresh();
                 }, false);
 
                 viewMenu.AddMenuCheckItem("Sce&ne-AABB-Tree\tN", (a) =>
                 {
-                    _canvas._viewPort.setModeFlag(eh.Mode.MODE_DRAWAABBTREE, a.Checked);
+                    _canvas._viewPort.SetModeFlag(eh.Mode.MODE_DRAWAABBTREE, a.Checked);
                     _canvas.Refresh();
                 }, false);
 
@@ -168,9 +173,9 @@ namespace TeapotViewer
 
                 persp = cameraMenu.AddMenuCheckItem("&Perspective Projection\tP", (a) =>
                 {
-                    if (_canvas._viewPort.getModeFlag(eh.Mode.MODE_ORTHO) == a.Checked)
+                    if (_canvas._viewPort.GetModeFlag(eh.Mode.MODE_ORTHO) == a.Checked)
                     {
-                        _canvas._viewPort.setModeFlag(eh.Mode.MODE_ORTHO, a.Checked == false);
+                        _canvas._viewPort.SetModeFlag(eh.Mode.MODE_ORTHO, a.Checked == false);
                         _canvas.Refresh();
                         ortho.Checked = !a.Checked;
                     }
@@ -179,9 +184,9 @@ namespace TeapotViewer
 
                 ortho = cameraMenu.AddMenuCheckItem("&Orthogonal Projection\tO", (a) =>
                 {
-                    if (_canvas._viewPort.getModeFlag(eh.Mode.MODE_ORTHO) != a.Checked)
+                    if (_canvas._viewPort.GetModeFlag(eh.Mode.MODE_ORTHO) != a.Checked)
                     {
-                        _canvas._viewPort.setModeFlag(eh.Mode.MODE_ORTHO, a.Checked);
+                        _canvas._viewPort.SetModeFlag(eh.Mode.MODE_ORTHO, a.Checked);
                         _canvas.Refresh();
 
                         persp.Checked = !a.Checked;
@@ -192,7 +197,7 @@ namespace TeapotViewer
 
                 cameraMenu.AddMenuItem(ID_CAMERA1, "&Default\t1", (a) =>
                 {
-                    _canvas._viewPort.setCamera(0);
+                    _canvas._viewPort.SetCamera(0);
                     _canvas.Refresh();
                 });
 
@@ -201,12 +206,12 @@ namespace TeapotViewer
                     int id = ID_CAMERA1 + 1;
                     while (cameraMenu.Remove(id++) != null) { };
 
-                    for (int i = 1; i < _canvas._viewPort.getCameraCount(); i++)
+                    for (int i = 1; i < _canvas._viewPort.GetCameraCount(); i++)
                     {
                         var tmp = i;
-                        cameraMenu.AddMenuItem(ID_CAMERA1 + i, _canvas._viewPort.getCameraName(i) + "\t" + (1 + i), (a) =>
+                        cameraMenu.AddMenuItem(ID_CAMERA1 + i, _canvas._viewPort.GetCameraName(i) + "\t" + (1 + i), (a) =>
                         {
-                            _canvas._viewPort.setCamera(tmp);
+                            _canvas._viewPort.SetCamera(tmp);
                             _canvas.Refresh();
                         });
                     }
@@ -227,14 +232,13 @@ namespace TeapotViewer
 
                     var hyperlink = new HtmlCtrl(dlg) { Width = 450, Height = 320 };
                     hyperlink.SetPage(string.Format("<body bgcolor='{5}'><h5>Teapot-Viewer {2}</h5><p>Copyright (C) 2010-2017 by E.Heidt</p> <p> <a href='{0}'>{1}</a> </p><hr/><pre>{3}</pre><pre>{4}</pre></body>",
-                        PROJECT_URL, PROJECT_URL, CURRENT_VERSION, eh.SceneIO.getAboutString(), _canvas._viewPort.getDriverInfo(),
+                        Application.PROJECT_URL, Application.PROJECT_URL, Application.CURRENT_VERSION, eh.SceneIO.GetAboutString(), _canvas._viewPort.GetDriverInfo(),
                         System.Drawing.ColorTranslator.ToHtml(Color.FromArgb(dlg.BackgroundColour.Red, dlg.BackgroundColour.Green, dlg.BackgroundColour.Blue))));
 
                     h.Add(hyperlink, 0, wx.Direction.wxALL, 10);
 
                     var btnOK = new wx.Button(dlg, wxID_OK, "OK");
                     h.Add(btnOK, 1, wx.Direction.wxALL, 10);
-
 
                     dlg.SetSizer(h);
 
@@ -273,7 +277,7 @@ namespace TeapotViewer
                 _gauge.Hide();
                 base.Dispose();
             }
-            public override void call(float value)
+            public override void Call(float value)
             {
                 _gauge.Value = (int)(value * 100);
             }
@@ -316,32 +320,30 @@ namespace TeapotViewer
         [DllImport("wx-c.dll", CallingConvention = CallingConvention.ThisCall, EntryPoint = "?GetHWND@wxWindow@@QBEPAXXZ")]
         public static extern IntPtr GetHWND(IntPtr thisA);
 
-        private static IntPtr SafePtr(wx.Object obj)
-        {
-            var SafePtr = typeof(wx.Object).GetMethod("SafePtr", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
-            return (IntPtr)SafePtr.Invoke(null, new object[] { obj });
-        }
-
         public GLCanvas(Window parent)
             : base(parent)
         {
-            IntPtr wxObject = SafePtr(this);
+            IntPtr wxObject = WX.SafePtr(this);
 
             var hwnd = GetHWND(wxObject);
 
             _viewPort = eh.eh.CreateViewport(hwnd);
 
-            eh.SceneIO.read(_viewPort, @"D:\dev\teapot-viewer\bin\Debug\media\teapot.obj.zip");
+            var scene = eh.SceneIO.TryRead(
+                System.IO.Path.Combine(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), @"teapot.obj.zip"));
 
-            EVT_PAINT(new EventListener((s, a) => { _viewPort.drawScene(); a.Skip(); }));
-            EVT_ERASE_BACKGROUND(new EventListener((s, a) => { _viewPort.drawScene(); }));
-            EVT_SIZE(new EventListener((s, a) => { _viewPort.setDisplayRect(0, 0, this.Width, this.Height); }));
+            if (scene != null)
+                _viewPort.SetScene(scene);
+
+            EVT_PAINT(new EventListener((s, a) => { _viewPort.DrawScene(); a.Skip(); }));
+            EVT_ERASE_BACKGROUND(new EventListener((s, a) => { _viewPort.DrawScene(); }));
+            EVT_SIZE(new EventListener((s, a) => { _viewPort.SetDisplayRect(0, 0, this.Width, this.Height); }));
 
             EVT_MOUSE_EVENTS(new EventListener((s, a) => { OnMouseEvent((MouseEvent)a); }));
 
             this.AddEventListener(Event.wxEVT_MOUSEWHEEL, new EventListener((s, a) =>
             {
-                OnMouseEvent(new MouseEvent(SafePtr(a)));
+                OnMouseEvent(new MouseEvent(WX.SafePtr(a)));
             }));
 
             //Connect(wxEVT_KEY_DOWN, wxKeyEventHandler(Base3DWnd::OnKeyEvent));
@@ -351,7 +353,7 @@ namespace TeapotViewer
         {
             if (ev.LeftDown || ev.RightDown)
             {
-                _viewPort.control().OnMouseDown(eh.IController.LBUTTON, ev.Position.X, ev.Position.Y);
+                _viewPort.Control().OnMouseDown(eh.IController.LBUTTON, ev.Position.X, ev.Position.Y);
                 this.CaptureMouse();
                 Refresh();
             }
@@ -359,7 +361,7 @@ namespace TeapotViewer
             {
                 if (this.HasCapture())
                 {
-                    _viewPort.control().OnMouseUp(eh.IController.LBUTTON, ev.Position.X, ev.Position.Y);
+                    _viewPort.Control().OnMouseUp(eh.IController.LBUTTON, ev.Position.X, ev.Position.Y);
                     this.ReleaseMouse();
                     Refresh();
                 }
@@ -367,7 +369,7 @@ namespace TeapotViewer
             else if (ev.WheelRotation != 0)
 
             {
-                _viewPort.control().OnMouseWheel(0, (short)(ev.WheelRotation * ev.WheelDelta), ev.Position.X, ev.Position.Y);
+                _viewPort.Control().OnMouseWheel(0, (short)(ev.WheelRotation * ev.WheelDelta), ev.Position.X, ev.Position.Y);
                 Refresh();
             }
             else if (ev.Dragging)
@@ -383,7 +385,7 @@ namespace TeapotViewer
                     if (ev.RightIsDown)
                         flags |= eh.IController.RBUTTON;
 
-                    _viewPort.control().OnMouseMove(flags, ev.Position.X, ev.Position.Y);
+                    _viewPort.Control().OnMouseMove(flags, ev.Position.X, ev.Position.Y);
 
                     Refresh();
 
@@ -391,9 +393,9 @@ namespace TeapotViewer
                     //	SetTimer(0, 300,0);
                 }
                 else
-                    _viewPort.control().OnMouseMove(0, ev.Position.X, ev.Position.Y);
+                    _viewPort.Control().OnMouseMove(0, ev.Position.X, ev.Position.Y);
 
-                if (!_viewPort.isValid())
+                if (!_viewPort.IsValid())
                     Refresh();
 
                 ev.Skip();
@@ -410,6 +412,10 @@ namespace TeapotViewer
 
     public class Application : App
     {
+        public const string CURRENT_VERSION = @"1.0a";
+        public const string PROJECT_URL = @"https://github.com/eh2k/teapot-viewer";
+        private static Guid _clientId = Guid.NewGuid();
+
         public override bool OnInit()
         {
             var frame = new MainFrame("TeapotViewer");
@@ -420,8 +426,93 @@ namespace TeapotViewer
         [STAThread]
         static void Main()
         {
+            AppDomain.CurrentDomain.UnhandledException += UnhandledException;
+            AppDomain.CurrentDomain.FirstChanceException += FirstChanceException;
+
+            Application.TrackEvent("StartUp");
+
             var app = new Application();
             app.Run();
+        }
+
+        private static void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            var exception = e.ExceptionObject as System.Exception;
+            if (exception != null)
+                TrackException( exception, true);
+        }
+
+        private static void FirstChanceException(object sender, System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs e)
+        {
+            if (e.Exception != null)
+                TrackException(e.Exception, false);
+        }
+
+        public static void TrackScreenView(string screenName)
+        {
+            var postData = "";
+            postData += "&t=screenview";
+            postData += "&cd=" + screenName;
+
+            Track(postData);
+        }
+        public static void TrackEvent(string eventName, string eventLabel = "")
+        {
+            var postData = "";
+            postData += "&t=event";
+            postData += "&ec=" + "Events";
+            postData += "&ea=" + eventName;
+            postData += "&el=" + eventLabel;
+
+            Track(postData);
+        }
+
+        public static void TrackException(Exception exception, bool fatal)
+        {
+            var postData = "";
+            postData += "&t=exception";
+            postData += "&el=" + exception.GetType().Name;
+            postData += "&exd=" + exception.ToString();
+            postData += "&exf=" + (fatal ? "1" : "0");
+
+            Track(postData);
+        }
+
+        private static void Track(string postDataEx)
+        {
+            if (string.IsNullOrEmpty(postDataEx))
+                throw new ArgumentNullException("postDataEx");
+
+            if (System.Diagnostics.Debugger.IsAttached)
+                return;
+
+            var clientId = _clientId;
+            string trackingId = "UA-99840421-1";
+
+            System.Threading.Tasks.Task.Factory.StartNew(() =>
+            {
+                var postData = "v=1"
+                             + "&tid=" + trackingId
+                             + "&an=" + System.Reflection.Assembly.GetEntryAssembly().FullName
+                             + "&av=" + CURRENT_VERSION
+                             + "&u1=" + System.Globalization.CultureInfo.CurrentUICulture.Name
+                             + "&cid=" + clientId.ToString().Replace("{", "").Replace("}", "")
+                             + postDataEx;
+
+                var data = System.Text.Encoding.ASCII.GetBytes(postData);
+
+                var request = System.Net.WebRequest.Create("https://www.google-analytics.com/collect");
+                request.Method = "POST";
+                request.ContentType = "application/x-www-form-urlencoded";
+                request.ContentLength = data.Length;
+
+                using (var stream = request.GetRequestStream())
+                    stream.Write(data, 0, data.Length);
+
+                var response = request.GetResponse();
+                using (response.GetResponseStream())
+                { };
+            });
         }
     }
 }
