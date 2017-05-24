@@ -84,6 +84,8 @@ namespace swig
 		}
 
 		void SetScene(std::shared_ptr<ISceneNode> scene) override;
+
+		std::shared_ptr<IGroupNode> GetScene() override;
 	};
 
 	struct D3DViewPort : public BaseViewPort
@@ -267,19 +269,19 @@ namespace swig
 			_p->setDiffuse(eh::RGBA(r, g, b, a));
 		}
 
-		virtual void SetAmbientColor(float r, float g, float b, float a) override
+		void SetAmbientColor(float r, float g, float b, float a) override
 		{
 			_p->setAmbient(eh::RGBA(r, g, b, a));
 		}
-		virtual void SetSpecularColor(float r, float g, float b, float a)  override
+		void SetSpecularColor(float r, float g, float b, float a)  override
 		{
 			_p->setSpecular(eh::RGBA(r, g, b, a));
 		}
-		virtual void SetSpecularFactor(float f)  override
+		void SetSpecularFactor(float f)  override
 		{
 			_p->setSpecularFactor(f);
 		}
-		virtual void SetEmissionColor(float r, float g, float b, float a) override
+		void SetEmissionColor(float r, float g, float b, float a) override
 		{
 			_p->setEmission(eh::RGBA(r, g, b, a));
 		}
@@ -297,6 +299,22 @@ namespace swig
 		void SetBumpTexture(std::wstring fileName) override
 		{
 			_p->setBumpTexture(eh::Texture::createFromFile(fileName));
+		}
+
+		void ReloadTextures() override
+		{
+
+			if (auto t = _p->getTexture())
+				t->m_resource.reset();
+
+			if (auto t = _p->getReflTexture())
+				t->m_resource.reset();
+
+			if (auto t = _p->getOpacTexture())
+				t->m_resource.reset();
+
+			if (auto t = _p->getBumpTexture())
+				t->m_resource.reset();
 		}
 	};
 
@@ -327,7 +345,7 @@ namespace swig
 
 	std::shared_ptr<IGroupNode> Scene::TryGetGroupNodeFromHandle(void* handle)
 	{
-		if(auto p = dynamic_cast<eh::GroupNode*>((eh::SceneNode*)handle))
+		if (auto p = dynamic_cast<eh::GroupNode*>((eh::SceneNode*)handle))
 			return std::make_shared<GroupNode>(p);
 		//if (auto p = dynamic_cast<eh::ShapeNode*>((eh::SceneNode*)handle))
 		//	return std::make_shared<ShapeNode>(p);
@@ -380,6 +398,44 @@ namespace swig
 
 		this->_viewPort->setScene(scene, scene->createOrbitalCamera());
 		this->_viewPort->invalidate();
+	}
+
+	std::shared_ptr<IGroupNode> BaseViewPort::GetScene()
+	{
+		return std::make_shared<GroupNode>(eh::GroupNode::create(_viewPort->getScene()->getNodes(), math3D::Matrix::Identity()));
+	}
+
+	std::vector<std::shared_ptr<IMaterial>> Scene::GetMaterials(std::shared_ptr<ISceneNode> sceneNode)
+	{
+		struct RoloadTextureVisitor : eh::IVisitor
+		{
+			std::vector<std::shared_ptr<IMaterial>> _materials;
+
+			void visit(eh::Geometry& node)  override
+			{
+
+			}
+			void visit(eh::ShapeNode& node) override
+			{
+				for (auto it = node.GeometryBegin(); it != node.GeometryEnd(); it++)
+				{
+					_materials.push_back(std::make_shared<Material>(it.getMaterial()));
+				}
+			}
+			void visit(eh::GroupNode& node) override
+			{
+				for (auto n : node.getChildNodes())
+					n->accept(*this);
+			}
+		} tv;
+
+		ISceneNode* p = sceneNode.get();
+		if (auto pp = dynamic_cast<ShapeNode*>(p))
+			pp->_p->accept(tv);
+		else if (auto pp = dynamic_cast<GroupNode*>(p))
+			pp->_p->accept(tv);
+
+		return tv._materials;
 	}
 
 	void SceneIO::RegisterPlugIn(std::shared_ptr<swig::IPlugIn> plugIn)
@@ -450,7 +506,7 @@ namespace swig
 			}
 		};
 
-				
+
 		eh::SceneIO::getInstance().RegisterPlugIn(std::make_shared<WrapPlugIn>(plugIn));
 	}
 

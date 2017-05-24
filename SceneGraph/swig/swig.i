@@ -30,6 +30,7 @@
 %template(IntVector) std::vector<int>;
 %template(StringVector) std::vector<std::wstring>;
 %template(Vec3Vector) std::vector<math3D::Vec3>;
+%template(MaterialVector) std::vector<std::shared_ptr<swig::IMaterial>>;
 
 %feature("director") Callback; //https://github.com/swig/swig/tree/master/Examples/csharp/callback
 

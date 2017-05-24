@@ -71,8 +71,13 @@ public class Scene : global::System.IDisposable {
     return ret;
   }
 
-  public static global::System.IntPtr NodeToHandle(ISceneNode arg0) {
-    global::System.IntPtr ret = ehPINVOKE.Scene_NodeToHandle(ISceneNode.getCPtr(arg0));
+  public static global::System.IntPtr NodeToHandle(ISceneNode sceneNode) {
+    global::System.IntPtr ret = ehPINVOKE.Scene_NodeToHandle(ISceneNode.getCPtr(sceneNode));
+    return ret;
+  }
+
+  public static MaterialVector GetMaterials(ISceneNode sceneNode) {
+    MaterialVector ret = new MaterialVector(ehPINVOKE.Scene_GetMaterials(ISceneNode.getCPtr(sceneNode)), true);
     return ret;
   }
 

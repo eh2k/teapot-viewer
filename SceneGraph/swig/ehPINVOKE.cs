@@ -430,6 +430,72 @@ class ehPINVOKE {
   [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_delete_Vec3Vector")]
   public static extern void delete_Vec3Vector(global::System.Runtime.InteropServices.HandleRef jarg1);
 
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_MaterialVector_Clear")]
+  public static extern void MaterialVector_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_MaterialVector_Add")]
+  public static extern void MaterialVector_Add(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_MaterialVector_size")]
+  public static extern uint MaterialVector_size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_MaterialVector_capacity")]
+  public static extern uint MaterialVector_capacity(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_MaterialVector_reserve")]
+  public static extern void MaterialVector_reserve(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_new_MaterialVector__SWIG_0")]
+  public static extern global::System.IntPtr new_MaterialVector__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_new_MaterialVector__SWIG_1")]
+  public static extern global::System.IntPtr new_MaterialVector__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_new_MaterialVector__SWIG_2")]
+  public static extern global::System.IntPtr new_MaterialVector__SWIG_2(int jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_MaterialVector_getitemcopy")]
+  public static extern global::System.IntPtr MaterialVector_getitemcopy(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_MaterialVector_getitem")]
+  public static extern global::System.IntPtr MaterialVector_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_MaterialVector_setitem")]
+  public static extern void MaterialVector_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_MaterialVector_AddRange")]
+  public static extern void MaterialVector_AddRange(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_MaterialVector_GetRange")]
+  public static extern global::System.IntPtr MaterialVector_GetRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_MaterialVector_Insert")]
+  public static extern void MaterialVector_Insert(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_MaterialVector_InsertRange")]
+  public static extern void MaterialVector_InsertRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_MaterialVector_RemoveAt")]
+  public static extern void MaterialVector_RemoveAt(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_MaterialVector_RemoveRange")]
+  public static extern void MaterialVector_RemoveRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_MaterialVector_Repeat")]
+  public static extern global::System.IntPtr MaterialVector_Repeat(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_MaterialVector_Reverse__SWIG_0")]
+  public static extern void MaterialVector_Reverse__SWIG_0(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_MaterialVector_Reverse__SWIG_1")]
+  public static extern void MaterialVector_Reverse__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_MaterialVector_SetRange")]
+  public static extern void MaterialVector_SetRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_delete_MaterialVector")]
+  public static extern void delete_MaterialVector(global::System.Runtime.InteropServices.HandleRef jarg1);
+
   [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_PI_get")]
   public static extern float PI_get();
 
@@ -913,6 +979,9 @@ class ehPINVOKE {
   [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_IMaterial_SetBumpTexture")]
   public static extern void IMaterial_SetBumpTexture(global::System.Runtime.InteropServices.HandleRef jarg1, [global::System.Runtime.InteropServices.MarshalAs(global::System.Runtime.InteropServices.UnmanagedType.LPWStr)]string jarg2);
 
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_IMaterial_ReloadTextures")]
+  public static extern void IMaterial_ReloadTextures(global::System.Runtime.InteropServices.HandleRef jarg1);
+
   [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_delete_IMaterial")]
   public static extern void delete_IMaterial(global::System.Runtime.InteropServices.HandleRef jarg1);
 
@@ -951,6 +1020,9 @@ class ehPINVOKE {
 
   [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_Scene_NodeToHandle")]
   public static extern global::System.IntPtr Scene_NodeToHandle(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_Scene_GetMaterials")]
+  public static extern global::System.IntPtr Scene_GetMaterials(global::System.Runtime.InteropServices.HandleRef jarg1);
 
   [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_new_Scene")]
   public static extern global::System.IntPtr new_Scene();
@@ -1041,6 +1113,9 @@ class ehPINVOKE {
 
   [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_IViewport_SetScene")]
   public static extern void IViewport_SetScene(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_IViewport_GetScene")]
+  public static extern global::System.IntPtr IViewport_GetScene(global::System.Runtime.InteropServices.HandleRef jarg1);
 
   [global::System.Runtime.InteropServices.DllImport("SceneGraph.dll", EntryPoint="CSharp_eh_delete_IViewport")]
   public static extern void delete_IViewport(global::System.Runtime.InteropServices.HandleRef jarg1);

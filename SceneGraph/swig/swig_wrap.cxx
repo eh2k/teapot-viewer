@@ -715,6 +715,97 @@ SWIGINTERN void std_vector_Sl_math3D_Vec3_Sg__SetRange(std::vector< math3D::Vec3
           throw std::out_of_range("index");
         std::copy(values.begin(), values.end(), self->begin()+index);
       }
+SWIGINTERN std::vector< std::shared_ptr< swig::IMaterial > > *new_std_vector_Sl_std_shared_ptr_Sl_swig_IMaterial_Sg__Sg___SWIG_2(int capacity){
+        std::vector< std::shared_ptr< swig::IMaterial > >* pv = 0;
+        if (capacity >= 0) {
+          pv = new std::vector< std::shared_ptr< swig::IMaterial > >();
+          pv->reserve(capacity);
+       } else {
+          throw std::out_of_range("capacity");
+       }
+       return pv;
+      }
+SWIGINTERN std::shared_ptr< swig::IMaterial > std_vector_Sl_std_shared_ptr_Sl_swig_IMaterial_Sg__Sg__getitemcopy(std::vector< std::shared_ptr< swig::IMaterial > > *self,int index){
+        if (index>=0 && index<(int)self->size())
+          return (*self)[index];
+        else
+          throw std::out_of_range("index");
+      }
+SWIGINTERN std::shared_ptr< swig::IMaterial > const &std_vector_Sl_std_shared_ptr_Sl_swig_IMaterial_Sg__Sg__getitem(std::vector< std::shared_ptr< swig::IMaterial > > *self,int index){
+        if (index>=0 && index<(int)self->size())
+          return (*self)[index];
+        else
+          throw std::out_of_range("index");
+      }
+SWIGINTERN void std_vector_Sl_std_shared_ptr_Sl_swig_IMaterial_Sg__Sg__setitem(std::vector< std::shared_ptr< swig::IMaterial > > *self,int index,std::shared_ptr< swig::IMaterial > const &val){
+        if (index>=0 && index<(int)self->size())
+          (*self)[index] = val;
+        else
+          throw std::out_of_range("index");
+      }
+SWIGINTERN void std_vector_Sl_std_shared_ptr_Sl_swig_IMaterial_Sg__Sg__AddRange(std::vector< std::shared_ptr< swig::IMaterial > > *self,std::vector< std::shared_ptr< swig::IMaterial > > const &values){
+        self->insert(self->end(), values.begin(), values.end());
+      }
+SWIGINTERN std::vector< std::shared_ptr< swig::IMaterial > > *std_vector_Sl_std_shared_ptr_Sl_swig_IMaterial_Sg__Sg__GetRange(std::vector< std::shared_ptr< swig::IMaterial > > *self,int index,int count){
+        if (index < 0)
+          throw std::out_of_range("index");
+        if (count < 0)
+          throw std::out_of_range("count");
+        if (index >= (int)self->size()+1 || index+count > (int)self->size())
+          throw std::invalid_argument("invalid range");
+        return new std::vector< std::shared_ptr< swig::IMaterial > >(self->begin()+index, self->begin()+index+count);
+      }
+SWIGINTERN void std_vector_Sl_std_shared_ptr_Sl_swig_IMaterial_Sg__Sg__Insert(std::vector< std::shared_ptr< swig::IMaterial > > *self,int index,std::shared_ptr< swig::IMaterial > const &x){
+        if (index>=0 && index<(int)self->size()+1)
+          self->insert(self->begin()+index, x);
+        else
+          throw std::out_of_range("index");
+      }
+SWIGINTERN void std_vector_Sl_std_shared_ptr_Sl_swig_IMaterial_Sg__Sg__InsertRange(std::vector< std::shared_ptr< swig::IMaterial > > *self,int index,std::vector< std::shared_ptr< swig::IMaterial > > const &values){
+        if (index>=0 && index<(int)self->size()+1)
+          self->insert(self->begin()+index, values.begin(), values.end());
+        else
+          throw std::out_of_range("index");
+      }
+SWIGINTERN void std_vector_Sl_std_shared_ptr_Sl_swig_IMaterial_Sg__Sg__RemoveAt(std::vector< std::shared_ptr< swig::IMaterial > > *self,int index){
+        if (index>=0 && index<(int)self->size())
+          self->erase(self->begin() + index);
+        else
+          throw std::out_of_range("index");
+      }
+SWIGINTERN void std_vector_Sl_std_shared_ptr_Sl_swig_IMaterial_Sg__Sg__RemoveRange(std::vector< std::shared_ptr< swig::IMaterial > > *self,int index,int count){
+        if (index < 0)
+          throw std::out_of_range("index");
+        if (count < 0)
+          throw std::out_of_range("count");
+        if (index >= (int)self->size()+1 || index+count > (int)self->size())
+          throw std::invalid_argument("invalid range");
+        self->erase(self->begin()+index, self->begin()+index+count);
+      }
+SWIGINTERN std::vector< std::shared_ptr< swig::IMaterial > > *std_vector_Sl_std_shared_ptr_Sl_swig_IMaterial_Sg__Sg__Repeat(std::shared_ptr< swig::IMaterial > const &value,int count){
+        if (count < 0)
+          throw std::out_of_range("count");
+        return new std::vector< std::shared_ptr< swig::IMaterial > >(count, value);
+      }
+SWIGINTERN void std_vector_Sl_std_shared_ptr_Sl_swig_IMaterial_Sg__Sg__Reverse__SWIG_0(std::vector< std::shared_ptr< swig::IMaterial > > *self){
+        std::reverse(self->begin(), self->end());
+      }
+SWIGINTERN void std_vector_Sl_std_shared_ptr_Sl_swig_IMaterial_Sg__Sg__Reverse__SWIG_1(std::vector< std::shared_ptr< swig::IMaterial > > *self,int index,int count){
+        if (index < 0)
+          throw std::out_of_range("index");
+        if (count < 0)
+          throw std::out_of_range("count");
+        if (index >= (int)self->size()+1 || index+count > (int)self->size())
+          throw std::invalid_argument("invalid range");
+        std::reverse(self->begin()+index, self->begin()+index+count);
+      }
+SWIGINTERN void std_vector_Sl_std_shared_ptr_Sl_swig_IMaterial_Sg__Sg__SetRange(std::vector< std::shared_ptr< swig::IMaterial > > *self,int index,std::vector< std::shared_ptr< swig::IMaterial > > const &values){
+        if (index < 0)
+          throw std::out_of_range("index");
+        if (index+values.size() > self->size())
+          throw std::out_of_range("index");
+        std::copy(values.begin(), values.end(), self->begin()+index);
+      }
 
 struct SWIG_null_deleter {
   void operator() (void const *) const {
@@ -2148,6 +2239,374 @@ SWIGEXPORT void SWIGSTDCALL CSharp_eh_delete_Vec3Vector(void * jarg1) {
   std::vector< math3D::Vec3 > *arg1 = (std::vector< math3D::Vec3 > *) 0 ;
   
   arg1 = (std::vector< math3D::Vec3 > *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_MaterialVector_Clear(void * jarg1) {
+  std::vector< std::shared_ptr< swig::IMaterial > > *arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *) 0 ;
+  
+  arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *)jarg1; 
+  (arg1)->clear();
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_MaterialVector_Add(void * jarg1, void * jarg2) {
+  std::vector< std::shared_ptr< swig::IMaterial > > *arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *) 0 ;
+  std::shared_ptr< swig::IMaterial > *arg2 = 0 ;
+  std::shared_ptr< swig::IMaterial > tempnull2 ;
+  
+  arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *)jarg1; 
+  arg2 = jarg2 ? (std::shared_ptr< swig::IMaterial > *)jarg2 : &tempnull2; 
+  (arg1)->push_back((std::shared_ptr< swig::IMaterial > const &)*arg2);
+}
+
+
+SWIGEXPORT unsigned long SWIGSTDCALL CSharp_eh_MaterialVector_size(void * jarg1) {
+  unsigned long jresult ;
+  std::vector< std::shared_ptr< swig::IMaterial > > *arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *) 0 ;
+  std::vector< std::shared_ptr< swig::IMaterial > >::size_type result;
+  
+  arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *)jarg1; 
+  result = ((std::vector< std::shared_ptr< swig::IMaterial > > const *)arg1)->size();
+  jresult = (unsigned long)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned long SWIGSTDCALL CSharp_eh_MaterialVector_capacity(void * jarg1) {
+  unsigned long jresult ;
+  std::vector< std::shared_ptr< swig::IMaterial > > *arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *) 0 ;
+  std::vector< std::shared_ptr< swig::IMaterial > >::size_type result;
+  
+  arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *)jarg1; 
+  result = ((std::vector< std::shared_ptr< swig::IMaterial > > const *)arg1)->capacity();
+  jresult = (unsigned long)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_MaterialVector_reserve(void * jarg1, unsigned long jarg2) {
+  std::vector< std::shared_ptr< swig::IMaterial > > *arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *) 0 ;
+  std::vector< std::shared_ptr< swig::IMaterial > >::size_type arg2 ;
+  
+  arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *)jarg1; 
+  arg2 = (std::vector< std::shared_ptr< swig::IMaterial > >::size_type)jarg2; 
+  (arg1)->reserve(arg2);
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_MaterialVector__SWIG_0() {
+  void * jresult ;
+  std::vector< std::shared_ptr< swig::IMaterial > > *result = 0 ;
+  
+  result = (std::vector< std::shared_ptr< swig::IMaterial > > *)new std::vector< std::shared_ptr< swig::IMaterial > >();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_MaterialVector__SWIG_1(void * jarg1) {
+  void * jresult ;
+  std::vector< std::shared_ptr< swig::IMaterial > > *arg1 = 0 ;
+  std::vector< std::shared_ptr< swig::IMaterial > > *result = 0 ;
+  
+  arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< std::shared_ptr< swig::IMaterial > > const & type is null", 0);
+    return 0;
+  } 
+  result = (std::vector< std::shared_ptr< swig::IMaterial > > *)new std::vector< std::shared_ptr< swig::IMaterial > >((std::vector< std::shared_ptr< swig::IMaterial > > const &)*arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_new_MaterialVector__SWIG_2(int jarg1) {
+  void * jresult ;
+  int arg1 ;
+  std::vector< std::shared_ptr< swig::IMaterial > > *result = 0 ;
+  
+  arg1 = (int)jarg1; 
+  try {
+    result = (std::vector< std::shared_ptr< swig::IMaterial > > *)new_std_vector_Sl_std_shared_ptr_Sl_swig_IMaterial_Sg__Sg___SWIG_2(arg1);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
+    return 0;
+  }
+  
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_MaterialVector_getitemcopy(void * jarg1, int jarg2) {
+  void * jresult ;
+  std::vector< std::shared_ptr< swig::IMaterial > > *arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *) 0 ;
+  int arg2 ;
+  std::shared_ptr< swig::IMaterial > result;
+  
+  arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *)jarg1; 
+  arg2 = (int)jarg2; 
+  try {
+    result = std_vector_Sl_std_shared_ptr_Sl_swig_IMaterial_Sg__Sg__getitemcopy(arg1,arg2);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
+    return 0;
+  }
+  
+  jresult = result ? new std::shared_ptr< swig::IMaterial >(result) : 0; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_MaterialVector_getitem(void * jarg1, int jarg2) {
+  void * jresult ;
+  std::vector< std::shared_ptr< swig::IMaterial > > *arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *) 0 ;
+  int arg2 ;
+  std::shared_ptr< swig::IMaterial > *result = 0 ;
+  
+  arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *)jarg1; 
+  arg2 = (int)jarg2; 
+  try {
+    result = (std::shared_ptr< swig::IMaterial > *) &std_vector_Sl_std_shared_ptr_Sl_swig_IMaterial_Sg__Sg__getitem(arg1,arg2);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
+    return 0;
+  }
+  
+  jresult = *result ? new std::shared_ptr< swig::IMaterial >(*result) : 0; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_MaterialVector_setitem(void * jarg1, int jarg2, void * jarg3) {
+  std::vector< std::shared_ptr< swig::IMaterial > > *arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *) 0 ;
+  int arg2 ;
+  std::shared_ptr< swig::IMaterial > *arg3 = 0 ;
+  std::shared_ptr< swig::IMaterial > tempnull3 ;
+  
+  arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *)jarg1; 
+  arg2 = (int)jarg2; 
+  arg3 = jarg3 ? (std::shared_ptr< swig::IMaterial > *)jarg3 : &tempnull3; 
+  try {
+    std_vector_Sl_std_shared_ptr_Sl_swig_IMaterial_Sg__Sg__setitem(arg1,arg2,(std::shared_ptr< swig::IMaterial > const &)*arg3);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
+    return ;
+  }
+  
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_MaterialVector_AddRange(void * jarg1, void * jarg2) {
+  std::vector< std::shared_ptr< swig::IMaterial > > *arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *) 0 ;
+  std::vector< std::shared_ptr< swig::IMaterial > > *arg2 = 0 ;
+  
+  arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *)jarg1; 
+  arg2 = (std::vector< std::shared_ptr< swig::IMaterial > > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< std::shared_ptr< swig::IMaterial > > const & type is null", 0);
+    return ;
+  } 
+  std_vector_Sl_std_shared_ptr_Sl_swig_IMaterial_Sg__Sg__AddRange(arg1,(std::vector< std::shared_ptr< swig::IMaterial > > const &)*arg2);
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_MaterialVector_GetRange(void * jarg1, int jarg2, int jarg3) {
+  void * jresult ;
+  std::vector< std::shared_ptr< swig::IMaterial > > *arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *) 0 ;
+  int arg2 ;
+  int arg3 ;
+  std::vector< std::shared_ptr< swig::IMaterial > > *result = 0 ;
+  
+  arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *)jarg1; 
+  arg2 = (int)jarg2; 
+  arg3 = (int)jarg3; 
+  try {
+    result = (std::vector< std::shared_ptr< swig::IMaterial > > *)std_vector_Sl_std_shared_ptr_Sl_swig_IMaterial_Sg__Sg__GetRange(arg1,arg2,arg3);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
+    return 0;
+  }
+  catch(std::invalid_argument &_e) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentException, (&_e)->what(), "");
+    return 0;
+  }
+  
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_MaterialVector_Insert(void * jarg1, int jarg2, void * jarg3) {
+  std::vector< std::shared_ptr< swig::IMaterial > > *arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *) 0 ;
+  int arg2 ;
+  std::shared_ptr< swig::IMaterial > *arg3 = 0 ;
+  std::shared_ptr< swig::IMaterial > tempnull3 ;
+  
+  arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *)jarg1; 
+  arg2 = (int)jarg2; 
+  arg3 = jarg3 ? (std::shared_ptr< swig::IMaterial > *)jarg3 : &tempnull3; 
+  try {
+    std_vector_Sl_std_shared_ptr_Sl_swig_IMaterial_Sg__Sg__Insert(arg1,arg2,(std::shared_ptr< swig::IMaterial > const &)*arg3);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
+    return ;
+  }
+  
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_MaterialVector_InsertRange(void * jarg1, int jarg2, void * jarg3) {
+  std::vector< std::shared_ptr< swig::IMaterial > > *arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *) 0 ;
+  int arg2 ;
+  std::vector< std::shared_ptr< swig::IMaterial > > *arg3 = 0 ;
+  
+  arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *)jarg1; 
+  arg2 = (int)jarg2; 
+  arg3 = (std::vector< std::shared_ptr< swig::IMaterial > > *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< std::shared_ptr< swig::IMaterial > > const & type is null", 0);
+    return ;
+  } 
+  try {
+    std_vector_Sl_std_shared_ptr_Sl_swig_IMaterial_Sg__Sg__InsertRange(arg1,arg2,(std::vector< std::shared_ptr< swig::IMaterial > > const &)*arg3);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
+    return ;
+  }
+  
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_MaterialVector_RemoveAt(void * jarg1, int jarg2) {
+  std::vector< std::shared_ptr< swig::IMaterial > > *arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *) 0 ;
+  int arg2 ;
+  
+  arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *)jarg1; 
+  arg2 = (int)jarg2; 
+  try {
+    std_vector_Sl_std_shared_ptr_Sl_swig_IMaterial_Sg__Sg__RemoveAt(arg1,arg2);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
+    return ;
+  }
+  
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_MaterialVector_RemoveRange(void * jarg1, int jarg2, int jarg3) {
+  std::vector< std::shared_ptr< swig::IMaterial > > *arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *) 0 ;
+  int arg2 ;
+  int arg3 ;
+  
+  arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *)jarg1; 
+  arg2 = (int)jarg2; 
+  arg3 = (int)jarg3; 
+  try {
+    std_vector_Sl_std_shared_ptr_Sl_swig_IMaterial_Sg__Sg__RemoveRange(arg1,arg2,arg3);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
+    return ;
+  }
+  catch(std::invalid_argument &_e) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentException, (&_e)->what(), "");
+    return ;
+  }
+  
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_MaterialVector_Repeat(void * jarg1, int jarg2) {
+  void * jresult ;
+  std::shared_ptr< swig::IMaterial > *arg1 = 0 ;
+  int arg2 ;
+  std::shared_ptr< swig::IMaterial > tempnull1 ;
+  std::vector< std::shared_ptr< swig::IMaterial > > *result = 0 ;
+  
+  arg1 = jarg1 ? (std::shared_ptr< swig::IMaterial > *)jarg1 : &tempnull1; 
+  arg2 = (int)jarg2; 
+  try {
+    result = (std::vector< std::shared_ptr< swig::IMaterial > > *)std_vector_Sl_std_shared_ptr_Sl_swig_IMaterial_Sg__Sg__Repeat((std::shared_ptr< swig::IMaterial > const &)*arg1,arg2);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
+    return 0;
+  }
+  
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_MaterialVector_Reverse__SWIG_0(void * jarg1) {
+  std::vector< std::shared_ptr< swig::IMaterial > > *arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *) 0 ;
+  
+  arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *)jarg1; 
+  std_vector_Sl_std_shared_ptr_Sl_swig_IMaterial_Sg__Sg__Reverse__SWIG_0(arg1);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_MaterialVector_Reverse__SWIG_1(void * jarg1, int jarg2, int jarg3) {
+  std::vector< std::shared_ptr< swig::IMaterial > > *arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *) 0 ;
+  int arg2 ;
+  int arg3 ;
+  
+  arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *)jarg1; 
+  arg2 = (int)jarg2; 
+  arg3 = (int)jarg3; 
+  try {
+    std_vector_Sl_std_shared_ptr_Sl_swig_IMaterial_Sg__Sg__Reverse__SWIG_1(arg1,arg2,arg3);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
+    return ;
+  }
+  catch(std::invalid_argument &_e) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentException, (&_e)->what(), "");
+    return ;
+  }
+  
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_MaterialVector_SetRange(void * jarg1, int jarg2, void * jarg3) {
+  std::vector< std::shared_ptr< swig::IMaterial > > *arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *) 0 ;
+  int arg2 ;
+  std::vector< std::shared_ptr< swig::IMaterial > > *arg3 = 0 ;
+  
+  arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *)jarg1; 
+  arg2 = (int)jarg2; 
+  arg3 = (std::vector< std::shared_ptr< swig::IMaterial > > *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< std::shared_ptr< swig::IMaterial > > const & type is null", 0);
+    return ;
+  } 
+  try {
+    std_vector_Sl_std_shared_ptr_Sl_swig_IMaterial_Sg__Sg__SetRange(arg1,arg2,(std::vector< std::shared_ptr< swig::IMaterial > > const &)*arg3);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
+    return ;
+  }
+  
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_delete_MaterialVector(void * jarg1) {
+  std::vector< std::shared_ptr< swig::IMaterial > > *arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *) 0 ;
+  
+  arg1 = (std::vector< std::shared_ptr< swig::IMaterial > > *)jarg1; 
   delete arg1;
 }
 
@@ -4648,6 +5107,17 @@ SWIGEXPORT void SWIGSTDCALL CSharp_eh_IMaterial_SetBumpTexture(void * jarg1, wch
 }
 
 
+SWIGEXPORT void SWIGSTDCALL CSharp_eh_IMaterial_ReloadTextures(void * jarg1) {
+  swig::IMaterial *arg1 = (swig::IMaterial *) 0 ;
+  std::shared_ptr< swig::IMaterial > *smartarg1 = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IMaterial > *)jarg1;
+  arg1 = (swig::IMaterial *)(smartarg1 ? smartarg1->get() : 0); 
+  (arg1)->ReloadTextures();
+}
+
+
 SWIGEXPORT void SWIGSTDCALL CSharp_eh_delete_IMaterial(void * jarg1) {
   swig::IMaterial *arg1 = (swig::IMaterial *) 0 ;
   std::shared_ptr< swig::IMaterial > *smartarg1 = 0 ;
@@ -4799,6 +5269,18 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Scene_NodeToHandle(void * jarg1) {
   if (jarg1) arg1 = *(std::shared_ptr< swig::ISceneNode > *)jarg1; 
   result = (void *)swig::Scene::NodeToHandle(arg1);
   jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_Scene_GetMaterials(void * jarg1) {
+  void * jresult ;
+  std::shared_ptr< swig::ISceneNode > arg1 ;
+  std::vector< std::shared_ptr< swig::IMaterial > > result;
+  
+  if (jarg1) arg1 = *(std::shared_ptr< swig::ISceneNode > *)jarg1; 
+  result = swig::Scene::GetMaterials(arg1);
+  jresult = new std::vector< std::shared_ptr< swig::IMaterial > >((const std::vector< std::shared_ptr< swig::IMaterial > > &)result); 
   return jresult;
 }
 
@@ -5164,6 +5646,21 @@ SWIGEXPORT void SWIGSTDCALL CSharp_eh_IViewport_SetScene(void * jarg1, void * ja
   arg1 = (swig::IViewport *)(smartarg1 ? smartarg1->get() : 0); 
   if (jarg2) arg2 = *(std::shared_ptr< swig::ISceneNode > *)jarg2; 
   (arg1)->SetScene(arg2);
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_eh_IViewport_GetScene(void * jarg1) {
+  void * jresult ;
+  swig::IViewport *arg1 = (swig::IViewport *) 0 ;
+  std::shared_ptr< swig::IViewport > *smartarg1 = 0 ;
+  std::shared_ptr< swig::IGroupNode > result;
+  
+  
+  smartarg1 = (std::shared_ptr<  swig::IViewport > *)jarg1;
+  arg1 = (swig::IViewport *)(smartarg1 ? smartarg1->get() : 0); 
+  result = (arg1)->GetScene();
+  jresult = result ? new std::shared_ptr< swig::IGroupNode >(result) : 0; 
+  return jresult;
 }
 
 

@@ -102,6 +102,13 @@ public class IViewport : global::System.IDisposable {
     if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
   }
 
+  public virtual IGroupNode GetScene() {
+    global::System.IntPtr cPtr = ehPINVOKE.IViewport_GetScene(swigCPtr);
+    IGroupNode ret = (cPtr == global::System.IntPtr.Zero) ? null : new IGroupNode(cPtr, true);
+    if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
 }
 
 }

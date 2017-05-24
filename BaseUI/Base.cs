@@ -19,6 +19,7 @@ using System.Linq;
 
 namespace TeapotViewer
 {
+    using System.IO;
     using System.Runtime.InteropServices;
     using wx;
 
@@ -81,6 +82,8 @@ namespace TeapotViewer
                         updateCameraMenuItems();
 
                         this.Title = fd.Path;
+
+                        this.SetFileSystemWathher(System.IO.Path.GetDirectoryName(fd.Path));
                     }
                 });
 
@@ -172,15 +175,15 @@ namespace TeapotViewer
                 MenuItem ortho = null;
 
                 persp = cameraMenu.AddMenuCheckItem("&Perspective Projection\tP", (a) =>
-                {
-                    if (_canvas._viewPort.GetModeFlag(eh.Mode.MODE_ORTHO) == a.Checked)
-                    {
-                        _canvas._viewPort.SetModeFlag(eh.Mode.MODE_ORTHO, a.Checked == false);
-                        _canvas.Refresh();
-                        ortho.Checked = !a.Checked;
-                    }
+                        {
+                            if (_canvas._viewPort.GetModeFlag(eh.Mode.MODE_ORTHO) == a.Checked)
+                            {
+                                _canvas._viewPort.SetModeFlag(eh.Mode.MODE_ORTHO, a.Checked == false);
+                                _canvas.Refresh();
+                                ortho.Checked = !a.Checked;
+                            }
 
-                }, true);
+                        }, true);
 
                 ortho = cameraMenu.AddMenuCheckItem("&Orthogonal Projection\tO", (a) =>
                 {
@@ -210,10 +213,10 @@ namespace TeapotViewer
                     {
                         var tmp = i;
                         cameraMenu.AddMenuItem(ID_CAMERA1 + i, _canvas._viewPort.GetCameraName(i) + "\t" + (1 + i), (a) =>
-                        {
-                            _canvas._viewPort.SetCamera(tmp);
-                            _canvas.Refresh();
-                        });
+                                                {
+                                                    _canvas._viewPort.SetCamera(tmp);
+                                                    _canvas.Refresh();
+                                                });
                     }
                 };
 
@@ -223,28 +226,30 @@ namespace TeapotViewer
             {
                 var helpMenu = new Menu();
                 helpMenu.AddMenuItem("&About", (a) =>
-                {
-                    var size = new wxSize(570, 400);
-                    var pos = new Point(this.Rect.Location.X + this.Rect.Size.Width / 2 - size.Width / 2, this.Rect.Location.Y + this.Rect.Size.Height / 2 - size.Height / 2);
-                    var dlg = new wx.Dialog(this, wxID_ANY, "About", pos, size);
+                                {
+                                    Application.TrackScreenView("About");
 
-                    var h = new wx.BoxSizer(wx.Orientation.wxHORIZONTAL);
+                                    var size = new wxSize(570, 400);
+                                    var pos = new Point(this.Rect.Location.X + this.Rect.Size.Width / 2 - size.Width / 2, this.Rect.Location.Y + this.Rect.Size.Height / 2 - size.Height / 2);
+                                    var dlg = new wx.Dialog(this, wxID_ANY, "About", pos, size);
 
-                    var hyperlink = new HtmlCtrl(dlg) { Width = 450, Height = 320 };
-                    hyperlink.SetPage(string.Format("<body bgcolor='{5}'><h5>Teapot-Viewer {2}</h5><p>Copyright (C) 2010-2017 by E.Heidt</p> <p> <a href='{0}'>{1}</a> </p><hr/><pre>{3}</pre><pre>{4}</pre></body>",
-                        Application.PROJECT_URL, Application.PROJECT_URL, Application.CURRENT_VERSION, eh.SceneIO.GetAboutString(), _canvas._viewPort.GetDriverInfo(),
-                        System.Drawing.ColorTranslator.ToHtml(Color.FromArgb(dlg.BackgroundColour.Red, dlg.BackgroundColour.Green, dlg.BackgroundColour.Blue))));
+                                    var h = new wx.BoxSizer(wx.Orientation.wxHORIZONTAL);
 
-                    h.Add(hyperlink, 0, wx.Direction.wxALL, 10);
+                                    var hyperlink = new HtmlCtrl(dlg) { Width = 450, Height = 320 };
+                                    hyperlink.SetPage(string.Format("<body bgcolor='{5}'><h5>Teapot-Viewer {2}</h5><p>Copyright (C) 2010-2017 by E.Heidt</p> <p> <a href='{0}'>{1}</a> </p><hr/><pre>{3}</pre><pre>{4}</pre></body>",
+                                        Application.PROJECT_URL, Application.PROJECT_URL, Application.CURRENT_VERSION, eh.SceneIO.GetAboutString(), _canvas._viewPort.GetDriverInfo(),
+                                        System.Drawing.ColorTranslator.ToHtml(Color.FromArgb(dlg.BackgroundColour.Red, dlg.BackgroundColour.Green, dlg.BackgroundColour.Blue))));
 
-                    var btnOK = new wx.Button(dlg, wxID_OK, "OK");
-                    h.Add(btnOK, 1, wx.Direction.wxALL, 10);
+                                    h.Add(hyperlink, 0, wx.Direction.wxALL, 10);
 
-                    dlg.SetSizer(h);
+                                    var btnOK = new wx.Button(dlg, wxID_OK, "OK");
+                                    h.Add(btnOK, 1, wx.Direction.wxALL, 10);
 
-                    dlg.ShowModal();
+                                    dlg.SetSizer(h);
 
-                });
+                                    dlg.ShowModal();
+
+                                });
 
                 menuBar.Append(helpMenu, "&Help");
             }
@@ -262,6 +267,32 @@ namespace TeapotViewer
             gauge.Hide();
 
             _canvas = new GLCanvas(this);
+        }
+
+        System.IO.FileSystemWatcher _fileChangeWatcher = new FileSystemWatcher();
+        private void SetFileSystemWathher(string path)
+        {
+            var watcher = new FileSystemWatcher(path);
+
+            watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite
+               | NotifyFilters.FileName | NotifyFilters.DirectoryName;
+
+            watcher.Filter = "*.*";
+
+            watcher.Changed += new FileSystemEventHandler((s, a) =>
+            {
+                using (var scene = _canvas._viewPort.GetScene())
+                using (var materials = eh.Scene.GetMaterials(scene))
+                    foreach (var m in materials)
+                        m.ReloadTextures();
+
+                _canvas.Refresh();
+            });
+
+            watcher.EnableRaisingEvents = true;
+
+            _fileChangeWatcher.Dispose();
+            _fileChangeWatcher = watcher;
         }
 
         class ProgressCallback : eh.Callback
@@ -439,7 +470,7 @@ namespace TeapotViewer
         {
             var exception = e.ExceptionObject as System.Exception;
             if (exception != null)
-                TrackException( exception, true);
+                TrackException(exception, true);
         }
 
         private static void FirstChanceException(object sender, System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs e)

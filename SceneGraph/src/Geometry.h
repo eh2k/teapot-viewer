@@ -47,7 +47,12 @@ namespace eh
         const Vec3& getCoord( Uint i ) const
         {
             if (m_indices.size()>0)
-                return m_pIVertexBuffer->getCoord(m_indices[i]);
+	    {
+		if(i < m_indices.size())
+			return m_pIVertexBuffer->getCoord(m_indices[i]);
+		else 
+			return Vec3::Null();
+	    }
             else
                 return m_pIVertexBuffer->getCoord(i);
         }

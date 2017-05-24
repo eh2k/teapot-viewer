@@ -25,6 +25,8 @@ namespace swig
 		virtual void SetDiffuseTexture(std::wstring fileName) = 0;
 		virtual void SetReflectionTexture(std::wstring fileName) = 0;
 		virtual void SetBumpTexture(std::wstring fileName) = 0;
+
+		virtual void ReloadTextures() = 0;
 	};
 
 	struct ISceneNode
@@ -49,7 +51,9 @@ namespace swig
 		static std::shared_ptr<IGroupNode> CreateGroupNode(const math3D::Matrix& transform);
 
 		static std::shared_ptr<IGroupNode> TryGetGroupNodeFromHandle(void* handle);
-		static void* NodeToHandle(std::shared_ptr<ISceneNode>);
+		static void* NodeToHandle(std::shared_ptr<ISceneNode> sceneNode);
+
+		static std::vector<std::shared_ptr<IMaterial>> GetMaterials(std::shared_ptr<ISceneNode> sceneNode);
 	};
 
 	///////////////
@@ -98,6 +102,7 @@ namespace swig
 		virtual void SetCamera(int num) = 0;
 
 		virtual void SetScene(std::shared_ptr<ISceneNode> scene) = 0;
+		virtual std::shared_ptr<IGroupNode> GetScene() = 0;
 	};
 
 	std::shared_ptr<IViewport> CreateViewport(void* hWindow);

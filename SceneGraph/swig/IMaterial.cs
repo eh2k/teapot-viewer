@@ -80,6 +80,11 @@ public class IMaterial : global::System.IDisposable {
     if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
   }
 
+  public virtual void ReloadTextures() {
+    ehPINVOKE.IMaterial_ReloadTextures(swigCPtr);
+    if (ehPINVOKE.SWIGPendingException.Pending) throw ehPINVOKE.SWIGPendingException.Retrieve();
+  }
+
 }
 
 }
