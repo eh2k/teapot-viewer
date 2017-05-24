@@ -31,7 +31,7 @@ namespace TeapotViewer
             return (IntPtr)SafePtr.Invoke(null, new object[] { obj });
         }
     }
-
+    
     public class MainFrame : Frame
     {
         GLCanvas _canvas = null;
@@ -236,9 +236,14 @@ namespace TeapotViewer
                                     var h = new wx.BoxSizer(wx.Orientation.wxHORIZONTAL);
 
                                     var hyperlink = new HtmlCtrl(dlg) { Width = 450, Height = 320 };
-                                    hyperlink.SetPage(string.Format("<body bgcolor='{5}'><h5>Teapot-Viewer {2}</h5><p>Copyright (C) 2010-2017 by E.Heidt</p> <p> <a href='{0}'>{1}</a> </p><hr/><pre>{3}</pre><pre>{4}</pre></body>",
-                                        Application.PROJECT_URL, Application.PROJECT_URL, Application.CURRENT_VERSION, eh.SceneIO.GetAboutString(), _canvas._viewPort.GetDriverInfo(),
-                                        System.Drawing.ColorTranslator.ToHtml(Color.FromArgb(dlg.BackgroundColour.Red, dlg.BackgroundColour.Green, dlg.BackgroundColour.Blue))));
+                                    hyperlink.SetPage(string.Format("<body bgcolor='{0}'><h5>Teapot-Viewer {1}</h5><p>Copyright (C) 2010-2017 by E.Heidt</p> <p>{2}</p> <p>{3}</p><hr/><pre>{4}</pre><pre>{5}</pre></body>",
+                                        ColorTranslator.ToHtml(Color.FromArgb(dlg.BackgroundColour.Red, dlg.BackgroundColour.Green, dlg.BackgroundColour.Blue)),
+                                        Application.CURRENT_VERSION,
+                                        string.Format("<a href='{0}'>{0}</a>", Application.PROJECT_URL),
+                                        Application.CURRENT_VERSION != Application.NewestVersion ? string.Format("<b>New Version {0} avalable!</b> <a href='{1}'>Download</a>", Application.NewestVersion, Application.PROJECT_URL + @"/releases") : string.Empty,
+                                        eh.SceneIO.GetAboutString(),
+                                        _canvas._viewPort.GetDriverInfo()
+                                        ));
 
                                     h.Add(hyperlink, 0, wx.Direction.wxALL, 10);
 
@@ -358,7 +363,7 @@ namespace TeapotViewer
 
             var hwnd = GetHWND(wxObject);
 
-            _viewPort = eh.Viewport.CreateViewport(hwnd, 
+            _viewPort = eh.Viewport.CreateViewport(hwnd,
                 Environment.GetCommandLineArgs().Any(a => a.Equals("/OpenGL", StringComparison.OrdinalIgnoreCase)) ? eh.Viewport.OpenGL : eh.Viewport.Direct3D);
 
             string file = Environment.GetCommandLineArgs().Skip(1).Where(File.Exists).FirstOrDefault() ??
@@ -452,6 +457,7 @@ namespace TeapotViewer
         public const string CURRENT_VERSION = @"1.0a";
         public const string PROJECT_URL = @"https://github.com/eh2k/teapot-viewer";
         private static Guid _clientId = Guid.NewGuid();
+        public static string NewestVersion = CURRENT_VERSION;
 
         public override bool OnInit()
         {
@@ -467,9 +473,26 @@ namespace TeapotViewer
             AppDomain.CurrentDomain.FirstChanceException += FirstChanceException;
 
             Application.TrackEvent("StartUp");
+            CheckUpdate();
 
             var app = new Application();
             app.Run();
+        }
+
+        private static void CheckUpdate()
+        {
+            System.Threading.Tasks.Task.Factory.StartNew(() =>
+            {
+                var url = @"https://github.com/eh2k/teapot-viewer/raw/master/README.md";
+                var webClient = new System.Net.WebClient();
+                using (var reader = new StringReader(webClient.DownloadString(url)))
+                {
+                    var header = reader.ReadLine();
+                    header = System.Text.RegularExpressions.Regex.Replace(header, "<(.|\\n)*?>", string.Empty);
+
+                    NewestVersion = header.Split(' ').LastOrDefault() ?? CURRENT_VERSION;
+                }
+            });
         }
 
         private static void UnhandledException(object sender, UnhandledExceptionEventArgs e)
