@@ -1,4 +1,4 @@
-<b>Teapot-Viewer 0.9a</b>
+<b>Teapot-Viewer 1.0a</b>
 
 The Teapot-Viewer is a fast and extendable 3D-Model Viewer for Linux and Windows.
 
@@ -11,12 +11,13 @@ The SceneIO Module, provides an internal OBJ laoder/writer. Additionally there i
 
 Currently there are several loader plugins, all base on 3rd-party libraries:
 
-* FCollada (.dae) (http://www.feelingsoftware.com/)
+* Assimp (.dae and more) (https://github.com/assimp)
 * lib3DS (.3ds) (http://code.google.com/p/lib3ds/)
 * OpenCascade (.stp, .iges, .brep) (http://www.opencascade.org/)
 * SketchUpSDK (.skp) (http://code.google.com/apis/sketchup/)
 * Coin3d (.iv, .wrl) (http://www.coin3d.org)
 * libG3D (.q3d and more) (http://automagically.de/g3dviewer/) '>
+* <strike>FCollada (.dae) (http://www.feelingsoftware.com/)</strike>
 
 Screenshots:
 
