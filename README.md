@@ -11,7 +11,7 @@ The SceneIO Module, provides an internal OBJ laoder/writer. Additionally there i
 
 Currently there are several loader plugins, all base on 3rd-party libraries:
 
-* Assimp (.dae and more) (https://github.com/assimp)
+* Assimp (.dae and more) (https://github.com/assimp/assimp/blob/master/Readme.md)
 * lib3DS (.3ds) (http://code.google.com/p/lib3ds/)
 * OpenCascade (.stp, .iges, .brep) (http://www.opencascade.org/)
 * SketchUpSDK (.skp) (http://code.google.com/apis/sketchup/)
