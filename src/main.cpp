@@ -1,9 +1,11 @@
 #include <stdio.h>
-#include <cassert>
+#include <assert.h>
+#include <filesystem>
 
 #include "IDriver.h"
 #include "Viewport.h"
 #include "SceneIO.h"
+#include "Controller.h"
 
 #include <windows.h>
 #include <gl/gl.h>
@@ -22,7 +24,7 @@ int height = 600;
 
 #define VR(r) assert(r)
 
-IDriver * InitGL()
+IDriver *InitGL()
 {
     BITMAPINFO bmi;
     memset(&bmi, 0, sizeof(BITMAPINFO));
@@ -67,14 +69,16 @@ IDriver * InitGL()
     return CreateOpenGL1Driver(nullptr);
 }
 
-extern "C" __declspec(dllexport) bool SaveBitmap(char* szPathName) {
+extern "C" __declspec(dllexport) bool SaveBitmap(char *szPathName)
+{
     // Create a new file for writing
-    FILE* pFile = fopen(szPathName, "wb"); // wb -> w: writable b: binary, open as writable and binary
-    if (pFile == NULL) {
+    FILE *pFile = fopen(szPathName, "wb"); // wb -> w: writable b: binary, open as writable and binary
+    if (pFile == NULL)
+    {
         return false;
     }
 
-    BITMAPINFOHEADER BMIH;                         // BMP header
+    BITMAPINFOHEADER BMIH; // BMP header
     BMIH.biSize = sizeof(BITMAPINFOHEADER);
     BMIH.biSizeImage = width * height * 3;
     // Create the bitmap for this OpenGL context
@@ -86,7 +90,7 @@ extern "C" __declspec(dllexport) bool SaveBitmap(char* szPathName) {
     BMIH.biCompression = BI_RGB;
     BMIH.biSizeImage = width * height * 3;
 
-    BITMAPFILEHEADER bmfh;                         // Other BMP header
+    BITMAPFILEHEADER bmfh; // Other BMP header
     int nBitsOffset = sizeof(BITMAPFILEHEADER) + BMIH.biSize;
     LONG lImageSize = BMIH.biSizeImage;
     LONG lFileSize = nBitsOffset + lImageSize;
@@ -109,42 +113,79 @@ extern "C" __declspec(dllexport) bool SaveBitmap(char* szPathName) {
     return true;
 }
 
-extern "C" __declspec(dllexport) void* GetBitmap()
+Viewport *_vp = nullptr;
+
+extern "C" __declspec(dllexport) void *GetBitmap()
 {
+    _vp->drawScene();
     return _pBits;
 }
 
-extern "C" __declspec(dllexport) bool LoadModel(const char* path)
+
+extern "C" __declspec(dllexport) int LoadModel(const char *path, void *window)
 {
     std::shared_ptr<SceneIO::IPlugIn> pPlugIn(XcreateOBJPlugIn());
     SceneIO::getInstance().RegisterPlugIn(pPlugIn);
 
     auto scene = eh::Scene::create();
 
-    if (SceneIO::getInstance().read(L"teapot.obj.zip", scene) == false)
+    std::filesystem::path fpath(path);
+
+    if (SceneIO::getInstance().read(fpath.wstring(), scene) == false)
         return false;
 
-    auto gl = InitGL();
+    IDriver *gl = nullptr;
+    if (window == nullptr)
+        gl = InitGL();
+    else
+        gl = CreateOpenGL1Driver((int *)window);
 
-    auto vp = new Viewport(gl);
+    _vp = new Viewport(gl);
 
-    vp->setScene(scene);
-    vp->setDisplayRect(0, 0, width, height);
-    vp->drawScene();
+    _vp->setScene(scene);
+    _vp->setDisplayRect(0, 0, width, height);
 
     return true;
+}
+
+extern "C" __declspec(dllexport) void DrawScene(int width, int height)
+{
+    if (_vp != nullptr)
+    {
+        _vp->setDisplayRect(0, 0, width, height);
+        _vp->drawScene();
+    }
+}
+
+extern "C" __declspec(dllexport) void MouseDown(int button, int x, int y)
+{
+    _vp->control().OnMouseDown(button, x, y);
+}
+
+extern "C" __declspec(dllexport) void MouseUp(int button, int x, int y)
+{
+    _vp->control().OnMouseUp(button, x, y);
+}
+
+extern "C" __declspec(dllexport) void MouseMove(int button, int x, int y)
+{
+    _vp->control().OnMouseMove(button, x, y);
+}
+
+extern "C" __declspec(dllexport) void MouseWheel(int button, int zDelta, int x, int y)
+{
+    _vp->control().OnMouseWheel(button, zDelta, x, y);
 }
 
 int main()
 {
     printf("teapot-viewer!\n");
 
-    if(LoadModel("bin\\teapot.obj.zip") == false)
+    if (LoadModel("bin\\teapot.obj.zip", nullptr) == false)
         return -1;
 
     SaveBitmap("bin\\out.bmp");
     printf("END\n");
-
 
     return 0;
 }

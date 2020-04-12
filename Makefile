@@ -10,14 +10,14 @@ OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 DEPS := $(OBJS:.o=.d)
 
 
-LIBS := $(shell find $(SRC_DIRS) -name *.lib) $(shell find $(INC) -name *.lib)
-INC_DIRS := $(shell find $(SRC_DIRS) -type d) $(shell find $(INC) -type d) 
+LIBS := $(shell find $(SRC_DIRS) -name *.lib) 
+INC_DIRS := $(shell find $(SRC_DIRS) -type d) 
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 INC_LIBS := $(addprefix -L,$(LIBS))
 
-CPPFLAGS ?= $(INC_FLAGS) -g -std=c++17 -D __WIN32__
-#-shared -Xlinker --add-stdcall-alias 
-LDFLAGS := -g -shared -lminizip -lGdi32 -lstdc++ -lopengl32 -lglu32
+CPPFLAGS ?= $(INC_FLAGS) -g -c -std=c++17 -D __WIN32__
+#-shared -Xlinker --add-stdcall-alias -lstdc++
+LDFLAGS := -g -shared -lstdc++ -lminizip -lz -lGdi32  -lopengl32 -lglu32
 
 $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
 	$(CC) $(OBJS) -o $@ $(LDFLAGS) 
