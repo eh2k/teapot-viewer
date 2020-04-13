@@ -2,14 +2,17 @@
   extern "C" {
 #endif
 
-__declspec(dllimport) int   LoadModel(const char* path, void* window);
-__declspec(dllimport) void* GetBitmap();
-__declspec(dllimport) void  DrawScene(int width, int height);
+#define CONTEXT void*
 
-__declspec(dllimport) void MouseDown(int button, int x, int y);
-__declspec(dllimport) void MouseUp(int button, int x, int y);
-__declspec(dllimport) void MouseMove(int button, int x, int y);
-__declspec(dllimport) void MouseWheel(int button, int zDelta, int x, int y);
+__declspec(dllimport) CONTEXT LoadModel(const char* path);
+__declspec(dllimport) void* GetBitmap(CONTEXT context);
+__declspec(dllimport) void  DrawScene(CONTEXT context, int width, int height, void* window);
+
+__declspec(dllimport) void MouseButton(CONTEXT context, int button, int x, int y, int down);
+__declspec(dllimport) void MouseMove(CONTEXT context, int button, int x, int y);
+__declspec(dllimport) void MouseWheel(CONTEXT context, int button, int zDelta, int x, int y);
+
+__declspec(dllimport) int ViewMode(CONTEXT context, int mode, int enable);
 
 #ifdef __cplusplus
   }

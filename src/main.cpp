@@ -10,10 +10,91 @@
 #include <windows.h>
 #include <gl/gl.h>
 
+#define CONTEXT void *
+
 using namespace eh;
 
 extern "C" IDriver *CreateOpenGL1Driver(int *pWindow);
 extern "C" SceneIO::IPlugIn *XcreateOBJPlugIn(); //OBJ
+
+extern "C" __declspec(dllexport) CONTEXT LoadModel(const char *path)
+{
+    std::shared_ptr<SceneIO::IPlugIn> pPlugIn(XcreateOBJPlugIn());
+    SceneIO::getInstance().RegisterPlugIn(pPlugIn);
+
+    auto scene = eh::Scene::create();
+
+    std::filesystem::path fpath(path);
+
+    if (SceneIO::getInstance().read(fpath.wstring(), scene) == false)
+        return nullptr;
+
+    auto _vp = new Viewport(nullptr);
+    _vp->setScene(scene);
+    return _vp;
+}
+
+extern "C" __declspec(dllexport) void DrawScene(CONTEXT context, int width, int height, void *window)
+{
+    auto _vp = static_cast<Viewport *>(context);
+    if (_vp != nullptr)
+    {
+        if (_vp->getDriver() == nullptr)
+        {
+            auto gl = CreateOpenGL1Driver((int *)window);
+            _vp->setDriver(gl);
+        }
+
+        _vp->setDisplayRect(0, 0, width, height);
+        _vp->drawScene();
+    }
+}
+
+extern "C" __declspec(dllexport) int ViewMode(CONTEXT context, int mode, int enable)
+{
+    auto _vp = static_cast<Viewport *>(context);
+    if (_vp != nullptr)
+    {
+        int r = (int)_vp->getModeFlag((Mode)mode);
+        if(enable >= 0)
+            _vp->setModeFlag((Mode)mode, enable);
+        
+        _vp->invalidate();
+
+        return r;
+    }
+
+    return -1;
+}
+
+
+extern "C" __declspec(dllexport) void MouseButton(CONTEXT context, int button, int x, int y, int down)
+{
+    auto _vp = static_cast<Viewport *>(context);
+    if (_vp != nullptr)
+    {
+        if(down)
+            _vp->control().OnMouseDown(button, x, y);
+        else
+            _vp->control().OnMouseUp(button, x, y);
+    }
+}
+
+extern "C" __declspec(dllexport) void MouseMove(CONTEXT context, int button, int x, int y)
+{
+    auto _vp = static_cast<Viewport *>(context);
+    if (_vp != nullptr)
+        _vp->control().OnMouseMove(button, x, y);
+}
+
+extern "C" __declspec(dllexport) void MouseWheel(CONTEXT context, int button, int zDelta, int x, int y)
+{
+    auto _vp = static_cast<Viewport *>(context);
+    if (_vp != nullptr)
+        _vp->control().OnMouseWheel(button, zDelta, x, y);
+}
+
+#if 0
 
 void *_pBits;
 HBITMAP _hBitmap;
@@ -24,7 +105,7 @@ int height = 600;
 
 #define VR(r) assert(r)
 
-IDriver *InitGL()
+void InitGL()
 {
     BITMAPINFO bmi;
     memset(&bmi, 0, sizeof(BITMAPINFO));
@@ -65,8 +146,6 @@ IDriver *InitGL()
 
     VR(_hRC = wglCreateContext(_hDC));
     VR(wglMakeCurrent(_hDC, _hRC));
-
-    return CreateOpenGL1Driver(nullptr);
 }
 
 extern "C" __declspec(dllexport) bool SaveBitmap(char *szPathName)
@@ -113,75 +192,17 @@ extern "C" __declspec(dllexport) bool SaveBitmap(char *szPathName)
     return true;
 }
 
-Viewport *_vp = nullptr;
-
-extern "C" __declspec(dllexport) void *GetBitmap()
+extern "C" __declspec(dllexport) void *GetBitmap(CONTEXT context)
 {
-    _vp->drawScene();
+    static_cast<Viewport *>(context)->drawScene();
     return _pBits;
-}
-
-
-extern "C" __declspec(dllexport) int LoadModel(const char *path, void *window)
-{
-    std::shared_ptr<SceneIO::IPlugIn> pPlugIn(XcreateOBJPlugIn());
-    SceneIO::getInstance().RegisterPlugIn(pPlugIn);
-
-    auto scene = eh::Scene::create();
-
-    std::filesystem::path fpath(path);
-
-    if (SceneIO::getInstance().read(fpath.wstring(), scene) == false)
-        return false;
-
-    IDriver *gl = nullptr;
-    if (window == nullptr)
-        gl = InitGL();
-    else
-        gl = CreateOpenGL1Driver((int *)window);
-
-    _vp = new Viewport(gl);
-
-    _vp->setScene(scene);
-    _vp->setDisplayRect(0, 0, width, height);
-
-    return true;
-}
-
-extern "C" __declspec(dllexport) void DrawScene(int width, int height)
-{
-    if (_vp != nullptr)
-    {
-        _vp->setDisplayRect(0, 0, width, height);
-        _vp->drawScene();
-    }
-}
-
-extern "C" __declspec(dllexport) void MouseDown(int button, int x, int y)
-{
-    _vp->control().OnMouseDown(button, x, y);
-}
-
-extern "C" __declspec(dllexport) void MouseUp(int button, int x, int y)
-{
-    _vp->control().OnMouseUp(button, x, y);
-}
-
-extern "C" __declspec(dllexport) void MouseMove(int button, int x, int y)
-{
-    _vp->control().OnMouseMove(button, x, y);
-}
-
-extern "C" __declspec(dllexport) void MouseWheel(int button, int zDelta, int x, int y)
-{
-    _vp->control().OnMouseWheel(button, zDelta, x, y);
 }
 
 int main()
 {
     printf("teapot-viewer!\n");
 
-    if (LoadModel("bin\\teapot.obj.zip", nullptr) == false)
+    if (LoadModel("bin\\teapot.obj.zip") == false)
         return -1;
 
     SaveBitmap("bin\\out.bmp");
@@ -189,3 +210,22 @@ int main()
 
     return 0;
 }
+
+#else
+
+void InitGL()
+{
+}
+
+extern "C" __declspec(dllexport) bool SaveBitmap(char *szPathName)
+{
+    return false;
+}
+
+extern "C" __declspec(dllexport) void *GetBitmap(CONTEXT context)
+{
+    static_cast<Viewport *>(context)->drawScene();
+    return nullptr;
+}
+
+#endif

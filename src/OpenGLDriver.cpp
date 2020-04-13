@@ -171,15 +171,6 @@ public:
 
     void bindTexture( int stage )
     {
-//        static PFNGLCLIENTACTIVETEXTUREPROC glClientActiveTexture = (PFNGLCLIENTACTIVETEXTUREPROC)glGetProcAddress("glClientActiveTexture");
-        static PFNGLACTIVETEXTUREARBPROC glActiveTextureARB = (PFNGLACTIVETEXTUREARBPROC)glGetProcAddress("glActiveTextureARB");
-
-//        if (glClientActiveTexture)
-//            glClientActiveTexture( GL_TEXTURE0_ARB + stage);
-
-        if (glActiveTextureARB)
-            glActiveTextureARB( GL_TEXTURE0_ARB + stage);
-
         if (m_texId)
             glEnable(GL_TEXTURE_2D);
         else
@@ -187,6 +178,15 @@ public:
             glDisable(GL_TEXTURE_2D);
             return;
         }
+
+        //        static PFNGLCLIENTACTIVETEXTUREPROC glClientActiveTexture = (PFNGLCLIENTACTIVETEXTUREPROC)glGetProcAddress("glClientActiveTexture");
+        static PFNGLACTIVETEXTUREARBPROC glActiveTextureARB = (PFNGLACTIVETEXTUREARBPROC)glGetProcAddress("glActiveTextureARB");
+
+//        if (glClientActiveTexture)
+//            glClientActiveTexture( GL_TEXTURE0_ARB + stage);
+
+        if (glActiveTextureARB)
+            glActiveTextureARB( GL_TEXTURE0_ARB + stage);
 
         if (stage == 1)     //Reflection
         {
@@ -727,7 +727,7 @@ public:
         GLenum errCode = glGetError();
         if (errCode != GL_NO_ERROR)
         {
-            std::cerr << "\nglErorr: " << errCode;
+            std::cerr << "\n" << call_function  << ": glErorr: " << errCode;
             return false;
         }
 
