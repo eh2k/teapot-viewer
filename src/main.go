@@ -1,10 +1,10 @@
-//go build -v -ldflags "-s -w" -o ../bin/main.exe
+//go build -v -ldflags=all='-H windowsgui -s -w' -o ../bin/TeapotViewer.exe
 
 package main
  
 // // #cgo CFLAGS: -static
 // #cgo CXXFLAGS: -std=c++17
-// #cgo LDFLAGS: -static -static-libgcc -static-libstdc++ -lopengl32 -lminizip 
+// #cgo LDFLAGS: -static -static-libgcc -static-libstdc++ -lopengl32 -lminizip -lz
 // #include <stdlib.h>
 // #include "main.h"
 import "C"
