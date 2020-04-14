@@ -16,6 +16,8 @@ IMPORT void MouseMove(CONTEXT context, int button, int x, int y);
 IMPORT void MouseWheel(CONTEXT context, int button, int zDelta, int x, int y);
 
 IMPORT int ViewMode(CONTEXT context, int mode, int enable);
+IMPORT void SetCamera(CONTEXT context, int num);
+IMPORT const char* GetCamera(CONTEXT context, int num);
 
 #ifdef __cplusplus
   }

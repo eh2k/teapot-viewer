@@ -1,7 +1,7 @@
 //go build -v -ldflags=all='-H windowsgui -s -w' -o ../bin/TeapotViewer.exe
 
 package main
- 
+
 // // #cgo CFLAGS: -static
 // #cgo CXXFLAGS: -std=c++17
 // #cgo LDFLAGS: -static -static-libgcc -static-libstdc++ -lopengl32 -lminizip -lz
@@ -323,7 +323,6 @@ func imguiAboutView() {
 		}
 		imgui.EndPopup()
 	}
-
 }
 
 func main() {
@@ -416,6 +415,29 @@ func main() {
 	openFileDialog := false
 	showAboutWindow := false
 
+	imguiViewModeMenuItem := func(text string, shortcut string, mode int) {
+		if mode > 0x8000 {
+			on := C.ViewMode(context, C.int(mode), -1) == C.int(1)
+			if imgui.MenuItemV(text, shortcut, !on, true) {
+				if on {
+					C.ViewMode(context, C.int(mode), C.int(0))
+				} else {
+					C.ViewMode(context, C.int(mode), C.int(1))
+				}
+			}
+		} else {
+			on := C.ViewMode(context, C.int(mode), -1) == C.int(0)
+			if imgui.MenuItemV(text, shortcut, !on, true) {
+				if on {
+					C.ViewMode(context, C.int(mode), C.int(1))
+				} else {
+					C.ViewMode(context, C.int(mode), C.int(0))
+				}
+			}
+		}
+
+	}
+
 	for !window.ShouldClose() {
 
 		glfw.PollEvents()
@@ -449,38 +471,25 @@ func main() {
 			}
 			if imgui.BeginMenu("View") {
 
-				imguiMenuItem := func(text string, shortcut string, mode int) {
-					on := C.ViewMode(context, C.int(mode), -1) == C.int(1)
-					if imgui.MenuItemV(text, shortcut, on, true) {
-						if on {
-							C.ViewMode(context, C.int(mode), 0)
-						} else {
-							C.ViewMode(context, C.int(mode), 1)
-						}
-					}
-				}
-
-				imguiMenuItem("Wireframe", "W", 1)
-				imguiMenuItem("Lighting", "L", 0x4)
-				imguiMenuItem("Shadow", "S", 0x8)
-				imguiMenuItem("Background", "G", 0x10)
+				imguiViewModeMenuItem("Wireframe", "W", 1)
+				imguiViewModeMenuItem("Lighting", "L", 0x4)
+				imguiViewModeMenuItem("Shadow", "S", 0x8)
+				imguiViewModeMenuItem("Background", "G", 0x10)
 				imgui.Separator()
-				imguiMenuItem("BoundingBoxes", "B", 0x200)
-				imguiMenuItem("Scene-ABB-Tree", "N", 0x100)
+				imguiViewModeMenuItem("BoundingBoxes", "B", 0x200)
+				imguiViewModeMenuItem("Scene-ABB-Tree", "N", 0x100)
 				//imgui.Separator()
 				//imguiMenuItem("FPS", "F", 0x800)
 				imgui.EndMenu()
 			}
 			if imgui.BeginMenu("Camera") {
-				if imgui.MenuItemV("Perspective Projection", "P", false, true) {
 
-				}
-				if imgui.MenuItemV("Orthogonal Projection", "O", false, true) {
+				imguiViewModeMenuItem("Perspective Projection", "P", 0x8002)
+				imguiViewModeMenuItem("Orthogonal Projection", "O", 0x2)
 
-				}
 				imgui.Separator()
 				if imgui.MenuItemV("Default", "1", false, true) {
-
+					C.SetCamera(context, C.int(0));
 				}
 				imgui.EndMenu()
 			}

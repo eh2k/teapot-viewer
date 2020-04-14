@@ -56,9 +56,9 @@ extern "C" __declspec(dllexport) int ViewMode(CONTEXT context, int mode, int ena
     if (_vp != nullptr)
     {
         int r = (int)_vp->getModeFlag((Mode)mode);
-        if(enable >= 0)
+        if (enable >= 0)
             _vp->setModeFlag((Mode)mode, enable);
-        
+
         _vp->invalidate();
 
         return r;
@@ -67,13 +67,12 @@ extern "C" __declspec(dllexport) int ViewMode(CONTEXT context, int mode, int ena
     return -1;
 }
 
-
 extern "C" __declspec(dllexport) void MouseButton(CONTEXT context, int button, int x, int y, int down)
 {
     auto _vp = static_cast<Viewport *>(context);
     if (_vp != nullptr)
     {
-        if(down)
+        if (down)
             _vp->control().OnMouseDown(button, x, y);
         else
             _vp->control().OnMouseUp(button, x, y);
@@ -92,6 +91,42 @@ extern "C" __declspec(dllexport) void MouseWheel(CONTEXT context, int button, in
     auto _vp = static_cast<Viewport *>(context);
     if (_vp != nullptr)
         _vp->control().OnMouseWheel(button, zDelta, x, y);
+}
+
+extern "C" __declspec(dllexport) void SetCamera(CONTEXT context, int num)
+{
+    auto _vp = static_cast<Viewport *>(context);
+    if (_vp != nullptr)
+    {
+        if (num == 0)
+        {
+            _vp->setScene(_vp->getScene(), _vp->getScene()->createOrbitalCamera());
+        }
+        else
+        {
+            _vp->setScene(_vp->getScene(), _vp->getScene()->getCameras()[num - 1]);
+        }
+
+        _vp->invalidate();
+    }
+}
+
+extern "C" __declspec(dllexport) const char *GetCamera(CONTEXT context, int num)
+{
+    auto _vp = static_cast<Viewport *>(context);
+    if (_vp != nullptr)
+    {
+        if(num == 0)
+        {
+            return "Default";
+        }
+        else if((num -1) < _vp->getScene()->getCameras().size())
+        {
+            return _vp->getScene()->getCameras()[num-1]->getName().c_str();
+        }
+    }
+
+    return nullptr;
 }
 
 #if 0
