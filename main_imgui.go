@@ -1,89 +1,11 @@
-//go build -v -ldflags=all='-H windowsgui -s -w' -o ../bin/TeapotViewer.exe
-
 package main
 
-// // #cgo CFLAGS: -static
-// #cgo CXXFLAGS: -std=c++17
-// #cgo LDFLAGS: -static -static-libgcc -static-libstdc++ -lopengl32 -lminizip -lz
-// #include <stdlib.h>
-// #include "main.h"
-import "C"
 import (
-	"bytes"
-	"fmt"
-	"image"
-	"image/jpeg"
-	"io"
 	"log"
-	"math"
-	"net/http"
-
-	"os"
-	"os/exec"
-	"runtime"
-	"strconv"
 	"unsafe"
-
 	"github.com/go-gl/gl/v2.1/gl"
-	"github.com/go-gl/glfw/v3.3/glfw"
 	"github.com/inkyblackness/imgui-go"
-	"github.com/sqweek/dialog"
 )
-
-func init() {
-	// This is needed to arrange that main() runs on main thread.
-	// See documentation for functions that are only allowed to be called from the main thread.
-	runtime.LockOSThread()
-}
-
-func writeImage(w http.ResponseWriter, img *image.Image) {
-
-	buffer := new(bytes.Buffer)
-	if err := jpeg.Encode(buffer, *img, nil); err != nil {
-		log.Println("unable to encode image.")
-	}
-
-	w.Header().Set("Content-Type", "image/jpeg")
-	w.Header().Set("Content-Length", strconv.Itoa(len(buffer.Bytes())))
-	if _, err := w.Write(buffer.Bytes()); err != nil {
-		log.Println("unable to write image.")
-	}
-}
-
-func decodeRGB(r io.Reader, width int, height int) (image.Image, error) {
-	rgba := image.NewRGBA(image.Rect(0, 0, width, height))
-	if width == 0 || height == 0 {
-		return rgba, nil
-	}
-	// There are 3 bytes per pixel, and each row is 4-byte aligned.
-	b := make([]byte, (3*width+3)&^3)
-	y0, y1, yDelta := height-1, -1, -1
-
-	topDown := false
-	if topDown {
-		y0, y1, yDelta = 0, height, +1
-	}
-	for y := y0; y != y1; y += yDelta {
-		if _, err := io.ReadFull(r, b); err != nil {
-			return nil, err
-		}
-		p := rgba.Pix[y*rgba.Stride : y*rgba.Stride+width*4]
-		for i, j := 0, 0; i < len(p); i, j = i+4, j+3 {
-			// BMP images are stored in BGR order rather than RGB order.
-			p[i+0] = b[j+2]
-			p[i+1] = b[j+1]
-			p[i+2] = b[j+0]
-			p[i+3] = 0xFF
-		}
-	}
-	return rgba, nil
-}
-
-func init() {
-	// This is needed to arrange that main() runs on main thread.
-	// See documentation for functions that are only allowed to be called from the main thread.
-	runtime.LockOSThread()
-}
 
 func Render(displaySize [2]float32, framebufferSize [2]float32, drawData imgui.DrawData) {
 	// Avoid rendering when minimized, scale coordinates for retina displays (screen coordinates != framebuffer coordinates)
@@ -187,7 +109,7 @@ func Render(displaySize [2]float32, framebufferSize [2]float32, drawData imgui.D
 	gl.Scissor(lastScissorBox[0], lastScissorBox[1], lastScissorBox[2], lastScissorBox[3])
 }
 
-func createFontsTexture(io imgui.IO) uint32 {
+func CreateFontsTexture(io imgui.IO) uint32 {
 	// Build texture atlas
 	image := io.Fonts().TextureDataRGBA32()
 
@@ -211,7 +133,7 @@ func createFontsTexture(io imgui.IO) uint32 {
 	return fontTexture
 }
 
-func destroyFontsTexture(fontTexture uint32) {
+func DestroyFontsTexture(fontTexture uint32) {
 	if fontTexture != 0 {
 		gl.DeleteTextures(1, &fontTexture)
 		imgui.CurrentIO().Fonts().SetTextureID(0)
@@ -219,7 +141,7 @@ func destroyFontsTexture(fontTexture uint32) {
 	}
 }
 
-func initImguiStyle() {
+func InitImguiStyle() {
 
 	//https://github.com/inkyblackness/hacked/blob/b8ec8e13df6f9dc4a416d4b375139e78d8120035/editor/Application.go
 
@@ -276,7 +198,7 @@ func initImguiStyle() {
 	//style.SetColor(imgui.StyleColorModalWindowDimBg,       imgui.Vec4{0.20, 0.20, 0.20, 0.35})
 }
 
-func imguiHyperLink(name string, url string) {
+func HyperLink(name string, url string, onClick func(url string)) {
 
 	// AddUnderLine := func(color imgui.PackedColor) {
 	// 	min := imgui.CalcItemWidth()
@@ -290,7 +212,7 @@ func imguiHyperLink(name string, url string) {
 	imgui.PopStyleColor()
 	if imgui.IsItemHovered() {
 		if imgui.IsMouseClicked(0) {
-			exec.Command("cmd.exe", "/C", "start", url).Start()
+			onClick(url)
 		}
 		//AddUnderLine(imgui.PackedColor(0x0000ff))
 		imgui.SetTooltip("Open in browser... ")
@@ -298,263 +220,4 @@ func imguiHyperLink(name string, url string) {
 		//AddUnderLine(imgui.PackedColor(0x0000ff))
 	}
 
-}
-
-func imguiAboutView() {
-
-	if imgui.BeginPopupModalV("About", nil, imgui.WindowFlagsNoResize|imgui.WindowFlagsNoSavedSettings) {
-		imgui.Spacing()
-		imgui.Spacing()
-		imgui.Text("Teapot-Viewer 1.1a ")
-		imgui.Spacing()
-		imgui.Spacing()
-		imgui.Separator()
-		imgui.Spacing()
-		imgui.Spacing()
-		imgui.Text("Copyright (C) 2010-2020 by E.Heidt")
-		imguiHyperLink("https://github.com/eh2k/teapot-viewer", "https://github.com/eh2k/teapot-viewer")
-		imgui.Spacing()
-		imgui.Spacing()
-		imgui.Separator()
-		imgui.Text("OpenGL " + gl.GoStr(gl.GetString(gl.VERSION)))
-		imgui.Separator()
-		if imgui.Button("OK") {
-			imgui.CloseCurrentPopup()
-		}
-		imgui.EndPopup()
-	}
-}
-
-func main() {
-
-	log.SetFlags(log.LstdFlags | log.Lshortfile)
-
-	imguic := imgui.CreateContext(nil)
-	defer imguic.Destroy()
-	io := imgui.CurrentIO()
-
-	io.Fonts().TextureDataAlpha8()
-	//imgui.StyleColorsDark()
-
-	initImguiStyle()
-
-	err := glfw.Init()
-	if err != nil {
-		panic(err)
-	}
-	defer glfw.Terminate()
-
-	window, err := glfw.CreateWindow(800, 600, "TepotViewer", nil, nil)
-	if err != nil {
-		panic(err)
-	}
-
-	window.MakeContextCurrent()
-	glfw.SwapInterval(1)
-
-	if err := gl.Init(); err != nil {
-		log.Fatalln("failed to initialize glfw:", err)
-	}
-
-	path, err := os.Executable()
-	if err != nil {
-		log.Println(err)
-	}
-
-	cs := C.CString(path + "/../teapot.obj.zip")
-	defer C.free(unsafe.Pointer(cs))
-
-	context := C.LoadModel(cs)
-	if context == nil {
-		log.Fatal("load failed")
-	} else {
-
-		log.Println("OK")
-
-		window.SetScrollCallback(func(w *glfw.Window, xoff float64, yoff float64) {
-			x, y := w.GetCursorPos()
-			C.MouseWheel(context, 0, C.int(yoff), C.int(x), C.int(y))
-		})
-
-		window.SetMouseButtonCallback(func(w *glfw.Window, button glfw.MouseButton, action glfw.Action, mods glfw.ModifierKey) {
-
-			if io.WantCaptureMouse() {
-				io.SetMouseButtonDown(int(button), action == 1)
-			} else {
-				x, y := w.GetCursorPos()
-				C.MouseButton(context, 1, C.int(x), C.int(y), C.int(action))
-			}
-		})
-
-		window.SetCursorPosCallback(func(w *glfw.Window, x float64, y float64) {
-
-			if w.GetAttrib(glfw.Focused) != 0 {
-				io.SetMousePosition(imgui.Vec2{X: float32(x), Y: float32(y)})
-			} else {
-				io.SetMousePosition(imgui.Vec2{X: -math.MaxFloat32, Y: -math.MaxFloat32})
-			}
-
-			if io.WantCaptureMouse() == false {
-				if w.GetMouseButton(0) == 1 {
-					C.MouseMove(context, 1, C.int(x), C.int(y))
-				}
-				if w.GetMouseButton(1) == 1 {
-					C.MouseMove(context, 2, C.int(x), C.int(y))
-				}
-			}
-
-		})
-	}
-
-	log.Println("OK")
-
-	fontTexture := createFontsTexture(io)
-	defer destroyFontsTexture(fontTexture)
-
-	showDemoWindow := false
-	openFileDialog := false
-	showAboutWindow := false
-
-	imguiViewModeMenuItem := func(text string, shortcut string, mode int) {
-		if mode > 0x8000 {
-			on := C.ViewMode(context, C.int(mode), -1) == C.int(1)
-			if imgui.MenuItemV(text, shortcut, !on, true) {
-				if on {
-					C.ViewMode(context, C.int(mode), C.int(0))
-				} else {
-					C.ViewMode(context, C.int(mode), C.int(1))
-				}
-			}
-		} else {
-			on := C.ViewMode(context, C.int(mode), -1) == C.int(0)
-			if imgui.MenuItemV(text, shortcut, !on, true) {
-				if on {
-					C.ViewMode(context, C.int(mode), C.int(1))
-				} else {
-					C.ViewMode(context, C.int(mode), C.int(0))
-				}
-			}
-		}
-
-	}
-
-	for !window.ShouldClose() {
-
-		glfw.PollEvents()
-
-		width, height := window.GetSize()
-		size := [2]float32{0.0, 0.0}
-		size[0] = float32(width)
-		size[1] = float32(height)
-		displaySize := imgui.Vec2{float32(width), float32(height)}
-
-		//gl.ClearColor(clearColor[0], clearColor[1], clearColor[2], 1)
-		gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT | gl.STENCIL_BUFFER_BIT)
-
-		C.DrawScene(context, C.int(width), C.int(height), window.Handle())
-
-		gl.Clear(gl.DEPTH_BUFFER_BIT | gl.STENCIL_BUFFER_BIT)
-		io.SetDisplaySize(displaySize)
-
-		imgui.NewFrame()
-
-		if imgui.BeginMainMenuBar() {
-			if imgui.BeginMenu("File") {
-				if imgui.MenuItem("Open...") {
-					openFileDialog = true
-				}
-				imgui.Separator()
-				if imgui.MenuItemV("Exit", "Alt+F4", false, true) {
-					os.Exit(0)
-				}
-				imgui.EndMenu()
-			}
-			if imgui.BeginMenu("View") {
-
-				imguiViewModeMenuItem("Wireframe", "W", 1)
-				imguiViewModeMenuItem("Lighting", "L", 0x4)
-				imguiViewModeMenuItem("Shadow", "S", 0x8)
-				imguiViewModeMenuItem("Background", "G", 0x10)
-				imgui.Separator()
-				imguiViewModeMenuItem("BoundingBoxes", "B", 0x200)
-				imguiViewModeMenuItem("Scene-ABB-Tree", "N", 0x100)
-				//imgui.Separator()
-				//imguiMenuItem("FPS", "F", 0x800)
-				imgui.EndMenu()
-			}
-			if imgui.BeginMenu("Camera") {
-
-				imguiViewModeMenuItem("Perspective Projection", "P", 0x8002)
-				imguiViewModeMenuItem("Orthogonal Projection", "O", 0x2)
-
-				imgui.Separator()
-				if imgui.MenuItemV("Default", "1", false, true) {
-					C.SetCamera(context, C.int(0));
-				}
-				imgui.EndMenu()
-			}
-			if imgui.BeginMenu("Help") {
-				if imgui.MenuItem("About...") {
-					showAboutWindow = true
-				}
-				imgui.Separator()
-				if imgui.MenuItem("Imgui Demo...") {
-					showDemoWindow = true
-				}
-				imgui.EndMenu()
-			}
-
-			imgui.EndMainMenuBar()
-		}
-
-		if openFileDialog {
-			openFileDialog = false
-			filename, err := dialog.File().Filter("ZIP", "zip").Load()
-			if err == nil {
-				cs := C.CString(filename)
-				defer C.free(unsafe.Pointer(cs))
-				context = C.LoadModel(cs)
-			}
-		}
-
-		if showAboutWindow {
-			imgui.OpenPopup("About")
-			showAboutWindow = false
-		}
-
-		imguiAboutView()
-
-		if showDemoWindow {
-			imgui.SetNextWindowPosV(imgui.Vec2{X: 650, Y: 20}, imgui.ConditionFirstUseEver, imgui.Vec2{})
-			imgui.ShowDemoWindow(&showDemoWindow)
-		}
-
-		imgui.Render()
-
-		Render(size, size, imgui.RenderedDrawData())
-		//C.DrawScene(context, C.int(width), C.int(height), window.Handle())
-
-		window.SwapBuffers()
-	}
-
-	fmt.Println("END")
-
-	if false {
-		u := C.GetBitmap(context)
-		r := bytes.NewReader((*[800 * 600 * 3]byte)(unsafe.Pointer(u))[:])
-
-		img, err := decodeRGB(r, 800, 600)
-
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		var iimg image.Image = img
-
-		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-			writeImage(w, &iimg)
-		})
-
-		log.Fatal(http.ListenAndServe(":8081", nil))
-	}
 }
