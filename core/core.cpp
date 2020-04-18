@@ -1,135 +1,141 @@
 #include <stdio.h>
 #include <assert.h>
-#include <filesystem>
-
 #include "IDriver.h"
 #include "Viewport.h"
 #include "SceneIO.h"
 #include "Controller.h"
-
-#include <windows.h>
-#include <gl/gl.h>
+#include "core.h"
+#include "_cgo_export.h"
 
 #define CONTEXT void *
 
 using namespace eh;
 
-extern "C" IDriver *CreateOpenGL1Driver(int *pWindow);
-extern "C" SceneIO::IPlugIn *XcreateOBJPlugIn(); //OBJ
-
-extern "C" __declspec(dllexport) CONTEXT LoadModel(const char *path)
+extern "C"
 {
-    std::shared_ptr<SceneIO::IPlugIn> pPlugIn(XcreateOBJPlugIn());
-    SceneIO::getInstance().RegisterPlugIn(pPlugIn);
 
-    auto scene = eh::Scene::create();
+    IDriver *CreateOpenGL1Driver(int *pWindow);
+    SceneIO::IPlugIn *XcreateOBJPlugIn(); //OBJ
 
-    std::filesystem::path fpath(path);
+    API_3D CONTEXT LoadModel(const char *path)
+    {
+        std::shared_ptr<SceneIO::IPlugIn> pPlugIn(XcreateOBJPlugIn());
+        SceneIO::getInstance().RegisterPlugIn(pPlugIn);
 
-    if (SceneIO::getInstance().read(fpath.wstring(), scene) == false)
+        auto scene = eh::Scene::create();
+
+        std::filesystem::path fpath(path);
+
+        if (SceneIO::getInstance().read(fpath.wstring(), scene, goLoadModelProgressCB) == false)
+            return nullptr;
+
+        auto _vp = new Viewport(nullptr);
+        _vp->setScene(scene);
+        return _vp;
+    }
+
+    API_3D void DrawScene(CONTEXT context, int width, int height, void *window)
+    {
+        auto _vp = static_cast<Viewport *>(context);
+        if (_vp != nullptr)
+        {
+            if (_vp->getDriver() == nullptr)
+            {
+                auto gl = CreateOpenGL1Driver((int *)window);
+                _vp->setDriver(gl);
+            }
+
+            _vp->setDisplayRect(0, 0, width, height);
+            _vp->drawScene();
+        }
+    }
+
+    API_3D int ViewMode(CONTEXT context, int mode, int enable)
+    {
+        auto _vp = static_cast<Viewport *>(context);
+        if (_vp != nullptr)
+        {
+            int r = (int)_vp->getModeFlag((Mode)mode);
+            if (enable >= 0)
+                _vp->setModeFlag((Mode)mode, enable);
+            else if (enable == -2)
+                _vp->setModeFlag((Mode)mode, !r);
+
+            _vp->invalidate();
+
+            return r;
+        }
+
+        return -1;
+    }
+
+    API_3D void MouseButton(CONTEXT context, int button, int x, int y, int down)
+    {
+        auto _vp = static_cast<Viewport *>(context);
+        if (_vp != nullptr)
+        {
+            if (down)
+                _vp->control().OnMouseDown(button, x, y);
+            else
+                _vp->control().OnMouseUp(button, x, y);
+        }
+    }
+
+    API_3D void MouseMove(CONTEXT context, int button, int x, int y)
+    {
+        auto _vp = static_cast<Viewport *>(context);
+        if (_vp != nullptr)
+            _vp->control().OnMouseMove(button, x, y);
+    }
+
+    API_3D void MouseWheel(CONTEXT context, int button, int zDelta, int x, int y)
+    {
+        auto _vp = static_cast<Viewport *>(context);
+        if (_vp != nullptr)
+            _vp->control().OnMouseWheel(button, zDelta, x, y);
+    }
+
+    API_3D void SetCamera(CONTEXT context, int num)
+    {
+        auto _vp = static_cast<Viewport *>(context);
+        if (_vp != nullptr)
+        {
+            if (num == 0)
+            {
+                _vp->setScene(_vp->getScene(), _vp->getScene()->createOrbitalCamera());
+            }
+            else
+            {
+                _vp->setScene(_vp->getScene(), _vp->getScene()->getCameras()[num - 1]);
+            }
+
+            _vp->invalidate();
+        }
+    }
+
+    API_3D const char *GetCamera(CONTEXT context, int num)
+    {
+        auto _vp = static_cast<Viewport *>(context);
+        if (_vp != nullptr)
+        {
+            if (num == 0)
+            {
+                return "Default";
+            }
+            else if ((num - 1) < _vp->getScene()->getCameras().size())
+            {
+                return _vp->getScene()->getCameras()[num - 1]->getName().c_str();
+            }
+        }
+
         return nullptr;
-
-    auto _vp = new Viewport(nullptr);
-    _vp->setScene(scene);
-    return _vp;
-}
-
-extern "C" __declspec(dllexport) void DrawScene(CONTEXT context, int width, int height, void *window)
-{
-    auto _vp = static_cast<Viewport *>(context);
-    if (_vp != nullptr)
-    {
-        if (_vp->getDriver() == nullptr)
-        {
-            auto gl = CreateOpenGL1Driver((int *)window);
-            _vp->setDriver(gl);
-        }
-
-        _vp->setDisplayRect(0, 0, width, height);
-        _vp->drawScene();
     }
-}
-
-extern "C" __declspec(dllexport) int ViewMode(CONTEXT context, int mode, int enable)
-{
-    auto _vp = static_cast<Viewport *>(context);
-    if (_vp != nullptr)
-    {
-        int r = (int)_vp->getModeFlag((Mode)mode);
-        if (enable >= 0)
-            _vp->setModeFlag((Mode)mode, enable);
-
-        _vp->invalidate();
-
-        return r;
-    }
-
-    return -1;
-}
-
-extern "C" __declspec(dllexport) void MouseButton(CONTEXT context, int button, int x, int y, int down)
-{
-    auto _vp = static_cast<Viewport *>(context);
-    if (_vp != nullptr)
-    {
-        if (down)
-            _vp->control().OnMouseDown(button, x, y);
-        else
-            _vp->control().OnMouseUp(button, x, y);
-    }
-}
-
-extern "C" __declspec(dllexport) void MouseMove(CONTEXT context, int button, int x, int y)
-{
-    auto _vp = static_cast<Viewport *>(context);
-    if (_vp != nullptr)
-        _vp->control().OnMouseMove(button, x, y);
-}
-
-extern "C" __declspec(dllexport) void MouseWheel(CONTEXT context, int button, int zDelta, int x, int y)
-{
-    auto _vp = static_cast<Viewport *>(context);
-    if (_vp != nullptr)
-        _vp->control().OnMouseWheel(button, zDelta, x, y);
-}
-
-extern "C" __declspec(dllexport) void SetCamera(CONTEXT context, int num)
-{
-    auto _vp = static_cast<Viewport *>(context);
-    if (_vp != nullptr)
-    {
-        if (num == 0)
-        {
-            _vp->setScene(_vp->getScene(), _vp->getScene()->createOrbitalCamera());
-        }
-        else
-        {
-            _vp->setScene(_vp->getScene(), _vp->getScene()->getCameras()[num - 1]);
-        }
-
-        _vp->invalidate();
-    }
-}
-
-extern "C" __declspec(dllexport) const char *GetCamera(CONTEXT context, int num)
-{
-    auto _vp = static_cast<Viewport *>(context);
-    if (_vp != nullptr)
-    {
-        if(num == 0)
-        {
-            return "Default";
-        }
-        else if((num -1) < _vp->getScene()->getCameras().size())
-        {
-            return _vp->getScene()->getCameras()[num-1]->getName().c_str();
-        }
-    }
-
-    return nullptr;
 }
 
 #if 0
+
+#include <windows.h>
+#include <gl/gl.h>
 
 void *_pBits;
 HBITMAP _hBitmap;
@@ -183,7 +189,7 @@ void InitGL()
     VR(wglMakeCurrent(_hDC, _hRC));
 }
 
-extern "C" __declspec(dllexport) bool SaveBitmap(char *szPathName)
+extern "C" API_3D bool SaveBitmap(char *szPathName)
 {
     // Create a new file for writing
     FILE *pFile = fopen(szPathName, "wb"); // wb -> w: writable b: binary, open as writable and binary
@@ -227,7 +233,7 @@ extern "C" __declspec(dllexport) bool SaveBitmap(char *szPathName)
     return true;
 }
 
-extern "C" __declspec(dllexport) void *GetBitmap(CONTEXT context)
+extern "C" API_3D void *GetBitmap(CONTEXT context)
 {
     static_cast<Viewport *>(context)->drawScene();
     return _pBits;
@@ -252,12 +258,12 @@ void InitGL()
 {
 }
 
-extern "C" __declspec(dllexport) bool SaveBitmap(char *szPathName)
+extern "C" API_3D bool SaveBitmap(char *szPathName)
 {
     return false;
 }
 
-extern "C" __declspec(dllexport) void *GetBitmap(CONTEXT context)
+extern "C" API_3D void *GetBitmap(CONTEXT context)
 {
     static_cast<Viewport *>(context)->drawScene();
     return nullptr;

@@ -20,7 +20,7 @@ Controller::Controller():
 	m_axis( nullptr )
 {
 	Ptr<Scene> scene = Scene::create();
-	std::auto_ptr<SceneIO::IPlugIn> objloader( XcreatePlugIn() );
+	std::shared_ptr<SceneIO::IPlugIn> objloader( XcreatePlugIn() );
 
 	struct dummy {static void callback(float f){} };
 	SceneIO::progress_callback dummy_cb(dummy::callback);

@@ -10,11 +10,13 @@ import (
 	"os"
 	"os/exec"
 	"runtime"
+
+	"./core"
 	"github.com/go-gl/gl/v2.1/gl"
 	"github.com/go-gl/glfw/v3.3/glfw"
 	"github.com/inkyblackness/imgui-go"
 	"github.com/sqweek/dialog"
-	"./core"
+	"time"
 )
 
 func init() {
@@ -35,9 +37,9 @@ func imguiAboutView() {
 		imgui.Spacing()
 		imgui.Spacing()
 		imgui.Text("Copyright (C) 2010-2020 by E.Heidt")
-		HyperLink("https://github.com/eh2k/teapot-viewer", "https://github.com/eh2k/teapot-viewer", 
-			func(url string){ 
-				exec.Command("explorer.exe", "start", url).Start() 
+		HyperLink("https://github.com/eh2k/teapot-viewer", "https://github.com/eh2k/teapot-viewer",
+			func(url string) {
+				exec.Command("explorer.exe", "start", url).Start()
 			})
 		imgui.Spacing()
 		imgui.Spacing()
@@ -51,6 +53,138 @@ func imguiAboutView() {
 	}
 }
 
+var context core.MODEL
+
+func imguiViewModeMenuItem(text string, shortcut string, mode int) {
+
+	if mode > 0x8000 {
+		on := core.ViewMode(context, mode, -1) == 1
+		if imgui.MenuItemV(text, shortcut, !on, true) {
+			if on {
+				core.ViewMode(context, mode, 0)
+			} else {
+				core.ViewMode(context, mode, 1)
+			}
+		}
+	} else {
+		on := core.ViewMode(context, mode, -1) == 0
+		if imgui.MenuItemV(text, shortcut, !on, true) {
+			if on {
+				core.ViewMode(context, mode, 1)
+			} else {
+				core.ViewMode(context, mode, 0)
+			}
+		}
+	}
+
+}
+
+var showDemoWindow = false
+var openFileDialog = false
+var showAboutWindow = false
+var loadProgress float32 = 0
+
+var laodProgressCb = func(p float32) {
+	fmt.Println("laodProgressCb", p)
+}
+
+func loop(window *glfw.Window) {
+	glfw.PollEvents()
+
+	io := imgui.CurrentIO()
+	width, height := window.GetSize()
+	size := [2]float32{0.0, 0.0}
+	size[0] = float32(width)
+	size[1] = float32(height)
+	displaySize := imgui.Vec2{float32(width), float32(height)}
+
+	//gl.ClearColor(clearColor[0], clearColor[1], clearColor[2], 1)
+	gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT | gl.STENCIL_BUFFER_BIT)
+
+	core.DrawScene(context, width, height, window.Handle())
+
+	gl.Clear(gl.DEPTH_BUFFER_BIT | gl.STENCIL_BUFFER_BIT)
+	io.SetDisplaySize(displaySize)
+
+	imgui.NewFrame()
+
+	if imgui.BeginMainMenuBar() {
+		if imgui.BeginMenu("File") {
+			if imgui.MenuItem("Open...") {
+				openFileDialog = true
+			}
+			imgui.Separator()
+			if imgui.MenuItemV("Exit", "Alt+F4", false, true) {
+				os.Exit(0)
+			}
+			imgui.EndMenu()
+		}
+		if imgui.BeginMenu("View") {
+
+			imguiViewModeMenuItem("Wireframe", "W", 1)
+			imguiViewModeMenuItem("Lighting", "L", 0x4)
+			imguiViewModeMenuItem("Shadow", "S", 0x8)
+			imguiViewModeMenuItem("Background", "G", 0x10)
+			imgui.Separator()
+			imguiViewModeMenuItem("BoundingBoxes", "B", 0x200)
+			imguiViewModeMenuItem("Scene-ABB-Tree", "N", 0x100)
+			//imgui.Separator()
+			//imguiMenuItem("FPS", "F", 0x800)
+			imgui.EndMenu()
+		}
+		if imgui.BeginMenu("Camera") {
+
+			imguiViewModeMenuItem("Perspective Projection", "P", 0x8002)
+			imguiViewModeMenuItem("Orthogonal Projection", "O", 0x2)
+
+			imgui.Separator()
+			if imgui.MenuItemV("Default", "1", false, true) {
+				core.SetCamera(context, 0)
+			}
+			imgui.EndMenu()
+		}
+		if imgui.BeginMenu("Help") {
+			if imgui.MenuItem("About...") {
+				showAboutWindow = true
+			}
+			imgui.Separator()
+			if imgui.MenuItem("Imgui Demo...") {
+				showDemoWindow = true
+			}
+			imgui.EndMenu()
+		}
+
+		imgui.EndMainMenuBar()
+	}
+
+	if showAboutWindow {
+		imgui.OpenPopup("About")
+		showAboutWindow = false
+	}
+
+	imguiAboutView()
+
+	if showDemoWindow {
+		imgui.SetNextWindowPosV(imgui.Vec2{X: 650, Y: 20}, imgui.ConditionFirstUseEver, imgui.Vec2{})
+		imgui.ShowDemoWindow(&showDemoWindow)
+	}
+
+	if loadProgress > 0 {
+		imgui.SetNextWindowPos(imgui.Vec2{X: size[0]/2 - 150.0, Y: size[1] / 2 - 20.0})
+		imgui.BeginV("loading...", nil, imgui.WindowFlagsNoResize|imgui.WindowFlagsNoSavedSettings|imgui.WindowFlagsNoTitleBar)
+		imgui.Text("loading...")
+		imgui.ProgressBarV(loadProgress, imgui.Vec2{300, 22}, "")
+		imgui.End()
+	}
+
+	imgui.Render()
+
+	Render(size, size, imgui.RenderedDrawData())
+	//C.DrawScene(context, C.int(width), C.int(height), window.Handle())
+
+	window.SwapBuffers()
+}
+
 func main() {
 
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
@@ -60,8 +194,6 @@ func main() {
 	io := imgui.CurrentIO()
 
 	io.Fonts().TextureDataAlpha8()
-	//imgui.StyleColorsDark()
-
 	InitImguiStyle()
 
 	err := glfw.Init()
@@ -89,7 +221,23 @@ func main() {
 		log.Println(err)
 	}
 
-	context := core.LoadModel(path + "/../teapot.obj.zip")
+	t := time.Now()
+	laodProgressCb = func(p float32) {
+
+		if time.Now().Sub(t).Milliseconds() > 50 {
+			loop(window)
+			t = time.Now()
+			loadProgress = p
+		}
+
+		if p >= 1 {
+			loadProgress = 0
+		} 
+	}
+
+	context = core.LoadModel(path+"/../teapot.obj.zip", func(p float32){		
+	})
+
 	if context == nil {
 		log.Fatal("load failed")
 	} else {
@@ -129,133 +277,72 @@ func main() {
 			}
 
 		})
+
+		io.KeyMap(imgui.KeyV, int(glfw.KeyV))
+		io.KeyMap(imgui.KeyX, int(glfw.KeyX))
+		io.KeyMap(imgui.KeyY, int(glfw.KeyY))
+		io.KeyMap(imgui.KeyZ, int(glfw.KeyZ))
+
+		window.SetCharCallback(func(window *glfw.Window, char rune) {
+			io.AddInputCharacters(string(char))
+		})
+
+		window.SetKeyCallback(func(window *glfw.Window, key glfw.Key, scancode int, action glfw.Action, mods glfw.ModifierKey) {
+			if action == glfw.Press {
+				io.KeyPress(int(key))
+			}
+			if action == glfw.Release {
+				io.KeyRelease(int(key))
+			}
+
+			// Modifiers are not reliable across systems
+			io.KeyCtrl(int(glfw.KeyLeftControl), int(glfw.KeyRightControl))
+			io.KeyShift(int(glfw.KeyLeftShift), int(glfw.KeyRightShift))
+			io.KeyAlt(int(glfw.KeyLeftAlt), int(glfw.KeyRightAlt))
+			io.KeySuper(int(glfw.KeyLeftSuper), int(glfw.KeyRightSuper))
+
+			if action == glfw.Press {
+				io.KeyPress(int(key))
+
+				switch int(key) {
+				case 87:
+					core.ViewMode(context, 0x1, -2)
+				case 76:
+					core.ViewMode(context, 0x4, -2)
+				case 83:
+					core.ViewMode(context, 0x8, -2)
+				case 71:
+					core.ViewMode(context, 0x10, -2)
+				case 66:
+					core.ViewMode(context, 0x200, -2)
+				case 78:
+					core.ViewMode(context, 0x100, -2)
+				case 80:
+					core.ViewMode(context, 0x2, -2) //Perspective
+				case 79:
+					core.ViewMode(context, 0x2, -2) //Ortho
+				case 49:
+					core.SetCamera(context, 0) //Camera default
+				default:
+					fmt.Println(key)
+				}
+			}
+		})
 	}
 
 	fontTexture := CreateFontsTexture(io)
 	defer DestroyFontsTexture(fontTexture)
 
-	showDemoWindow := false
-	openFileDialog := false
-	showAboutWindow := false
-
-	imguiViewModeMenuItem := func(text string, shortcut string, mode int) {
-		if mode > 0x8000 {
-			on := core.ViewMode(context, mode, -1) == 1
-			if imgui.MenuItemV(text, shortcut, !on, true) {
-				if on {
-					core.ViewMode(context, mode, 0)
-				} else {
-					core.ViewMode(context, mode, 1)
-				}
-			}
-		} else {
-			on := core.ViewMode(context, mode, -1) == 0
-			if imgui.MenuItemV(text, shortcut, !on, true) {
-				if on {
-					core.ViewMode(context, mode, 1)
-				} else {
-					core.ViewMode(context, mode, 0)
-				}
-			}
-		}
-
-	}
-
 	for !window.ShouldClose() {
-
-		glfw.PollEvents()
-
-		width, height := window.GetSize()
-		size := [2]float32{0.0, 0.0}
-		size[0] = float32(width)
-		size[1] = float32(height)
-		displaySize := imgui.Vec2{float32(width), float32(height)}
-
-		//gl.ClearColor(clearColor[0], clearColor[1], clearColor[2], 1)
-		gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT | gl.STENCIL_BUFFER_BIT)
-
-		core.DrawScene(context, width, height, window.Handle())
-
-		gl.Clear(gl.DEPTH_BUFFER_BIT | gl.STENCIL_BUFFER_BIT)
-		io.SetDisplaySize(displaySize)
-
-		imgui.NewFrame()
-
-		if imgui.BeginMainMenuBar() {
-			if imgui.BeginMenu("File") {
-				if imgui.MenuItem("Open...") {
-					openFileDialog = true
-				}
-				imgui.Separator()
-				if imgui.MenuItemV("Exit", "Alt+F4", false, true) {
-					os.Exit(0)
-				}
-				imgui.EndMenu()
-			}
-			if imgui.BeginMenu("View") {
-
-				imguiViewModeMenuItem("Wireframe", "W", 1)
-				imguiViewModeMenuItem("Lighting", "L", 0x4)
-				imguiViewModeMenuItem("Shadow", "S", 0x8)
-				imguiViewModeMenuItem("Background", "G", 0x10)
-				imgui.Separator()
-				imguiViewModeMenuItem("BoundingBoxes", "B", 0x200)
-				imguiViewModeMenuItem("Scene-ABB-Tree", "N", 0x100)
-				//imgui.Separator()
-				//imguiMenuItem("FPS", "F", 0x800)
-				imgui.EndMenu()
-			}
-			if imgui.BeginMenu("Camera") {
-
-				imguiViewModeMenuItem("Perspective Projection", "P", 0x8002)
-				imguiViewModeMenuItem("Orthogonal Projection", "O", 0x2)
-
-				imgui.Separator()
-				if imgui.MenuItemV("Default", "1", false, true) {
-					core.SetCamera(context, 0);
-				}
-				imgui.EndMenu()
-			}
-			if imgui.BeginMenu("Help") {
-				if imgui.MenuItem("About...") {
-					showAboutWindow = true
-				}
-				imgui.Separator()
-				if imgui.MenuItem("Imgui Demo...") {
-					showDemoWindow = true
-				}
-				imgui.EndMenu()
-			}
-
-			imgui.EndMainMenuBar()
-		}
+		loop(window)
 
 		if openFileDialog {
 			openFileDialog = false
 			filename, err := dialog.File().Filter("ZIP", "zip").Load()
 			if err == nil {
-				context = core.LoadModel(filename)
+				context = core.LoadModel(filename, laodProgressCb)
 			}
 		}
-
-		if showAboutWindow {
-			imgui.OpenPopup("About")
-			showAboutWindow = false
-		}
-
-		imguiAboutView()
-
-		if showDemoWindow {
-			imgui.SetNextWindowPosV(imgui.Vec2{X: 650, Y: 20}, imgui.ConditionFirstUseEver, imgui.Vec2{})
-			imgui.ShowDemoWindow(&showDemoWindow)
-		}
-
-		imgui.Render()
-
-		Render(size, size, imgui.RenderedDrawData())
-		//C.DrawScene(context, C.int(width), C.int(height), window.Handle())
-
-		window.SwapBuffers()
 	}
 
 	fmt.Println("END")

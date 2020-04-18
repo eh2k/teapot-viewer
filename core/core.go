@@ -10,16 +10,32 @@ package core
 import "C"
 import (
 	"unsafe"
+	"fmt"
 )
 
 type (
 	MODEL unsafe.Pointer
 )
 
-func LoadModel(path string) MODEL {
+var loadModelCB func(p float32) = func(p float32){
+	fmt.Println("loadModelCB", p)
+}
+
+//export goLoadModelProgressCB
+func goLoadModelProgressCB(p float32) {
+	loadModelCB(p)
+}
+
+func LoadModel(path string, progressCB func(p float32)) MODEL {
 	cs := C.CString(path)
 	defer C.free(unsafe.Pointer(cs))
+
+	if progressCB != nil{
+		loadModelCB = progressCB
+	}
+
 	model := C.LoadModel(cs)
+
 	return MODEL(model)
 }
 
