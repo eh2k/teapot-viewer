@@ -4,7 +4,8 @@ package core
 
 // // #cgo CFLAGS: -static
 // #cgo CXXFLAGS: -std=c++17
-// #cgo LDFLAGS: -static -static-libgcc -static-libstdc++ -lopengl32 -lminizip -lz
+// #cgo windows LDFLAGS: -static -static-libgcc -static-libstdc++ -lminizip -lz  -lopengl32
+// #cgo linux LDFLAGS: -ldl -lstdc++ -lminizip -lz -lstdc++fs -lGL
 // #include <stdlib.h>
 // #include "core.h"
 import "C"

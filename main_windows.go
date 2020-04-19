@@ -33,11 +33,21 @@ import "C"
 
 import (
 	"unsafe"
-	"github.com/go-gl/glfw/v3.3/glfw"
+    "github.com/go-gl/glfw/v3.3/glfw"
+    "github.com/sqweek/dialog"
+    "os/exec"
 )
 
 func SetWindowIcon(window *glfw.Window) {
 
 	hwnd := unsafe.Pointer(window.GetWin32Window())
 	C.SetWindowIcon(C.HWND(hwnd))
+}
+
+func OpenFileDialog(a, b string) string, error{
+    return dialog.File().Filter(a, b).Load()
+}
+
+func OpenUrl(url string){
+	exec.Command("explorer.exe", "start", url).Start()
 }

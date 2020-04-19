@@ -23,8 +23,18 @@
 #include <functional>
 #include <algorithm>
 #include <memory>
-#include <filesystem>
+
 #include "Scene.h"
+
+#if defined(_WIN32) || defined(__WIN32__) || defined(__CYGWIN__)
+#	include <filesystem>
+#else
+#	include <experimental/filesystem>
+namespace std
+{
+	using namespace std::experimental;
+}
+#endif
 
 
 namespace eh

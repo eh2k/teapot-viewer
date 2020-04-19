@@ -8,15 +8,13 @@ import (
 	"log"
 	"math"
 	"os"
-	"os/exec"
 	"runtime"
-
 	"./core"
 	"github.com/go-gl/gl/v2.1/gl"
 	"github.com/go-gl/glfw/v3.3/glfw"
 	"github.com/inkyblackness/imgui-go"
-	"github.com/sqweek/dialog"
 	"time"
+	"path/filepath"
 )
 
 func init() {
@@ -37,10 +35,7 @@ func imguiAboutView() {
 		imgui.Spacing()
 		imgui.Spacing()
 		imgui.Text("Copyright (C) 2010-2020 by E.Heidt")
-		HyperLink("https://github.com/eh2k/teapot-viewer", "https://github.com/eh2k/teapot-viewer",
-			func(url string) {
-				exec.Command("explorer.exe", "start", url).Start()
-			})
+		HyperLink("https://github.com/eh2k/teapot-viewer", "https://github.com/eh2k/teapot-viewer", OpenUrl)
 		imgui.Spacing()
 		imgui.Spacing()
 		imgui.Separator()
@@ -216,7 +211,7 @@ func main() {
 		log.Fatalln("failed to initialize glfw:", err)
 	}
 
-	path, err := os.Executable()
+	exePath, err := os.Executable()
 	if err != nil {
 		log.Println(err)
 	}
@@ -224,10 +219,10 @@ func main() {
 	t := time.Now()
 	laodProgressCb = func(p float32) {
 
-		if time.Now().Sub(t).Milliseconds() > 50 {
+		if time.Now().Sub(t).Nanoseconds() > (50 * 1e6) {
 			loop(window)
 			t = time.Now()
-			loadProgress = p
+			loadProgress = p	
 		}
 
 		if p >= 1 {
@@ -235,8 +230,7 @@ func main() {
 		} 
 	}
 
-	context = core.LoadModel(path+"/../teapot.obj.zip", func(p float32){		
-	})
+	context = core.LoadModel(filepath.Join(filepath.Dir(exePath), "teapot.obj.zip"), laodProgressCb)
 
 	if context == nil {
 		log.Fatal("load failed")
@@ -338,7 +332,7 @@ func main() {
 
 		if openFileDialog {
 			openFileDialog = false
-			filename, err := dialog.File().Filter("ZIP", "zip").Load()
+			filename, err := OpenFileDialog("ZIP", "zip")
 			if err == nil {
 				context = core.LoadModel(filename, laodProgressCb)
 			}
