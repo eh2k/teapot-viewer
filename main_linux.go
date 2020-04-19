@@ -6,6 +6,8 @@ import (
 	"path/filepath"
 	"log"
 	"os/exec"
+	"bytes"
+	"strings"
 )
 
 func SetWindowIcon(window *glfw.Window) {
@@ -14,12 +16,17 @@ func SetWindowIcon(window *glfw.Window) {
 
 func OpenFileDialog(a, b string) (string, error){
 
-	exePath, err := os.Executable()
-	if err != nil {
-		log.Println(err)
+	 exePath, err := os.Executable()
+	 if err != nil {
+	 	log.Println(err)
 	}
 
-    return filepath.Join(filepath.Dir(exePath), "happy1.obj.zip"), nil
+	buf := new(bytes.Buffer)
+	cmd := exec.Command("zenity", "--file-selection", filepath.Dir(exePath))
+	cmd.Stdout = buf
+	err = cmd.Run()
+	f:= strings.Trim(buf.String(), "\n")
+	return f, err //return filepath.Join(filepath.Dir(exePath), "happy1.obj.zip"), nil
 }
 
 func OpenUrl(url string){
