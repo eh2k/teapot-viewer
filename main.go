@@ -1,4 +1,4 @@
-//go build -v -ldflags=all='-H windowsgui -s -w' -o ../bin/TeapotViewer.exe
+//go build -v -ldflags=all='-H windowsgui -s -w' -o ./bin/TeapotViewer.exe
 
 package main
 
@@ -9,7 +9,7 @@ import (
 	"math"
 	"os"
 	"runtime"
-	"./core"
+	"./core" //github.com/eh2k/teapot-viewer/tree/experimental/core"
 	"github.com/go-gl/gl/v2.1/gl"
 	"github.com/go-gl/glfw/v3.3/glfw"
 	"github.com/inkyblackness/imgui-go"

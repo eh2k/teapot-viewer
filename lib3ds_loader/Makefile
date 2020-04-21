@@ -1,9 +1,10 @@
-#pacman -S mingw-w64-i686-minizip
+#pacman -S mingw-w64-x86_64-libxml2
 
-TARGET_EXEC ?= tv.dll
+TARGET_EXEC ?= lib3ds_loader.dll
 
-BUILD_DIR ?= ./bin
-SRC_DIRS ?= ./src
+
+BUILD_DIR ?= ../bin
+SRC_DIRS ?= ./src/ ./lib3ds-20080909/src/
 
 SRCS := $(shell find $(SRC_DIRS) -name *.cpp -or -name *.cxx -or -name *.c -or -name *.s)
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
@@ -11,13 +12,13 @@ DEPS := $(OBJS:.o=.d)
 
 
 LIBS := $(shell find $(SRC_DIRS) -name *.lib) 
-INC_DIRS := $(shell find $(SRC_DIRS) -type d) 
+INC_DIRS := $(shell find $(SRC_DIRS) -type d) ../core/
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 INC_LIBS := $(addprefix -L,$(LIBS))
 
-CPPFLAGS ?= $(INC_FLAGS) -g -c -std=c++17 -D __WIN32__
+CPPFLAGS ?= $(INC_FLAGS) -g -c -std=c++17
 #-shared -Xlinker --add-stdcall-alias -lstdc++
-LDFLAGS := -g -shared -lstdc++ -lminizip -lz -lGdi32  -lopengl32 -lglu32
+LDFLAGS := -g -shared -static -lstdc++
 
 $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
 	$(CC) $(OBJS) -o $@ $(LDFLAGS) 

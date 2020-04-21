@@ -44,7 +44,7 @@ func SetWindowIcon(window *glfw.Window) {
 	C.SetWindowIcon(C.HWND(hwnd))
 }
 
-func OpenFileDialog(a, b string) string, error{
+func OpenFileDialog(a, b string) (string, error){
     return dialog.File().Filter(a, b).Load()
 }
 

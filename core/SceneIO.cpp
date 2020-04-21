@@ -16,6 +16,9 @@
 
 #include "SceneIO.h"
 
+#include "plugin.h"
+eh::SceneIO::IPlugIn* XXX(IImportPlugIn* p);
+
 #include <iostream>
 #include <fstream>
 #include <string.h>
@@ -201,6 +204,9 @@ namespace eh
 
 			std::wstring dll = file.wstring();
 			boost::algorithm::replace_all(dll, L"/", L"\\");
+
+            std::wcout << dll << L" loading!!!" << std::endl;
+
 			HMODULE hModule = LoadLibraryW(dll.c_str());
 #else
 			std::string fileA(file.string().begin(), file.string().end());
@@ -209,10 +215,13 @@ namespace eh
 				std::cerr << dlerror() << std::endl;
 
 #endif
-			typedef SceneIO::IPlugIn* (*createPlugInFunc)();
+			typedef IImportPlugIn* (*createPlugInFunc)();
 
 			if (hModule == NULL)
+            {
+                std::wcout << dll << L" loading failed!" << std::endl;
 				continue;
+            }
 
 #if defined(_MSC_VER)
 			if (createPlugInFunc createPlugIn = (createPlugInFunc)GetProcAddress(hModule, "XcreatePlugIn"))
@@ -220,10 +229,11 @@ namespace eh
 			if (createPlugInFunc createPlugIn = (createPlugInFunc)dlsym(hModule, "XcreatePlugIn"))
 #endif
 			{
-				std::wcout << file.string().c_str() << L" loaded." << std::endl;
+                auto pp = XXX(createPlugIn());
 
-				std::shared_ptr<SceneIO::IPlugIn> pPlugIn(createPlugIn());
-				RegisterPlugIn(pPlugIn);
+                std::wcout << file.string().c_str() << L" loaded:" <<  pp->about() << std::endl;
+
+				RegisterPlugIn(std::shared_ptr<IPlugIn>(pp));
 			}
 			else
 #if defined(_MSC_VER)
