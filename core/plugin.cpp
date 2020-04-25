@@ -11,12 +11,12 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-struct Geometry : public IGeometry
+struct VertexBuffer : public IVertexBuffer
 {
     eh::Ptr<eh::IVertexBuffer> _p = nullptr;
     eh::Uint_vec _indices;
 
-    Geometry(eh::Ptr<eh::IVertexBuffer> p) : _p(p)
+    VertexBuffer(eh::Ptr<eh::IVertexBuffer> p) : _p(p)
     {
     }
 
@@ -92,10 +92,10 @@ struct ShapeNode : public IShapeNode
 {
     eh::Ptr<eh::ShapeNode> _p = nullptr;
 
-    void AddGeometry(std::shared_ptr<IMaterial> material, std::shared_ptr<IGeometry> geometry) override
+    void AddTriangles(std::shared_ptr<IMaterial> material, std::shared_ptr<IVertexBuffer> geometry) override
     {
         auto m = (Material *)material.get();
-        auto g = (Geometry *)geometry.get();
+        auto g = (VertexBuffer *)geometry.get();
         _p->addGeometry(m->_p, eh::Geometry::create(eh::Geometry::TRIANGLES, g->_p, g->_indices));
     }
 
@@ -122,8 +122,20 @@ struct GroupNode : public IGroupNode
     }
 };
 
-struct SceneHelper : ISceneHelper
+struct SceneHelper : IScene
 {
+    eh::Ptr<eh::Scene> _pScene;
+
+    SceneHelper(eh::Ptr<eh::Scene> pScene):
+        _pScene(pScene)
+    {
+
+    }
+
+    void AddRoot(std::shared_ptr<IGroupNode> node) override
+    {
+        _pScene->insertNode(dynamic_cast<GroupNode*>(node.get())->_p);
+    }
     void progress(float p) override
     {
         return;
@@ -135,9 +147,9 @@ struct SceneHelper : ISceneHelper
         size = f.getContent(ptr);
     }
 
-    std::shared_ptr<IGeometry> CreateGeometry() override
+    std::shared_ptr<IVertexBuffer> CreateVertexBuffer() override
     {
-        return std::make_shared<Geometry>(eh::CreateVertexBuffer(sizeof(eh::Vec3) * 2 + sizeof(eh::Float) * 2));
+        return std::make_shared<VertexBuffer>(eh::CreateVertexBuffer(sizeof(eh::Vec3) * 2 + sizeof(eh::Float) * 2));
     }
 
     std::shared_ptr<IMaterial> CreateMaterial() override
@@ -188,12 +200,6 @@ struct SceneHelper : ISceneHelper
     }
 };
 
-ISceneHelper &GetSceneHelper()
-{
-    static SceneHelper instance;
-    return instance;
-}
-
 class XPlugIn : public eh::SceneIO::IPlugIn
 {
 public:
@@ -207,19 +213,19 @@ public:
     }
     virtual std::wstring about() const
     {
-        return _plugIn->GetAboutString();
+        return _plugIn->about();
     }
     virtual Uint file_type_count() const
     {
-        return _plugIn->GetFileTypeCount();
+        return _plugIn->file_type_count();
     }
     virtual std::wstring file_type(Uint i) const
     {
-        return _plugIn->GetFileType(i);
+        return _plugIn->file_type(i);
     }
     virtual std::wstring file_exts(Uint i) const
     {
-        return _plugIn->GetFileExtention(i);
+        return _plugIn->file_exts(i);
     }
     virtual bool canWrite(Uint i) const
     {
@@ -232,8 +238,8 @@ public:
 
     virtual bool read(const std::wstring &aFile, eh::Ptr<eh::Scene> pScene, eh::SceneIO::progress_callback &progress)
     {
-        auto g = _plugIn->ReadFile(aFile, &GetSceneHelper());
-        pScene->insertNode(dynamic_cast<GroupNode *>(g.get())->_p);
+        SceneHelper scene(pScene);
+        auto g = _plugIn->read(aFile, &scene);
         return true;
     }
 

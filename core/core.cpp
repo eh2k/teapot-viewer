@@ -34,6 +34,13 @@ extern "C"
         return _vp;
     }
 
+    API_3D const wchar_t* GetSupportedFormats()
+    {
+        static std::wstring tmp;
+        tmp = SceneIO::getInstance().getFileWildcards();
+        return tmp.c_str();
+    }
+
     API_3D void DrawScene(CONTEXT context, int width, int height, void *window)
     {
         auto _vp = static_cast<Viewport *>(context);

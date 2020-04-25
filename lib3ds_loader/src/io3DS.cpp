@@ -52,7 +52,7 @@ public:
         }
     }
 
-    void makeNodes(Lib3dsFile *f, Lib3dsNode *first_node, std::vector<std::shared_ptr<ISceneNode>> &nodes, ISceneHelper &sceneHelper)
+    void makeNodes(Lib3dsFile *f, Lib3dsNode *first_node, std::vector<std::shared_ptr<ISceneNode>> &nodes, IScene &sceneHelper)
     {
         Lib3dsNode *p;
         for (p = first_node; p; p = p->next)
@@ -66,7 +66,7 @@ public:
             }
         }
     }
-    std::shared_ptr<IGroupNode> makeNode(Lib3dsFile *f, Lib3dsMeshInstanceNode *node, ISceneHelper &sceneHelper)
+    std::shared_ptr<IGroupNode> makeNode(Lib3dsFile *f, Lib3dsMeshInstanceNode *node, IScene &sceneHelper)
     {
         Lib3dsMesh *mesh = lib3ds_file_mesh_for_node(f, (Lib3dsNode *)node);
         if (!mesh || !mesh->vertices)
@@ -91,7 +91,7 @@ public:
             normals[mesh->faces[i].index[2]] = (normals[mesh->faces[i].index[2]] + n).normalized();
         }
 
-        std::map<int, std::shared_ptr<IGeometry>> faces;
+        std::map<int, std::shared_ptr<IVertexBuffer>> faces;
         Uint_vec edges;
 
         for (int i = 0; i < mesh->nfaces; ++i)
@@ -99,7 +99,7 @@ public:
             auto g = faces[mesh->faces[i].material];
             if (g == nullptr)
             {
-                g = sceneHelper.CreateGeometry();
+                g = sceneHelper.CreateVertexBuffer();
                 faces[mesh->faces[i].material] = g;
             }
 
@@ -166,10 +166,10 @@ public:
                 //	pMat->addTexture( Texture::createFromFile( m_sPath + sTextureFile2, true ) );
                 //}
 
-                pShape->AddGeometry(pMat, it->second);
+                pShape->AddTriangles(pMat, it->second);
             }
             else
-                pShape->AddGeometry(sceneHelper.CreateMaterial(), it->second);
+                pShape->AddTriangles(sceneHelper.CreateMaterial(), it->second);
         }
 
         float inv_matrix[4][4], M[4][4];
@@ -187,7 +187,7 @@ public:
 
     // Interface //
 
-    std::shared_ptr<ISceneNode> ReadFile(std::wstring sFile, ISceneHelper *sceneHelper) override
+    bool read(std::wstring sFile, IScene *scene) override
     {
         m_nCount = 0;
         m_iCount = 0;
@@ -273,10 +273,10 @@ public:
 
         std::unique_ptr<char> data;
         size_t size;
-        sceneHelper->GetFileData(sFile, data, size);
+        scene->GetFileData(sFile, data, size);
         Lib3dsFile *f = FileIO::lib3ds_file_open(data, size);
         if (!f)
-            return nullptr;
+            return false;
 
         if (!f->nodes)
             lib3ds_file_create_nodes_for_meshes(f);
@@ -286,9 +286,9 @@ public:
         std::vector<std::shared_ptr<ISceneNode>> nodes;
 
         countNodes(f, f->nodes);
-        makeNodes(f, f->nodes, nodes, *sceneHelper);
+        makeNodes(f, f->nodes, nodes, *scene);
 
-        auto pScene = sceneHelper->CreateGroupNode(Matrix::Identity());
+        auto pScene = scene->CreateGroupNode(Matrix::Identity());
 
         for (size_t i = 0; i < nodes.size(); i++)
             pScene->AddChildNode(nodes[i]);
@@ -314,37 +314,25 @@ public:
 
         lib3ds_file_free(f);
 
-        return pScene;
+        scene->AddRoot(pScene);
+        return true;
     }
 
-    virtual std::wstring GetAboutString() const
+    virtual std::wstring about() const
     {
         return L"lib3ds_loader";
     }
-    virtual int GetFileTypeCount() const
+    virtual int file_type_count() const
     {
         return 1;
     }
-    virtual std::wstring GetFileType(int i) const
+    virtual std::wstring file_type(int i) const
     {
         return L"3D Studio Max Models";
     }
-    virtual std::wstring GetFileExtention(int i) const
+    virtual std::wstring file_exts(int i) const
     {
         return L"*.3ds";
-    }
-    virtual std::wstring rpath() const
-    {
-        return L"";
-    }
-    virtual bool canWrite(Uint i) const
-    {
-        return false;
-    }
-
-    virtual bool canRead(Uint i) const
-    {
-        return true;
     }
 };
 

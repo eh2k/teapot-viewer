@@ -14,7 +14,7 @@ func SetWindowIcon(window *glfw.Window) {
 
 }
 
-func OpenFileDialog(a, b string) (string, error){
+func OpenFileDialog(filter string) (string, error){
 
 	 exePath, err := os.Executable()
 	 if err != nil {

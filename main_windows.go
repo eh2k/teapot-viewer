@@ -35,7 +35,8 @@ import (
 	"unsafe"
     "github.com/go-gl/glfw/v3.3/glfw"
     "github.com/sqweek/dialog"
-    "os/exec"
+	"os/exec"
+	"strings"
 )
 
 func SetWindowIcon(window *glfw.Window) {
@@ -44,8 +45,17 @@ func SetWindowIcon(window *glfw.Window) {
 	C.SetWindowIcon(C.HWND(hwnd))
 }
 
-func OpenFileDialog(a, b string) (string, error){
-    return dialog.File().Filter(a, b).Load()
+func OpenFileDialog(filter string) (string, error){
+	
+	f := strings.Split(filter, "|")
+
+	dlg := dialog.File()
+	
+	for i := 0; i < len(f)-1; i+=2 {
+		dlg = dlg.Filter(f[i], f[i+1])
+	}
+
+    return dlg.Load()
 }
 
 func OpenUrl(url string){

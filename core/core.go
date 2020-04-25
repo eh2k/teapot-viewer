@@ -11,6 +11,7 @@ package core
 import "C"
 import (
 	"unsafe"
+	"syscall"
 	"fmt"
 )
 
@@ -62,4 +63,11 @@ func SetCamera(context MODEL, num int) {
 
 func DrawScene(context MODEL, width, height int, windowHandle unsafe.Pointer) {
 	C.DrawScene(unsafe.Pointer(context), C.int(width), C.int(height), windowHandle)
+}
+
+func GetSupportedFormats() string{
+	r := C.GetSupportedFormats()
+	ptrwchar := uintptr(unsafe.Pointer(r))
+	gostr := syscall.UTF16ToString((*[1 << 20]uint16)(unsafe.Pointer(ptrwchar))[:])
+	return gostr
 }

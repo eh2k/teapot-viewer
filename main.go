@@ -1,4 +1,4 @@
-//go build -v -ldflags=all='-H windowsgui -s -w' -o ./bin/TeapotViewer.exe
+//go build -x -ldflags=all='-H windowsgui -s -w' -o ./bin/teapot-viewer.exe
 
 package main
 
@@ -332,7 +332,7 @@ func main() {
 
 		if openFileDialog {
 			openFileDialog = false
-			filename, err := OpenFileDialog("ZIP", "zip")
+			filename, err := OpenFileDialog(core.GetSupportedFormats())
 			if err == nil {
 				context = core.LoadModel(filename, laodProgressCb)
 			}
