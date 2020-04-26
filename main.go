@@ -235,8 +235,8 @@ func main() {
 		}
 	}
 
-	//context = core.LoadModel("teapot.obj.zip", laodProgressCb)
-	context = core.LoadModel("F40.dae.zip", laodProgressCb)
+	context = core.LoadModel("teapot.obj.zip", laodProgressCb)
+	//context = core.LoadModel("F40.dae.zip", laodProgressCb)
 	
 	if context == nil {
 		log.Fatal("load failed")
@@ -331,6 +331,7 @@ func main() {
 	}
 
 	fontTexture := CreateFontsTexture(io)
+	fmt.Println("imgui.FontTexture: ", fontTexture)
 	defer DestroyFontsTexture(fontTexture)
 
 	for !window.ShouldClose() {

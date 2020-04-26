@@ -11,6 +11,11 @@
 
 using namespace eh;
 
+Uint NewOpenGLTexture(void *ptr, size_t size)
+{
+    return goNewOpenGLTexture(ptr, size);
+}
+
 extern "C"
 {
 
@@ -30,7 +35,7 @@ extern "C"
         return _vp;
     }
 
-    API_3D const wchar_t* GetSupportedFormats()
+    API_3D const wchar_t *GetSupportedFormats()
     {
         static std::wstring tmp;
         tmp = SceneIO::getInstance().getFileWildcards();

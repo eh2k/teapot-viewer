@@ -318,7 +318,7 @@ public:
                     auto s = reinterpret_cast<const RGBA &>(pProfile->GetSpecularColor());
                     pMat->SetSpecularColor(s.r, s.g, s.b, s.a);
                     auto e = reinterpret_cast<const RGBA &>(pProfile->GetEmissionColor());
-                    pMat->SetEmissionColor(s.r, s.g, s.b, s.a);
+                    pMat->SetEmissionColor(e.r, e.g, e.b, e.a);
                     pMat->SetSpecularFactor(pProfile->GetSpecularFactor());
 
                     for (size_t j = 0; j < pProfile->GetTextureCount(FUDaeTextureChannel::DIFFUSE); j++)

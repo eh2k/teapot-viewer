@@ -4,15 +4,14 @@ TARGET_EXEC ?= collada_loader.dll
 
 
 BUILD_DIR ?= ../bin
-#SRC_DIRS ?= ./src ./FCollada
-SRC_DIRS ?= ./src ./fcolladaCE/
+SRC_DIRS ?= ./src ./fcollada/
 
 SRCS := $(shell find $(SRC_DIRS) -name *.cpp -or -name *.cxx -or -name *.c -or -name *.s | grep -v Test | grep -v FColladaTools)
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 DEPS := $(OBJS:.o=.d)
 
 LIBS := $(shell find $(SRC_DIRS) -name *.lib) 
-INC_DIRS := ./fcolladaCE/FCollada/ ../core/ 
+INC_DIRS := ./fcollada/FCollada/ ../core/ 
 INC_FLAGS := $(addprefix -I,$(INC_DIRS)) $(shell xml2-config --cflags)
 INC_LIBS := $(addprefix -L,$(LIBS)) $(shell xml2-config --libs)
 

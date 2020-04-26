@@ -3,16 +3,21 @@
 package core
 
 // // #cgo CFLAGS: -static
-// #cgo CXXFLAGS: -std=c++17
-// #cgo windows LDFLAGS: -static -static-libgcc -static-libstdc++ -lminizip -lz  -lopengl32
+// #cgo CXXFLAGS: -std=c++17 
+// // -DUSE_DEVIL
+// #cgo windows LDFLAGS: -static -static-libgcc -static-libstdc++ -lminizip -lz  -lopengl32 
+// // -lIL.dll -lILU.dll -lILUT.dll
 // #cgo linux LDFLAGS: -ldl -lstdc++ -lminizip -lz -lstdc++fs -lGL
 // #include <stdlib.h>
 // #include "core.h"
 import "C"
 import (
+	"bytes"
 	"fmt"
+	"log"
 	"syscall"
 	"unsafe"
+	"reflect"
 )
 
 type (
@@ -26,6 +31,26 @@ var loadModelCB func(p float32) = func(p float32) {
 //export goLoadModelProgressCB
 func goLoadModelProgressCB(p float32) {
 	loadModelCB(p)
+}
+
+//export goNewOpenGLTexture
+func goNewOpenGLTexture(p unsafe.Pointer, size int) uint32{
+
+	var data []byte
+
+	sh := (*reflect.SliceHeader)(unsafe.Pointer(&data))
+	sh.Data = uintptr(p)
+	sh.Len = size
+	sh.Cap = size
+
+	r := bytes.NewReader(data)
+	texId, err := NewTextureFromMemory(r, 0, 0)
+	if err != nil {
+		log.Println(err)
+		return 0
+	}
+
+	return texId
 }
 
 func LoadModel(path string, progressCB func(p float32)) MODEL {

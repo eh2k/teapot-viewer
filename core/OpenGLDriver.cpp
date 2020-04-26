@@ -57,6 +57,8 @@ static Uint s_vertices = 0;
 static Uint s_textures = 0;
 static Uint s_vbos = 0;
 
+Uint NewOpenGLTexture(void* ptr, size_t size);
+
 class OpenGLVBO: public IResource
 {
 public:
@@ -142,12 +144,12 @@ public:
             return nullptr;
         }
 
+        std::wcout << L"creating Texture " << sFile.c_str() << L"...";
+
 #if defined(USE_DEVIL)
         ILuint	Id;
         ilGenImages(1, &Id);
         ilBindImage(Id);
-
-        std::wcout << L"creating Texture " << sFile.c_str() << L"..." << std::endl;
 
         if (!ilLoadL(IL_TYPE_UNKNOWN, data.get(), size))
         {
@@ -156,26 +158,30 @@ public:
         }
 
         GLuint texId = ilutGLBindTexImage();	// ilutGLLoadImage( (wchar_t*)file.c_str() );
+#else
+        GLuint texId = NewOpenGLTexture(data.get(), size);
+#endif
+        std::wcout << L" -> TextureId: " << texId << std::endl;
 
         if ( texId == 0 )
         {
             std::wcerr << L"OpenGLTexture::create failed: " << sFile.c_str() << std::endl;
-            return nullptr;
+            return new OpenGLTexture( -1 );
         }
         else
             return new OpenGLTexture( texId );
-#else
-        return nullptr;
-#endif
     }
 
     void bindTexture( int stage )
     {
-        if (m_texId)
-            glEnable(GL_TEXTURE_2D);
+        if (m_texId > 0)
+        {
+            //glEnable(GL_TEXTURE_2D);
+        }
         else
         {
-            glDisable(GL_TEXTURE_2D);
+            //glDisable(GL_TEXTURE_2D);
+            glBindTexture(GL_TEXTURE_2D, 0);
             return;
         }
 
@@ -214,8 +220,8 @@ public:
             glDisable( GL_TEXTURE_GEN_S );
             glDisable( GL_TEXTURE_GEN_T );
 
-            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
-            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_REPEAT);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_REPEAT);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,GL_REPEAT);
             glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
         }
 
@@ -237,7 +243,7 @@ public:
     {
         s_textures--;
 
-        if (m_texId == 0)
+        if (m_texId <= 0)
             return;	//nichts zu tun hier...
 
         if ( glIsTexture(m_texId) )
@@ -300,6 +306,7 @@ public:
         glBufferDataARB = (PFNGLBUFFERDATAARBPROC) glGetProcAddress("glBufferDataARB");
         glDeleteBuffersARB = (PFNGLDELETEBUFFERSARBPROC) glGetProcAddress("glDeleteBuffersARB");
 
+        glEnable(GL_TEXTURE_2D);
     }
 
     virtual ~OpenGLDriver()
@@ -561,9 +568,9 @@ public:
         {
             glDisable(GL_LINE_SMOOTH);
             glDisable(GL_BLEND);
-
-            verifyNoErrors(__FUNCTION__);
         }
+
+        verifyNoErrors(__FUNCTION__);
     }
 
     virtual void enableZWriting(bool bEnable)
@@ -727,7 +734,7 @@ public:
         GLenum errCode = glGetError();
         if (errCode != GL_NO_ERROR)
         {
-            std::cerr << "\n" << call_function  << ": glErorr: " << errCode;
+            std::cerr << "\n" << call_function  << ": glErorr: " << errCode << std::endl;
             return false;
         }
 
