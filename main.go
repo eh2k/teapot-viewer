@@ -5,16 +5,16 @@ package main
 import (
 	"fmt"
 	//"io"
-	"log"
-	"math"
-	"os"
-	"runtime"
 	"./core" //github.com/eh2k/teapot-viewer/tree/experimental/core"
 	"github.com/go-gl/gl/v2.1/gl"
 	"github.com/go-gl/glfw/v3.3/glfw"
 	"github.com/inkyblackness/imgui-go"
-	"time"
+	"log"
+	"math"
+	"os"
 	"path/filepath"
+	"runtime"
+	"time"
 )
 
 func init() {
@@ -165,7 +165,7 @@ func loop(window *glfw.Window) {
 	}
 
 	if loadProgress > 0 {
-		imgui.SetNextWindowPos(imgui.Vec2{X: size[0]/2 - 150.0, Y: size[1] / 2 - 20.0})
+		imgui.SetNextWindowPos(imgui.Vec2{X: size[0]/2 - 150.0, Y: size[1]/2 - 20.0})
 		imgui.BeginV("loading...", nil, imgui.WindowFlagsNoResize|imgui.WindowFlagsNoSavedSettings|imgui.WindowFlagsNoTitleBar)
 		imgui.Text("loading...")
 		imgui.ProgressBarV(loadProgress, imgui.Vec2{300, 22}, "")
@@ -184,6 +184,16 @@ func main() {
 
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
+	exePath, err := os.Executable()
+	if err != nil {
+		log.Println(err)
+	}
+
+	err3 := os.Chdir(filepath.Dir(exePath))
+	if err3 != nil {
+		log.Println(err3)
+	}
+
 	imguic := imgui.CreateContext(nil)
 	defer imguic.Destroy()
 	io := imgui.CurrentIO()
@@ -191,7 +201,7 @@ func main() {
 	io.Fonts().TextureDataAlpha8()
 	InitImguiStyle()
 
-	err := glfw.Init()
+	err = glfw.Init()
 	if err != nil {
 		panic(err)
 	}
@@ -211,27 +221,23 @@ func main() {
 		log.Fatalln("failed to initialize glfw:", err)
 	}
 
-	exePath, err := os.Executable()
-	if err != nil {
-		log.Println(err)
-	}
-
 	t := time.Now()
 	laodProgressCb = func(p float32) {
 
 		if time.Now().Sub(t).Nanoseconds() > (50 * 1e6) {
 			loop(window)
 			t = time.Now()
-			loadProgress = p	
+			loadProgress = p
 		}
 
 		if p >= 1 {
 			loadProgress = 0
-		} 
+		}
 	}
 
-	context = core.LoadModel(filepath.Join(filepath.Dir(exePath), "teapot.obj.zip"), laodProgressCb)
-
+	//context = core.LoadModel("teapot.obj.zip", laodProgressCb)
+	context = core.LoadModel("F40.dae.zip", laodProgressCb)
+	
 	if context == nil {
 		log.Fatal("load failed")
 	} else {

@@ -10,16 +10,16 @@ package core
 // #include "core.h"
 import "C"
 import (
-	"unsafe"
-	"syscall"
 	"fmt"
+	"syscall"
+	"unsafe"
 )
 
 type (
 	MODEL unsafe.Pointer
 )
 
-var loadModelCB func(p float32) = func(p float32){
+var loadModelCB func(p float32) = func(p float32) {
 	fmt.Println("loadModelCB", p)
 }
 
@@ -32,7 +32,7 @@ func LoadModel(path string, progressCB func(p float32)) MODEL {
 	cs := C.CString(path)
 	defer C.free(unsafe.Pointer(cs))
 
-	if progressCB != nil{
+	if progressCB != nil {
 		loadModelCB = progressCB
 	}
 
@@ -65,7 +65,7 @@ func DrawScene(context MODEL, width, height int, windowHandle unsafe.Pointer) {
 	C.DrawScene(unsafe.Pointer(context), C.int(width), C.int(height), windowHandle)
 }
 
-func GetSupportedFormats() string{
+func GetSupportedFormats() string {
 	r := C.GetSupportedFormats()
 	ptrwchar := uintptr(unsafe.Pointer(r))
 	gostr := syscall.UTF16ToString((*[1 << 20]uint16)(unsafe.Pointer(ptrwchar))[:])

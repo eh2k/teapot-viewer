@@ -20,9 +20,11 @@ struct VertexBuffer : public IVertexBuffer
     {
     }
 
-    void AddVertex(const math3D::Vec3 &p, const math3D::Vec3 &n, const math3D::Vec3 &t) override
+    Uint AddVertex(const math3D::Vec3 &p, const math3D::Vec3 &n, const math3D::Vec3 &t) override
     {
-        _indices.push_back(_p->addVertex(p, n, t));
+        Uint intex = _p->addVertex(p, n, t);
+        _indices.push_back(intex);
+        return intex;
     }
 };
 
@@ -92,11 +94,18 @@ struct ShapeNode : public IShapeNode
 {
     eh::Ptr<eh::ShapeNode> _p = nullptr;
 
-    void AddTriangles(std::shared_ptr<IMaterial> material, std::shared_ptr<IVertexBuffer> geometry) override
+    void AddTriangles(std::shared_ptr<IMaterial> material, std::shared_ptr<IVertexBuffer> vb) override
     {
         auto m = (Material *)material.get();
-        auto g = (VertexBuffer *)geometry.get();
+        auto g = (VertexBuffer *)vb.get();
         _p->addGeometry(m->_p, eh::Geometry::create(eh::Geometry::TRIANGLES, g->_p, g->_indices));
+    }
+
+    void AddGeometry(std::shared_ptr<IMaterial> material, TYPE type, std::shared_ptr<IVertexBuffer> vb, const Uint_vec& indices) override
+    {
+        auto m = (Material *)material.get();
+        auto g = (VertexBuffer *)vb.get();
+        _p->addGeometry(m->_p, eh::Geometry::create((eh::Geometry::TYPE)type, g->_p, indices));
     }
 
     ShapeNode(eh::Ptr<eh::ShapeNode> p) : _p(p)

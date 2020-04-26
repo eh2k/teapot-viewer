@@ -8,7 +8,7 @@ using namespace math3D;
 
 struct IVertexBuffer
 {
-    virtual void AddVertex(const math3D::Vec3 &p, const math3D::Vec3 &n, const math3D::Vec3 &t) = 0;
+    virtual Uint AddVertex(const math3D::Vec3 &p, const math3D::Vec3 &n, const math3D::Vec3 &t) = 0;
 };
 
 struct IMaterial
@@ -33,7 +33,18 @@ struct ISceneNode
 
 struct IShapeNode : public ISceneNode
 {
-    virtual void AddTriangles(std::shared_ptr<IMaterial> material, std::shared_ptr<IVertexBuffer> geometry) = 0;
+    enum TYPE
+        {
+            POINTS         = 0x0000,
+            LINES          = 0x0001,
+            LINE_STRIP     = 0x0003,
+            TRIANGLES      = 0x0004,
+            TRIANGLE_STRIP = 0x0005,
+            TRIANGLE_FAN   = 0x0006
+        };
+
+    virtual void AddTriangles(std::shared_ptr<IMaterial> material, std::shared_ptr<IVertexBuffer> vb) = 0;
+    virtual void AddGeometry(std::shared_ptr<IMaterial> material, TYPE type, std::shared_ptr<IVertexBuffer> vb, const Uint_vec& indices) = 0;
 };
 
 struct IGroupNode : public ISceneNode

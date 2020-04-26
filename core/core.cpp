@@ -15,13 +15,9 @@ extern "C"
 {
 
     IDriver *CreateOpenGL1Driver(int *pWindow);
-    SceneIO::IPlugIn *XcreateOBJPlugIn(); //OBJ
 
     API_3D CONTEXT LoadModel(const char *path)
     {
-        std::shared_ptr<SceneIO::IPlugIn> pPlugIn(XcreateOBJPlugIn());
-        SceneIO::getInstance().RegisterPlugIn(pPlugIn);
-
         auto scene = eh::Scene::create();
 
         std::filesystem::path fpath(path);

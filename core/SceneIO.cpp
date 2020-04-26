@@ -32,6 +32,8 @@ eh::SceneIO::IPlugIn* XXX(IImportPlugIn* p);
 #include <minizip/unzip.h>
 namespace eh
 {
+    extern "C" SceneIO::IPlugIn *XcreateOBJPlugIn(); //OBJ
+
 	using namespace std;
 
 	static filesystem::path s_path;
@@ -180,6 +182,9 @@ namespace eh
 	}
 	SceneIO::SceneIO() :m_pImpl(new Impl())
 	{
+        std::shared_ptr<SceneIO::IPlugIn> pPlugIn(XcreateOBJPlugIn()); 
+        RegisterPlugIn(pPlugIn);
+
 		filesystem::path path = filesystem::current_path();
 
 		for (filesystem::directory_iterator it(path), end; it != end; ++it)
