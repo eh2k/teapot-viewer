@@ -342,6 +342,7 @@ func main() {
 			filename, err := OpenFileDialog(core.GetSupportedFormats())
 			if err == nil {
 				context = core.LoadModel(filename, laodProgressCb)
+				core.ViewMode(context, 0x8, 0)
 			}
 		}
 	}
