@@ -4,48 +4,23 @@ package main
 
 import (
 	"fmt"
-	//"io"
 	"./core" //github.com/eh2k/teapot-viewer/tree/experimental/core"
+	"github.com/eh2k/imgui-glfw-go-app"
+	"github.com/eh2k/imgui-go"
+	"github.com/eh2k/osdialog-go"
 	"github.com/go-gl/gl/v2.1/gl"
 	"github.com/go-gl/glfw/v3.3/glfw"
-	"github.com/inkyblackness/imgui-go"
 	"log"
 	"math"
 	"os"
 	"path/filepath"
 	"runtime"
-	"time"
 )
 
 func init() {
 	// This is needed to arrange that main() runs on main thread.
 	// See documentation for functions that are only allowed to be called from the main thread.
 	runtime.LockOSThread()
-}
-
-func imguiAboutView() {
-
-	if imgui.BeginPopupModalV("About", nil, imgui.WindowFlagsNoResize|imgui.WindowFlagsNoSavedSettings) {
-		imgui.Spacing()
-		imgui.Spacing()
-		imgui.Text("Teapot-Viewer 1.1a ")
-		imgui.Spacing()
-		imgui.Spacing()
-		imgui.Separator()
-		imgui.Spacing()
-		imgui.Spacing()
-		imgui.Text("Copyright (C) 2010-2020 by E.Heidt")
-		HyperLink("https://github.com/eh2k/teapot-viewer", "https://github.com/eh2k/teapot-viewer", OpenUrl)
-		imgui.Spacing()
-		imgui.Spacing()
-		imgui.Separator()
-		imgui.Text("OpenGL " + gl.GoStr(gl.GetString(gl.VERSION)))
-		imgui.Separator()
-		if imgui.Button("OK") {
-			imgui.CloseCurrentPopup()
-		}
-		imgui.EndPopup()
-	}
 }
 
 var context core.MODEL
@@ -79,29 +54,17 @@ var openFileDialog = false
 var showAboutWindow = false
 var loadProgress float32 = 0
 
-var laodProgressCb = func(p float32) {
-	fmt.Println("laodProgressCb", p)
-}
+func loop(window *glfw.Window, displaySize imgui.Vec2) {
 
-func loop(window *glfw.Window) {
-	glfw.PollEvents()
-
-	io := imgui.CurrentIO()
-	width, height := window.GetSize()
-	size := [2]float32{0.0, 0.0}
-	size[0] = float32(width)
-	size[1] = float32(height)
-	displaySize := imgui.Vec2{float32(width), float32(height)}
+	width, height := displaySize.X, displaySize.Y
 
 	//gl.ClearColor(clearColor[0], clearColor[1], clearColor[2], 1)
 	gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT | gl.STENCIL_BUFFER_BIT)
 
-	core.DrawScene(context, width, height, window.Handle())
+	core.DrawScene(context, int(width), int(height), window.Handle())
 
 	gl.Clear(gl.DEPTH_BUFFER_BIT | gl.STENCIL_BUFFER_BIT)
-	io.SetDisplaySize(displaySize)
 
-	imgui.NewFrame()
 
 	if imgui.BeginMainMenuBar() {
 		if imgui.BeginMenu("File") {
@@ -142,10 +105,6 @@ func loop(window *glfw.Window) {
 			if imgui.MenuItem("About...") {
 				showAboutWindow = true
 			}
-			imgui.Separator()
-			if imgui.MenuItem("Imgui Demo...") {
-				showDemoWindow = true
-			}
 			imgui.EndMenu()
 		}
 
@@ -157,27 +116,35 @@ func loop(window *glfw.Window) {
 		showAboutWindow = false
 	}
 
-	imguiAboutView()
+	app.ImguiAboutView("Teapot-Viewer 1.1a", "Copyright (C) 2010-2020 by E.Heidt", "https://github.com/eh2k/teapot-viewer")
 
 	if showDemoWindow {
 		imgui.SetNextWindowPosV(imgui.Vec2{X: 650, Y: 20}, imgui.ConditionFirstUseEver, imgui.Vec2{})
 		imgui.ShowDemoWindow(&showDemoWindow)
 	}
 
-	if loadProgress > 0 {
-		imgui.SetNextWindowPos(imgui.Vec2{X: size[0]/2 - 150.0, Y: size[1]/2 - 20.0})
-		imgui.BeginV("loading...", nil, imgui.WindowFlagsNoResize|imgui.WindowFlagsNoSavedSettings|imgui.WindowFlagsNoTitleBar)
-		imgui.Text("loading...")
-		imgui.ProgressBarV(loadProgress, imgui.Vec2{300, 22}, "")
-		imgui.End()
+	if imgui.BeginPopupModalV("Upload", nil, imgui.WindowFlagsNoResize|imgui.WindowFlagsNoSavedSettings|imgui.WindowFlagsNoTitleBar) {
+		imgui.Text("uploading...")
+		imgui.ProgressBarV(loadProgress, imgui.Vec2{X: 300, Y: 22}, "")
+		if loadProgress >= 1 {
+			imgui.CloseCurrentPopup()
+		}
+
+		imgui.EndPopup()
 	}
 
-	imgui.Render()
+	if openFileDialog {
+		openFileDialog = false
 
-	Render(size, size, imgui.RenderedDrawData())
-	//C.DrawScene(context, C.int(width), C.int(height), window.Handle())
+		filters := core.GetSupportedFormats()
+		filename, err := osdialog.ShowOpenFileDialog(".", "", filters)
+		if err == nil {
+			context = core.LoadModel(filename, func(p float32){
 
-	window.SwapBuffers()
+			})
+			core.ViewMode(context, 0x8, 0)
+		}
+	}
 }
 
 func main() {
@@ -194,48 +161,17 @@ func main() {
 		log.Println(err3)
 	}
 
-	imguic := imgui.CreateContext(nil)
-	defer imguic.Destroy()
+	window := app.NewAppWindow(640, 400)
+	defer app.Dispose()
+
 	io := imgui.CurrentIO()
 
-	io.Fonts().TextureDataAlpha8()
-	InitImguiStyle()
+	context = core.LoadModel("teapot.obj.zip", func(p float32){
+		
+	})
 
-	err = glfw.Init()
-	if err != nil {
-		panic(err)
-	}
-	defer glfw.Terminate()
+	imgui.StyleColorsLight()
 
-	window, err := glfw.CreateWindow(800, 600, "TepotViewer", nil, nil)
-	if err != nil {
-		panic(err)
-	}
-
-	SetWindowIcon(window)
-
-	window.MakeContextCurrent()
-	glfw.SwapInterval(1)
-
-	if err := gl.Init(); err != nil {
-		log.Fatalln("failed to initialize glfw:", err)
-	}
-
-	t := time.Now()
-	laodProgressCb = func(p float32) {
-
-		if time.Now().Sub(t).Nanoseconds() > (50 * 1e6) {
-			loop(window)
-			t = time.Now()
-			loadProgress = p
-		}
-
-		if p >= 1 {
-			loadProgress = 0
-		}
-	}
-
-	context = core.LoadModel("teapot.obj.zip", laodProgressCb)
 	//context = core.LoadModel("F40.dae.zip", laodProgressCb)
 	
 	if context == nil {
@@ -330,23 +266,9 @@ func main() {
 		})
 	}
 
-	fontTexture := CreateFontsTexture(io)
-	fmt.Println("imgui.FontTexture: ", fontTexture)
-	defer DestroyFontsTexture(fontTexture)
-
-	for !window.ShouldClose() {
-		loop(window)
-
-		if openFileDialog {
-			openFileDialog = false
-			filename, err := OpenFileDialog(core.GetSupportedFormats())
-			if err == nil {
-				context = core.LoadModel(filename, laodProgressCb)
-				core.ViewMode(context, 0x8, 0)
-			}
-		}
-	}
+	app.Run(func (displaySize imgui.Vec2) {
+		loop(window, displaySize)
+	})
 
 	fmt.Println("END")
-
 }

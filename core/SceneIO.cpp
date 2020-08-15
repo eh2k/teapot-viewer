@@ -306,7 +306,7 @@ namespace eh
 		std::wstring strFilter;
 		if (bLoading)
 		{
-			strFilter += L"All known Formats|";
+			strFilter += L"All known Formats:";
 
 			for (size_t i = 0; i < m_pImpl->m_plugins.size(); i++)
 			{
@@ -314,11 +314,13 @@ namespace eh
 					if (m_pImpl->m_plugins[i]->canRead(j))
 					{
 						std::wstring exts = m_pImpl->m_plugins[i]->file_exts(j);
-						boost::algorithm::to_upper(exts); strFilter += exts + L";";
-						boost::algorithm::to_lower(exts); strFilter += exts + L";";
+                        boost::algorithm::replace_all(exts, L";", L",");
+                        boost::algorithm::replace_all(exts, L"*.", L"");
+						boost::algorithm::to_upper(exts); strFilter += exts + L",";
+						boost::algorithm::to_lower(exts); strFilter += exts + L",";
 					}
 			}
-			strFilter += L"*.zip|";
+			strFilter += L"*.zip;";
 		}
 
 		for (size_t i = 0; i < m_pImpl->m_plugins.size(); i++)
@@ -328,6 +330,7 @@ namespace eh
 					(!bLoading && m_pImpl->m_plugins[i]->canWrite(j)))
 				{
 					std::wstring exts = m_pImpl->m_plugins[i]->file_exts(j);
+                    boost::algorithm::replace_all(exts, L";", L",");
 					boost::algorithm::to_lower(exts);
 
 					std::vector< std::wstring > vexts;
@@ -348,20 +351,21 @@ namespace eh
 					if (bContinue)
 						continue;
 
-					strFilter += m_pImpl->m_plugins[i]->file_type(j) + L" (" + exts + L")|";
+					strFilter += m_pImpl->m_plugins[i]->file_type(j) + L" (" + exts + L"):";
 
-					strFilter += exts + L";";
-					boost::algorithm::to_lower(exts); strFilter += exts + L"|";
+                    boost::algorithm::replace_all(exts, L"*.", L"");
+					strFilter += exts + L",";
+					boost::algorithm::to_lower(exts); strFilter += exts + L";";
 				}
 		}
 
 		if (bLoading)
 		{
-			strFilter += L"Zip Files (*.zip)|*.zip|";
-			strFilter += L"All Files (*.*)|*.*||";
+			strFilter += L"Zip Files:*.zip";
+			//strFilter += L"All Files:;";
 		}
 		else
-			strFilter += L"|";
+			strFilter += L"Zip Files:*.zip";
 
 		return strFilter;
 
