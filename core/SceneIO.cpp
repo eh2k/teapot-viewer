@@ -213,20 +213,24 @@ namespace eh
             std::wcout << dll << L" loading!!!" << std::endl;
 
 			HMODULE hModule = LoadLibraryW(dll.c_str());
-#else
-			std::string fileA(file.string().begin(), file.string().end());
-			void* hModule = dlopen(fileA.c_str(), RTLD_GLOBAL);
-			if (!hModule)
-				std::cerr << dlerror() << std::endl;
-
-#endif
-			typedef IImportPlugIn* (*createPlugInFunc)();
-
-			if (hModule == NULL)
+            if (hModule == NULL)
             {
                 std::wcout << dll << L" loading failed!" << std::endl;
 				continue;
             }
+#else
+			std::string fileA(file.string().begin(), file.string().end());
+			void* hModule = dlopen(fileA.c_str(), RTLD_GLOBAL);
+			if (!hModule)
+            {
+				std::cerr << fileA << dlerror() << std::endl;
+                continue;
+            }
+
+#endif
+			typedef IImportPlugIn* (*createPlugInFunc)();
+
+
 
 #if defined(_MSC_VER)
 			if (createPlugInFunc createPlugIn = (createPlugInFunc)GetProcAddress(hModule, "XcreatePlugIn"))
