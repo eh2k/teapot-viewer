@@ -22,7 +22,7 @@ jobs:
       - name: upload-artefacts
         uses: actions/upload-artifact@v2
         with:
-          name: uwedit-linux
+          name: bin-linux
           path: ./bin/
   build-windows:
     name: build-windows
@@ -40,5 +40,5 @@ jobs:
       - name: upload-artefacts
         uses: actions/upload-artifact@v2
         with:
-          name: uwedit-win
+          name: bin-win
           path: ./bin/
