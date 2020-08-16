@@ -1,7 +1,7 @@
 package core
 
 import (
-	"errors"
+	//"errors"
 	"github.com/go-gl/gl/v2.1/gl"
 	"github.com/disintegration/imaging"
 	"image"
@@ -12,8 +12,8 @@ import (
 	"os"
 )
 
-var errUnsupportedStride = errors.New("unsupported stride, only 32-bit colors supported")
-var errTextureNotBound = errors.New("texture not bound")
+//var errUnsupportedStride = errors.New("unsupported stride, only 32-bit colors supported")
+//var errTextureNotBound = errors.New("texture not bound")
 
 func NewTextureFromFile(file string, wrapR, wrapS int32) (uint32, error) {
 	imgFile, err := os.Open(file)

@@ -204,7 +204,7 @@ func main() {
 				io.SetMousePosition(imgui.Vec2{X: -math.MaxFloat32, Y: -math.MaxFloat32})
 			}
 
-			if io.WantCaptureMouse() == false {
+			if !io.WantCaptureMouse() {
 				if w.GetMouseButton(0) == 1 {
 					core.MouseMove(context, 1, int(x), int(y))
 				}
