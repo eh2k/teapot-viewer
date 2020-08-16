@@ -15,7 +15,6 @@ import (
 	"bytes"
 	"fmt"
 	"log"
-	"syscall"
 	"unsafe"
 	"reflect"
 )
@@ -92,7 +91,5 @@ func DrawScene(context MODEL, width, height int, windowHandle unsafe.Pointer) {
 
 func GetSupportedFormats() string {
 	r := C.GetSupportedFormats()
-	ptrwchar := uintptr(unsafe.Pointer(r))
-	gostr := syscall.UTF16ToString((*[1 << 20]uint16)(unsafe.Pointer(ptrwchar))[:])
-	return gostr
+	return C.GoString(r)
 }

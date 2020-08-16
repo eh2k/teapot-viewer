@@ -137,6 +137,7 @@ func loop(window *glfw.Window, displaySize imgui.Vec2) {
 		openFileDialog = false
 
 		filters := core.GetSupportedFormats()
+		fmt.Println(filters)
 		filename, err := osdialog.ShowOpenFileDialog(".", "", filters)
 		if err == nil {
 			context = core.LoadModel(filename, func(p float32){

@@ -19,7 +19,7 @@ extern "C"
     IMPORT int ViewMode(CONTEXT context, int mode, int enable);
     IMPORT void SetCamera(CONTEXT context, int num);
     IMPORT const char *GetCamera(CONTEXT context, int num);
-    IMPORT const wchar_t* GetSupportedFormats();
+    IMPORT const char* GetSupportedFormats();
 
 #ifdef __cplusplus
 }

@@ -35,10 +35,11 @@ extern "C"
         return _vp;
     }
 
-    API_3D const wchar_t *GetSupportedFormats()
+    API_3D const char *GetSupportedFormats()
     {
-        static std::wstring tmp;
-        tmp = SceneIO::getInstance().getFileWildcards();
+        static std::string tmp;
+        auto wtmp = SceneIO::getInstance().getFileWildcards();
+        tmp = std::string(wtmp.begin(), wtmp.end());
         return tmp.c_str();
     }
 
