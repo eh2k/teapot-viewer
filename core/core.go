@@ -61,10 +61,10 @@ func goTryReadFromZip(path *C.const_char, data *unsafe.Pointer) C.ulonglong{
 				log.Fatal(err)
 			}
 
-			len := C.ulonglong(len(fc))
-			*data = C.malloc(C.size_t(len))
+			len := C.size_t(len(fc))
+			*data = C.malloc(len)
 			C.memcpy(*data, unsafe.Pointer(&fc[0]), len)
-			return len
+			return C.ulonglong(len)
 		}
 	}
 

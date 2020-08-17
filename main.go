@@ -151,10 +151,17 @@ func LoadModel(path string){
 	loadProgress = 0.1
 	go func() {
 		
-		context = core.LoadModel(path, func(p float32){
+		tmp := core.LoadModel(path, func(p float32){
 			loadProgress = p
 		})	
-		core.ViewMode(context, 0x8, 0)
+
+		if tmp != nil {
+			context = tmp
+			core.ViewMode(context, 0x8, 0)
+		} else {
+			osdialog.ShowMessageBox(osdialog.Error, osdialog.Ok, "Loading " + path + " failed.")
+		}
+		
 		loadProgress = 1
 	}()
 }
@@ -174,6 +181,7 @@ func main() {
 	}
 
 	window := app.NewAppWindow(640, 400)
+	window.SetTitle("Teapot-Viewer")
 	defer app.Dispose()
 
 	io := imgui.CurrentIO()
