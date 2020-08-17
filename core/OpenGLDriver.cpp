@@ -174,6 +174,9 @@ public:
 
     void bindTexture( int stage )
     {
+        if (stage != 0)
+            return; // Todo: stage > 0 not renderen with ImGui ???
+
         if (m_texId > 0)
         {
             //glEnable(GL_TEXTURE_2D);

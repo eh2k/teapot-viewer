@@ -1,19 +1,17 @@
 package core
 
 import (
-	//"errors"
 	"github.com/go-gl/gl/v2.1/gl"
 	"github.com/disintegration/imaging"
+	"github.com/davehouse/go-targa"
 	"image"
+	"fmt"
 	//"image/draw"
 	_ "image/jpeg"
 	_ "image/png"
 	"io"
 	"os"
 )
-
-//var errUnsupportedStride = errors.New("unsupported stride, only 32-bit colors supported")
-//var errTextureNotBound = errors.New("texture not bound")
 
 func NewTextureFromFile(file string, wrapR, wrapS int32) (uint32, error) {
 	imgFile, err := os.Open(file)
@@ -35,19 +33,26 @@ func NewTextureFromMemory(reader io.Reader, wrapR, wrapS int32) (uint32, error) 
 	// Decode detexts the type of image as long as its image/<type> is imported
 	img, _, err := image.Decode(reader)
 	if err != nil {
-		return 0, err
+		img, err = tga.Decode(reader)
+		if err != nil {
+			return 0, err
+		}
 	}
 	return NewTexture(img, wrapR, wrapS)
 }
 
 func NewTexture(img image.Image, wrapR, wrapS int32) (uint32, error) {
-	// rgba := image.NewRGBA(img.Bounds())
+	// Converts image to RGBA format
 
-	// draw.Draw(rgba, rgba.Bounds(), img, image.Pt(0, 0), draw.Src)
-	// if rgba.Stride != rgba.Rect.Size().X*4 { // TODO-cs: why?
-	// 	return 0, errUnsupportedStride
+	fmt.Println("NewTexture", img.Bounds())
+	//rgba := image.NewNRGBA(img.Bounds())
+	// if rgba.Stride != rgba.Rect.Size().X*4 {
+	// 	return 0, fmt.Errorf("unsupported stride")
 	// }
 
+	//draw.Draw(rgba, rgba.Bounds(), img, image.Point{0, 0}, draw.Src)
+
+	//rgba := imaging.Resize(img, img.Bounds().Size().X, img.Bounds().Size().X, imaging.Lanczos)
 	rgba := imaging.FlipV(img)
 
 	var handle uint32

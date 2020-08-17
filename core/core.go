@@ -35,6 +35,11 @@ var loadModelCB func(p float32) = func(p float32) {
 func goTryReadFromZip(path *C.const_char, data *unsafe.Pointer) C.ulonglong{
 
 	archive := 	strings.SplitAfter(C.GoString(path), ".zip") 
+
+	if len(archive) == 1 {
+		return 0
+	}
+	
 	r, err := zip.OpenReader(archive[0]) // Open a zip archive for reading.
 	if err != nil {
 		log.Fatal(err)
@@ -57,7 +62,7 @@ func goTryReadFromZip(path *C.const_char, data *unsafe.Pointer) C.ulonglong{
 			}
 
 			len := C.ulonglong(len(fc))
-			*data = C.malloc(len)
+			*data = C.malloc(C.size_t(len))
 			C.memcpy(*data, unsafe.Pointer(&fc[0]), len)
 			return len
 		}

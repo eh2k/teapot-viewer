@@ -52,6 +52,7 @@ func imguiViewModeMenuItem(text string, shortcut string, mode int) {
 var showDemoWindow = false
 var openFileDialog = false
 var showAboutWindow = false
+var showProgress = false
 var loadProgress float32 = 0
 
 func loop(window *glfw.Window, displaySize imgui.Vec2) {
@@ -118,8 +119,13 @@ func loop(window *glfw.Window, displaySize imgui.Vec2) {
 		imgui.ShowDemoWindow(&showDemoWindow)
 	}
 
-	if imgui.BeginPopupModalV("Upload", nil, imgui.WindowFlagsNoResize|imgui.WindowFlagsNoSavedSettings|imgui.WindowFlagsNoTitleBar) {
-		imgui.Text("uploading...")
+	if showProgress {
+		showProgress = false
+		imgui.OpenPopup("Load")
+	}
+
+	if imgui.BeginPopupModalV("Load", nil, imgui.WindowFlagsNoResize|imgui.WindowFlagsNoSavedSettings|imgui.WindowFlagsNoTitleBar) {
+		imgui.Text("loading...")
 		imgui.ProgressBarV(loadProgress, imgui.Vec2{X: 300, Y: 22}, "")
 		if loadProgress >= 1 {
 			imgui.CloseCurrentPopup()
@@ -132,15 +138,25 @@ func loop(window *glfw.Window, displaySize imgui.Vec2) {
 		openFileDialog = false
 
 		filters := core.GetSupportedFormats()
-		fmt.Println(filters)
 		filename, err := osdialog.ShowOpenFileDialog(".", "", filters)
 		if err == nil {
-			context = core.LoadModel(filename, func(p float32){
-
-			})
-			core.ViewMode(context, 0x8, 0)
+			LoadModel(filename)
 		}
 	}
+}
+
+func LoadModel(path string){
+		
+	showProgress = true
+	loadProgress = 0.1
+	go func() {
+		
+		context = core.LoadModel(path, func(p float32){
+			loadProgress = p
+		})	
+		core.ViewMode(context, 0x8, 0)
+		loadProgress = 1
+	}()
 }
 
 func main() {
@@ -163,14 +179,14 @@ func main() {
 	io := imgui.CurrentIO()
 
 	context = core.LoadModel("teapot.obj.zip", func(p float32){
-		
+		//loadProgress = p
 	})
 
 	app.InitMyImguiStyle()
 
-	//context = core.LoadModel("F40.dae.zip", laodProgressCb)
+	//LoadModel("F40.dae.zip")
 	
-	if context == nil {
+	if  context == nil {
 		log.Fatal("load failed")
 	} else {
 
