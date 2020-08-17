@@ -8,6 +8,8 @@ extern "C"
 
 #define CONTEXT void *
 
+    IMPORT void RegisterImporter(void* importer);
+
     IMPORT CONTEXT LoadTeapot();
     IMPORT CONTEXT TryLoadModel(const char *path);
     IMPORT void *GetBitmap(CONTEXT context);

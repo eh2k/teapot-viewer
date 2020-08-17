@@ -226,6 +226,12 @@ namespace eh
 		setStatusText(L"");
 	}
 
+    void SceneIO::RegisterPlugIn(IImportPlugIn* plugIn)
+    {                
+        auto pp = XXX(plugIn);
+        RegisterPlugIn(std::shared_ptr<IPlugIn>(pp));
+    }
+
 	void SceneIO::RegisterPlugIn(std::shared_ptr<SceneIO::IPlugIn> pPlugIn)
 	{
 		m_pImpl->m_plugins.push_back(pPlugIn);

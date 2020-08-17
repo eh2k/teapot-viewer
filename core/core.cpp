@@ -5,6 +5,7 @@
 #include "SceneIO.h"
 #include "Controller.h"
 #include "core.h"
+#include "plugin.h"
 #include "../res/teapot_obj.h"
 #include "_cgo_export.h"
 
@@ -30,6 +31,11 @@ extern "C"
 {
 
     IDriver *CreateOpenGL1Driver(int *pWindow);
+
+    API_3D void RegisterImporter(void* plugIn)
+    {
+        SceneIO::getInstance().RegisterPlugIn((IImportPlugIn*)plugIn);
+    }
 
     API_3D CONTEXT LoadTeapot()
     {

@@ -96,6 +96,10 @@ func goNewOpenGLTexture(p unsafe.Pointer, size int) uint32{
 	return texId
 }
 
+func RegisterImporter(importer unsafe.Pointer) {
+	C.RegisterImporter(importer)
+}
+
 func LoadTeapot() MODEL {
 	return MODEL(C.LoadTeapot())
 }

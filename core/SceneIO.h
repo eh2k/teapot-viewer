@@ -36,6 +36,8 @@ namespace std
 }
 #endif
 
+struct IImportPlugIn;
+
 
 namespace eh
 {
@@ -161,7 +163,8 @@ namespace eh
 			virtual bool write(const std::wstring& sFile, Ptr<Scene> pScene, SceneIO::progress_callback& progress) = 0;
 		};
 
-		void RegisterPlugIn(std::shared_ptr<IPlugIn> plugIn);
+        void RegisterPlugIn(std::shared_ptr<IPlugIn> plugIn);
+		void RegisterPlugIn(IImportPlugIn* plugIn);
 
 		~SceneIO();
 
