@@ -26,7 +26,7 @@
 
 #include "Scene.h"
 
-#if __cplusplus == 201703L
+#ifdef __cpp_lib_filesystem
 #	include <filesystem>
 #else
 #	include <experimental/filesystem>
