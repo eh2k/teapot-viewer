@@ -566,7 +566,7 @@ public:
 		std::filesystem::path sMTLfile(sOBJfile);
 		sMTLfile += L".mtl";
 
-		std::wofstream obj( sOBJfile.wstring().c_str(), std::ios::out);
+		std::ofstream obj( sOBJfile.string().c_str(), std::ios::out);
 
 		if(!obj.is_open())
 			return false;
@@ -634,7 +634,7 @@ public:
 
 		obj.close();
 
-		std::wofstream mtl( sMTLfile.wstring().c_str(), std::ios::out);
+		std::ofstream mtl( sMTLfile.string().c_str(), std::ios::out);
 
 		if(!mtl.is_open())
 			return false;
