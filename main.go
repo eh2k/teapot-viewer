@@ -160,6 +160,7 @@ func LoadModel(path string){
 			core.ViewMode(context, 0x8, 0)
 		} else {
 			osdialog.ShowMessageBox(osdialog.Error, osdialog.Ok, "Loading " + path + " failed.")
+			context = core.LoadTeapot()
 		}
 		
 		loadProgress = 1
@@ -186,9 +187,7 @@ func main() {
 
 	io := imgui.CurrentIO()
 
-	context = core.LoadModel("teapot.obj.zip", func(p float32){
-		//loadProgress = p
-	})
+	context = core.LoadTeapot()
 
 	app.InitMyImguiStyle()
 

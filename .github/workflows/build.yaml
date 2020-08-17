@@ -39,5 +39,5 @@ jobs:
       - name: upload-artefacts
         uses: actions/upload-artifact@v2
         with:
-          name: bin-win
+          name: bin-windows
           path: ./bin/

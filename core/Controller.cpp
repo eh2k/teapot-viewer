@@ -5,27 +5,26 @@
 #include "Camera.h"
 #include "Viewport.h"
 #include "Controller.h"
+#include "../res/axis_obj.h"
 #include <iostream>
 
-extern "C"
-{
-	eh::SceneIO::IPlugIn* XcreatePlugIn();
-}
-
 namespace eh{
+
+Ptr<Scene> loadOBJfromStream(std::istream& stream, SceneIO::progress_callback& progress);
 
 Controller::Controller():
 	m_pViewport( nullptr ),
 	m_zoom(1.f),
 	m_axis( nullptr )
 {
-	Ptr<Scene> scene = Scene::create();
-	std::shared_ptr<SceneIO::IPlugIn> objloader( XcreatePlugIn() );
-
 	struct dummy {static void callback(float f){} };
 	SceneIO::progress_callback dummy_cb(dummy::callback);
 
-	objloader->read( L"./media/axis.obj", scene, dummy_cb);
+    std::stringstream axis;
+	axis.write((const char*)axis_obj, axis_obj_len); //Todo: Optimize
+	axis.seekg(0);
+
+	auto scene = loadOBJfromStream(axis, dummy_cb);
 
 	m_axis = GroupNode::create( scene->getNodes(), Matrix::Scale( Vec3(0.2f, 0.2f, 0.2f))) ;
 }

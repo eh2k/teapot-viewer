@@ -96,6 +96,10 @@ func goNewOpenGLTexture(p unsafe.Pointer, size int) uint32{
 	return texId
 }
 
+func LoadTeapot() MODEL {
+	return MODEL(C.LoadTeapot())
+}
+
 func LoadModel(path string, progressCB func(p float32)) MODEL {
 
 	if progressCB != nil {

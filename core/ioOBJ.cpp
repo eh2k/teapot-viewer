@@ -666,12 +666,6 @@ public:
 	}
 };
 
-bool loadOBJfromStream(std::istream& istream, SceneNodeVector& nodes, progress_callback progress)
-{
-	OBJLoader loader;
-	return loader.read(istream, nodes, progress);
-}
-
 class OBJPlugIn: public SceneIO::IPlugIn
 {
 public:
@@ -738,6 +732,17 @@ public:
 
 	}
 };
+
+Ptr<Scene> loadOBJfromStream(std::istream& stream, SceneIO::progress_callback& progress)
+{
+    auto scene = eh::Scene::create();
+	eh::SceneNodeVector nodes;
+	bool ret = OBJLoader().read(stream, nodes, progress);
+	for(eh::SceneNodeVector::const_iterator it = nodes.begin(); it != nodes.end(); ++it)
+		scene->insertNode(*it);
+        
+	return scene;
+}
 
 extern "C"
 {

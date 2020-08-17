@@ -5,6 +5,7 @@
 #include "SceneIO.h"
 #include "Controller.h"
 #include "core.h"
+#include "../res/teapot_obj.h"
 #include "_cgo_export.h"
 
 #define CONTEXT void *
@@ -21,10 +22,30 @@ size_t TryReadFromZip(const char* path, void** data)
     return goTryReadFromZip(path, data);
 }
 
+namespace eh{
+Ptr<Scene> loadOBJfromStream(std::istream& stream, SceneIO::progress_callback& progress);
+}
+
 extern "C"
 {
 
     IDriver *CreateOpenGL1Driver(int *pWindow);
+
+    API_3D CONTEXT LoadTeapot()
+    {
+        struct dummy {static void callback(float f){} };
+        SceneIO::progress_callback dummy_cb(dummy::callback);
+
+        std::stringstream teapot;
+        teapot.write((const char*)teapot_obj, teapot_obj_len); //Todo: Optimize
+        teapot.seekg(0);
+
+        auto scene = loadOBJfromStream(teapot, dummy_cb);
+
+        auto _vp = new Viewport(nullptr);
+        _vp->setScene(scene);
+        return _vp;
+    }
 
     API_3D CONTEXT TryLoadModel(const char *path)
     {
