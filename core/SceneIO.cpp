@@ -29,7 +29,8 @@ eh::SceneIO::IPlugIn* XXX(IImportPlugIn* p);
 #include <dlfcn.h>
 #endif
 
-#include <minizip/unzip.h>
+size_t TryReadFromZip(const char* path, void** data);
+
 namespace eh
 {
     extern "C" SceneIO::IPlugIn *XcreateOBJPlugIn(); //OBJ
@@ -100,49 +101,12 @@ namespace eh
 
 			return size;
 		}
-		else // maybe inside zip file
+		else
 		{
-			filesystem::path archive;
-			filesystem::path file;
-			filesystem::path path(m_path);
-
-			for (filesystem::path::const_iterator it = path.begin(); it != path.end(); ++it)
-			{
-				file /= *it;
-				if (file.extension() == L".zip")
-				{
-					archive = file;
-					file = L"";
-				}
-			}
-
-			size_t ret = 0;
-
-			if (unzFile zipfile = unzOpen64(archive.string().c_str()))
-			{
-				for (int s = unzGoToFirstFile(zipfile); s != UNZ_END_OF_LIST_OF_FILE; s = unzGoToNextFile(zipfile))
-				{
-					char sName[256];
-					unz_file_info64 finfo;
-					unzGetCurrentFileInfo64(zipfile, &finfo, sName, 256, NULL, 0, NULL, 0);
-
-					if (boost::iequals(std::wstring(sName, sName + strlen(sName)), file.wstring()))
-					{
-						unzOpenCurrentFile(zipfile);
-
-						data.reset(new char[(unsigned)finfo.uncompressed_size]);
-
-						ret = (size_t)unzReadCurrentFile(zipfile, data.get(), (unsigned int)finfo.uncompressed_size);
-
-						unzCloseCurrentFile(zipfile);
-						break;
-					}
-				}
-
-				unzClose(zipfile);
-
-				return ret;
-			}
+            void* pdata = nullptr;
+            auto size = TryReadFromZip(m_path.string().c_str(), &pdata);
+            data.reset((char*)pdata);
+            return size;
 		}
 
 		return 0;
@@ -407,39 +371,6 @@ namespace eh
 						throw - 1;
 					else
 						ret = true;
-				}
-			}
-			else
-			{
-				if (unzFile zipfile = unzOpen(sFile.string().c_str()))
-				{
-					for (int s = unzGoToFirstFile(zipfile); s != UNZ_END_OF_LIST_OF_FILE; s = unzGoToNextFile(zipfile))
-					{
-						char sName[256];
-						unz_file_info64 finfo;
-						unzGetCurrentFileInfo64(zipfile, &finfo, sName, 256, NULL, 0, NULL, 0);
-
-						std::string sName2(sName);
-						filesystem::path sFile2(sName2.begin(), sName2.end());
-						std::wstring ext = sFile2.extension().wstring();
-						boost::algorithm::to_lower(ext);
-
-						if (m_pImpl->m_ext_plugin_map.find(ext) != m_pImpl->m_ext_plugin_map.end())
-						{
-							IPlugIn* plugin = m_pImpl->m_ext_plugin_map.find(ext)->second;
-
-							filesystem::path path = sFile / sFile2;
-
-							s_set_path(path);
-
-							if (plugin->read(path.wstring(), pScene, progress) == false)
-								ret = false;
-							else
-								ret = true;
-						}
-					}
-
-					unzClose(zipfile);
 				}
 			}
 		}

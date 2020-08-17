@@ -3,20 +3,24 @@
 package core
 
 // // #cgo CFLAGS: -static
-// #cgo CXXFLAGS: -std=c++17 
-// // -DUSE_DEVIL
-// #cgo windows LDFLAGS: -static -static-libgcc -static-libstdc++ -lminizip -lz  -lopengl32 
-// // -lIL.dll -lILU.dll -lILUT.dll
-// #cgo linux LDFLAGS: -ldl -lstdc++ -lminizip -lz -lstdc++fs -lGL
+// #cgo CXXFLAGS: -std=c++17
+// #cgo windows LDFLAGS: -static -static-libgcc -static-libstdc++  -lopengl32
+// #cgo linux LDFLAGS: -ldl -lstdc++ -lstdc++fs -lGL
 // #include <stdlib.h>
+// #include <string.h>
+// typedef const char const_char;
 // #include "core.h"
 import "C"
 import (
+	"archive/zip"
 	"bytes"
 	"fmt"
+	"io/ioutil"
 	"log"
-	"unsafe"
+	"path/filepath"
 	"reflect"
+	"strings"
+	"unsafe"
 )
 
 type (
@@ -25,6 +29,41 @@ type (
 
 var loadModelCB func(p float32) = func(p float32) {
 	fmt.Println("loadModelCB", p)
+}
+
+//export goTryReadFromZip
+func goTryReadFromZip(path *C.const_char, data *unsafe.Pointer) C.ulonglong{
+
+	archive := 	strings.SplitAfter(C.GoString(path), ".zip") 
+	r, err := zip.OpenReader(archive[0]) // Open a zip archive for reading.
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer r.Close()
+
+	file := strings.ToUpper(archive[1])
+	for _, f := range r.File {
+
+		if strings.HasSuffix(file, strings.ToUpper(f.Name)) {
+			fr, err := f.Open()
+			if err != nil {
+				log.Fatal(err)
+			}
+			defer fr.Close()
+
+			fc, err := ioutil.ReadAll(fr)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			len := C.ulonglong(len(fc))
+			*data = C.malloc(len)
+			C.memcpy(*data, unsafe.Pointer(&fc[0]), len)
+			return len
+		}
+	}
+
+	return C.ulonglong(0)
 }
 
 //export goLoadModelProgressCB
@@ -53,16 +92,38 @@ func goNewOpenGLTexture(p unsafe.Pointer, size int) uint32{
 }
 
 func LoadModel(path string, progressCB func(p float32)) MODEL {
-	cs := C.CString(path)
-	defer C.free(unsafe.Pointer(cs))
 
 	if progressCB != nil {
 		loadModelCB = progressCB
 	}
 
-	model := C.LoadModel(cs)
+	if strings.HasSuffix(path, ".zip"){
+		r, err := zip.OpenReader(path) // Open a zip archive for reading.
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer r.Close()
+	
+		for _, f := range r.File {
+			cs := C.CString(filepath.Join(path, f.Name))
+			defer C.free(unsafe.Pointer(cs))
 
-	return MODEL(model)
+			model := C.TryLoadModel(cs)
+			if model != unsafe.Pointer(nil) {
+				return MODEL(model)
+			}
+
+		}
+
+		return nil
+
+	} else {
+		cs := C.CString(path)
+		defer C.free(unsafe.Pointer(cs))
+	
+		model := C.TryLoadModel(cs)
+		return MODEL(model)
+	}
 }
 
 func MouseWheel(context MODEL, x, y, xoff, yoff int) {

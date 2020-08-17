@@ -140,7 +140,7 @@ public:
 
         if ( size == 0 )
         {
-            std::wcerr << L"OpenGLTexture::creae(" << sFile.c_str() << ") aFile.getContent(data.get()) != size" << std::endl;
+            //std::wcerr << L"OpenGLTexture::creae(" << sFile.c_str() << ") aFile.getContent(data.get()) == 0" << std::endl;
             return nullptr;
         }
 

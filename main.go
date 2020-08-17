@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"./core" //github.com/eh2k/teapot-viewer/tree/experimental/core"
 	"github.com/eh2k/imgui-glfw-go-app"
-	"github.com/eh2k/imgui-go"
+	"github.com/eh2k/imgui-glfw-go-app/imgui-go"
 	"github.com/eh2k/osdialog-go"
 	"github.com/go-gl/gl/v2.1/gl"
 	"github.com/go-gl/glfw/v3.3/glfw"
@@ -111,12 +111,7 @@ func loop(window *glfw.Window, displaySize imgui.Vec2) {
 		imgui.EndMainMenuBar()
 	}
 
-	if showAboutWindow {
-		imgui.OpenPopup("About")
-		showAboutWindow = false
-	}
-
-	app.ImguiAboutView("Teapot-Viewer 1.1a", "Copyright (C) 2010-2020 by E.Heidt", "https://github.com/eh2k/teapot-viewer")
+	app.ShowAboutPopup(&showAboutWindow, "Teapot-Viewer 1.1a", "Copyright (C) 2010-2020 by E.Heidt", "https://github.com/eh2k/teapot-viewer")
 
 	if showDemoWindow {
 		imgui.SetNextWindowPosV(imgui.Vec2{X: 650, Y: 20}, imgui.ConditionFirstUseEver, imgui.Vec2{})
@@ -171,7 +166,7 @@ func main() {
 		
 	})
 
-	imgui.StyleColorsLight()
+	app.InitMyImguiStyle()
 
 	//context = core.LoadModel("F40.dae.zip", laodProgressCb)
 	

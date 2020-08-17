@@ -16,12 +16,17 @@ Uint NewOpenGLTexture(void *ptr, size_t size)
     return goNewOpenGLTexture(ptr, size);
 }
 
+size_t TryReadFromZip(const char* path, void** data)
+{
+    return goTryReadFromZip(path, data);
+}
+
 extern "C"
 {
 
     IDriver *CreateOpenGL1Driver(int *pWindow);
 
-    API_3D CONTEXT LoadModel(const char *path)
+    API_3D CONTEXT TryLoadModel(const char *path)
     {
         auto scene = eh::Scene::create();
 

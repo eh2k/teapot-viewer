@@ -8,7 +8,7 @@ extern "C"
 
 #define CONTEXT void *
 
-    IMPORT CONTEXT LoadModel(const char *path);
+    IMPORT CONTEXT TryLoadModel(const char *path);
     IMPORT void *GetBitmap(CONTEXT context);
     IMPORT void DrawScene(CONTEXT context, int width, int height, void *window);
 
