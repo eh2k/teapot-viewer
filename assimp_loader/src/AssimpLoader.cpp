@@ -20,7 +20,7 @@
 
 #include <plugin.h>
 
-#if defined(_WIN32) || defined(__WIN32__) || defined(__CYGWIN__)
+#if __cplusplus == 201703L
 #include <filesystem>
 #else
 #include <experimental/filesystem>
