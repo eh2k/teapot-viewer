@@ -85,7 +85,7 @@ namespace eh
 	{
 		if (filesystem::exists(m_path))
 		{
-			std::ifstream file(m_path.c_str(), std::ios_base::binary);
+			std::ifstream file(m_path.string().c_str(), std::ios_base::binary);
 
 			if (!file.is_open())
 				return 0;
