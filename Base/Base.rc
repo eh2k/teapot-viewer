@@ -1,7 +1,0 @@
-//#include <wx/msw/wx.rc>
-
-OPEN_BMP    BITMAP "bitmaps/open.bmp"
-PERSPECTIVE_BMP    BITMAP "bitmaps/perspective.bmp"
-ORTHOGONAL_BMP    BITMAP "bitmaps/orthogonal.bmp"
-BASE_ICO    ICON "bitmaps/base.ico"
-
