@@ -655,20 +655,20 @@ lib3ds_file_read(Lib3dsFile *file, Lib3dsIo *io) {
 }
 
 
-static void
-colorf_write(float rgb[3], Lib3dsIo *io) {
-    Lib3dsChunk c;
+// static void
+// colorf_write(float rgb[3], Lib3dsIo *io) {
+//     Lib3dsChunk c;
 
-    c.chunk = CHK_COLOR_F;
-    c.size = 18;
-    lib3ds_chunk_write(&c, io);
-    lib3ds_io_write_rgb(io, rgb);
+//     c.chunk = CHK_COLOR_F;
+//     c.size = 18;
+//     lib3ds_chunk_write(&c, io);
+//     lib3ds_io_write_rgb(io, rgb);
 
-    c.chunk = CHK_LIN_COLOR_F;
-    c.size = 18;
-    lib3ds_chunk_write(&c, io);
-    lib3ds_io_write_rgb(io, rgb);
-}
+//     c.chunk = CHK_LIN_COLOR_F;
+//     c.size = 18;
+//     lib3ds_chunk_write(&c, io);
+//     lib3ds_io_write_rgb(io, rgb);
+// }
 
 
 static void

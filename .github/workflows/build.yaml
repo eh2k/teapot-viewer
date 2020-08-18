@@ -22,6 +22,8 @@ jobs:
           make
           sudo cp -r ./include/* /usr/x86_64-w64-mingw32/include/
           sudo cp -r ./lib/* /usr/x86_64-w64-mingw32/lib/
+          sudo cp ./contrib/irrXML/libIrrXML.a /usr/x86_64-w64-mingw32/lib/
+          sudo cp ./contrib/zlib/libzlibstatic.a /usr/x86_64-w64-mingw32/lib/libz.a
       - name: assimp-artefacts
         uses: actions/upload-artifact@v2
         with:

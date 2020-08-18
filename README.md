@@ -1,15 +1,19 @@
-<b>Teapot-Viewer 1.0a</b>
+<b>Teapot-Viewer 1.0b</b>
 
 The Teapot-Viewer is a fast and extendable 3D-Model Viewer for Linux and Windows.
 
-The GUI is based on wxWidgets. The core/scenegraph is written in C++ using common design pattens (graph,visitor). STL and boost are the only required dependencies. For rendering there s an graphics API independent renderer interface. Currently there is a basic Direct3D 9 and a OpenGL 1.4 renderer implementation.
+The GUI is written in GoLang and is based on [ImGui](https://github.com/ocornut/imgui). The core/scenegraph is written in C++ using common design pattens (graph,visitor). For rendering there s an graphics API independent renderer interface. 
+
+<!--
+Currently there is a basic Direct3D 9 and a OpenGL 1.4 renderer implementation.
 
 * The Direct3D 9 renderer runs a simple shader, supporting bumpmapping, reflectiontexture and alphatextures.
 * The OpenGL renderer uses the fixed pipeline, the textures are loaded with devIL (http://openil.sourceforge.net).
+* -->
 
-The SceneIO Module, provides an internal OBJ laoder/writer. Additionally there is a simple plugin interface. It is possible to load Models from zip files. Reading zip files is based on the Minizip library (http://www.winimage.com/zLibDll/minizip.html).
+The SceneIO Module, provides an internal OBJ reader/writer. Additionally there is a simple plugin interface. It is possible to load Models from zip files.
 
-Currently there are several loader plugins, all base on 3rd-party libraries:
+Currently there are several importer plugins, all base on 3rd-party libraries:
 
 * Assimp (.dae and more) (https://github.com/assimp/assimp/blob/master/Readme.md)
 * lib3DS (.3ds) (http://code.google.com/p/lib3ds/)
