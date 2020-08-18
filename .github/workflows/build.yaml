@@ -1,29 +1,6 @@
 name: build
 on: [push, pull_request]
 jobs:
-  build-linux:
-    name: build-linux
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: apt-get install
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y mesa-utils mesa-common-dev libsdl2-dev libglfw3-dev
-          sudo apt-get install -y libgtk-3-dev libcairo2-dev libpango1.0-dev
-          sudo apt-get install -y libassimp-dev
-      - name: build
-        run: |
-          sh build.sh
-      - name: golangci-lint
-        uses: golangci/golangci-lint-action@v1
-        with:
-          version: v1.27
-      - name: upload-artefacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: bin-linux
-          path: ./bin/
   build-windows:
     name: build-windows
     runs-on: ubuntu-latest
@@ -33,14 +10,22 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install mingw-w64
-          curl https://repo.msys2.org/mingw/x86_64/mingw-w64-x86_64-assimp-5.0.1-2-any.pkg.tar.xz -o assimp.tar.xz
-          tar -xvf ./assimp.tar.xz -C .
-          sudo cp -r ./mingw64/* /usr/x86_64-w64-mingw32/
+      - name: build-assimp
+        run: |        
+          #curl https://repo.msys2.org/mingw/x86_64/mingw-w64-x86_64-assimp-5.0.1-2-any.pkg.tar.xz -o assimp.tar.xz
+          #tar -xvf ./assimp.tar.xz -C .
+                  sudo apt install -Y cmake 
+          git clone --depth 1 https://github.com/ruslo/polly.git
+          git clone --depth 1 https://github.com/assimp/assimp.git
+          cd assimp
+          cmake CMakeLists.txt -DBUILD_SHARED_LIBS=0 -DCMAKE_TOOLCHAIN_FILE=../polly/linux-mingw-w64-cxx14.cmake
+          make
+          sudo cp -r ./inlcude/* /usr/x86_64-w64-mingw32/include/
+          sudo cp -r ./lib/* /usr/x86_64-w64-mingw32/lib/
       - name: build
         run: |
           export GOOS=windows GOACH=amd64 CC=x86_64-w64-mingw32-gcc CXX=x86_64-w64-mingw32-g++ CGO_ENABLED=1
           sh build.sh
-          cp /usr/x86_64-w64-mingw32/bin/libassimp.dll ./bin/
       - name: upload-artefacts
         uses: actions/upload-artifact@v2
         with:
