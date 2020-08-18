@@ -18,14 +18,14 @@ jobs:
           git clone --depth 1 https://github.com/ruslo/polly.git
           git clone --depth 1 https://github.com/assimp/assimp.git
           cd assimp
-          cmake CMakeLists.txt -DBUILD_SHARED_LIBS=0 -DASSIMP_BUILD_TESTS=0 -DCMAKE_TOOLCHAIN_FILE=../polly/linux-mingw-w64-cxx14.cmake
+          cmake CMakeLists.txt -DBUILD_SHARED_LIBS=0 -DASSIMP_BUILD_TESTS=0 -DASSIMP_BUILD_ZLIB=1 -DCMAKE_TOOLCHAIN_FILE=../polly/linux-mingw-w64-cxx14.cmake
           make
           sudo cp -r ./include/* /usr/x86_64-w64-mingw32/include/
           sudo cp -r ./lib/* /usr/x86_64-w64-mingw32/lib/
       - name: assimp-artefacts
         uses: actions/upload-artifact@v2
         with:
-          name: my-artifact
+          name: assimp-artefacts
           path: |
             assimp/lib/
             assimp/include/

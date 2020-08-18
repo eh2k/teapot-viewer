@@ -4,7 +4,7 @@ package main
 // #cgo CFLAGS:
 // #cgo CXXFLAGS: -std=c++17 
 // #cgo CXXFLAGS: -Icore/
-// #cgo windows LDFLAGS: -static -static-libgcc -static-libstdc++ -lstdc++fs -lassimp
+// #cgo windows LDFLAGS: -static -static-libgcc -static-libstdc++ -lstdc++fs -lassimp -lz
 // #cgo linux LDFLAGS: -ldl -lstdc++ -lstdc++fs -lassimp
 // void* CreateAssimpLoader();
 import "C"
