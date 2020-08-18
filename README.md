@@ -25,7 +25,7 @@ Currently there are several importer plugins, all base on 3rd-party libraries:
 
 Screenshots:
 
-<img src='https://github.com/eh2k/teapot-viewer/raw/master/doc/screenshots/teapot.obj.png' width='320'> 
-<img src='https://github.com/eh2k/teapot-viewer/raw/master/doc/screenshots/F40.dae.png' width='320'> 
-<img src='https://github.com/eh2k/teapot-viewer/raw/master/doc/screenshots/tiefite.3ds.png' width='320'> 
-<img src='https://github.com/eh2k/teapot-viewer/raw/master/doc/screenshots/CUI-DEFAULT.wrl.png' width='320'>
+<img src='doc/screenshots/teapot.obj.png' width='320'> 
+<img src='doc/screenshots/F40.dae.png' width='320'> 
+<img src='doc/screenshots/tiefite.3ds.png' width='320'> 
+<img src='doc/screenshots/CUI-DEFAULT.wrl.png' width='320'>
