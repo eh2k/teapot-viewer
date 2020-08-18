@@ -282,13 +282,11 @@ namespace eh
 		{
 			strFilter += L"All known Formats:";
 
-			for (size_t i = 0; i < m_pImpl->m_plugins.size(); i++)
+			for (auto it : m_pImpl->m_ext_plugin_map)
 			{
-				for (size_t j = 0; j < m_pImpl->m_plugins[i]->file_type_count(); j++)
-					if (m_pImpl->m_plugins[i]->canRead(j))
+					if (it.second->canRead(0))
 					{
-						std::wstring exts = m_pImpl->m_plugins[i]->file_exts(j);
-                        boost::algorithm::replace_all(exts, L";", L",");
+						std::wstring exts = L"*" + it.first;
                         boost::algorithm::replace_all(exts, L"*.", L"");
 						boost::algorithm::to_upper(exts); strFilter += exts + L",";
 						boost::algorithm::to_lower(exts); strFilter += exts + L",";
@@ -297,40 +295,19 @@ namespace eh
 			strFilter += L"*.zip;";
 		}
 
-		for (size_t i = 0; i < m_pImpl->m_plugins.size(); i++)
+		for (auto it : m_pImpl->m_ext_plugin_map)
 		{
-			for (size_t j = 0; j < m_pImpl->m_plugins[i]->file_type_count(); j++)
-				if ((bLoading && m_pImpl->m_plugins[i]->canRead(j)) ||
-					(!bLoading && m_pImpl->m_plugins[i]->canWrite(j)))
-				{
-					std::wstring exts = m_pImpl->m_plugins[i]->file_exts(j);
-                    boost::algorithm::replace_all(exts, L";", L",");
+			if (it.second->canRead(0))
+			{
+					std::wstring exts = L"*" + it.first;
 					boost::algorithm::to_lower(exts);
 
-					std::vector< std::wstring > vexts;
-					boost::split(vexts, exts, boost::is_any_of(L";"));
-
-					if (vexts.size() == 0)
-						vexts.push_back(exts);
-
-					bool bContinue = false;
-					for (size_t k = 0; k < vexts.size(); k++)
-					{
-						boost::erase_all(vexts[k], L"*");
-
-						if (m_pImpl->m_ext_plugin_map.find(vexts[k])->second != m_pImpl->m_plugins[i].get())
-							bContinue = true;
-					}
-
-					if (bContinue)
-						continue;
-
-					strFilter += m_pImpl->m_plugins[i]->file_type(j) + L" (" + exts + L"):";
+					strFilter += exts + L":";
 
                     boost::algorithm::replace_all(exts, L"*.", L"");
-					strFilter += exts + L",";
-					boost::algorithm::to_lower(exts); strFilter += exts + L";";
-				}
+					boost::algorithm::to_upper(exts); strFilter += L"*" + exts + L",";
+					boost::algorithm::to_lower(exts); strFilter += L"*" + exts + L";";
+			}
 		}
 
 		if (bLoading)

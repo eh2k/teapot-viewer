@@ -1,5 +1,7 @@
 <b>Teapot-Viewer 1.0b</b>
 
+![build](https://github.com/eh2k/teapot-viewer/workflows/build/badge.svg)
+
 The Teapot-Viewer is a fast and extendable 3D-Model Viewer for Linux and Windows.
 
 The GUI is written in GoLang and is based on [ImGui](https://github.com/ocornut/imgui). The core/scenegraph is written in C++ using common design pattens (graph,visitor). For rendering there s an graphics API independent renderer interface. 

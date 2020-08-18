@@ -47,6 +47,12 @@ struct AssimpLoader
         std::istringstream tokenStream(list.C_Str());
         while (std::getline(tokenStream, token, ';'))
         {
+            if(token == "*.stp" ||
+               token == "*.step" ||
+               token == "*.3ds")
+               {
+                   continue;
+               }
             _fileTypes.push_back(token);
         }
     }

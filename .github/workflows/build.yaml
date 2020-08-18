@@ -22,7 +22,7 @@ jobs:
       - name: upload-artefacts
         uses: actions/upload-artifact@v2
         with:
-          name: bin-linux
+          name: teapot-viewer-linux
           path: ./bin/
   build-windows:
     name: build-windows
@@ -53,10 +53,10 @@ jobs:
         with:
           name: assimp-artefacts
           path: |
-            assimp/lib/
-            assimp/include/
-            assimp/contrib/irrXML/libIrrXML.a
-            assimp/contrib/zlib/libzlibstatic.a
+            assimp_loader/assimp/lib/
+            assimp_loader/assimp/include/
+            assimp_loader/assimp/contrib/irrXML/libIrrXML.a
+            assimp_loader/assimp/contrib/zlib/libzlibstatic.a
       - name: build
         run: |
           export GOOS=windows GOACH=amd64 CC=x86_64-w64-mingw32-gcc CXX=x86_64-w64-mingw32-g++ CGO_ENABLED=1
@@ -64,5 +64,5 @@ jobs:
       - name: upload-artefacts
         uses: actions/upload-artifact@v2
         with:
-          name: bin-windows
+          name: teapot-viewer-windows
           path: ./bin/

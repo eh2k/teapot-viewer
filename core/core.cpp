@@ -32,9 +32,18 @@ extern "C"
 
     IDriver *CreateOpenGL1Driver(int *pWindow);
 
+    API_3D void RegisterImporter2(void* plugIn)
+    {
+        auto p = (SceneIO::IPlugIn*)plugIn;
+        std::wcout << p->about() << std::endl;
+        SceneIO::getInstance().RegisterPlugIn(std::shared_ptr<SceneIO::IPlugIn>(p));
+    }
+
     API_3D void RegisterImporter(void* plugIn)
     {
-        SceneIO::getInstance().RegisterPlugIn((IImportPlugIn*)plugIn);
+        auto p = (IImportPlugIn*)plugIn;
+        std::wcout << p->about() << std::endl;
+        SceneIO::getInstance().RegisterPlugIn(p);
     }
 
     API_3D CONTEXT LoadTeapot()

@@ -9,6 +9,7 @@ extern "C"
 #define CONTEXT void *
 
     IMPORT void RegisterImporter(void* importer);
+    IMPORT void RegisterImporter2(void* importer);
 
     IMPORT CONTEXT LoadTeapot();
     IMPORT CONTEXT TryLoadModel(const char *path);
