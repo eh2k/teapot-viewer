@@ -33,10 +33,14 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install mingw-w64
+          curl https://repo.msys2.org/mingw/x86_64/mingw-w64-x86_64-assimp-5.0.1-2-any.pkg.tar.xz -o assimp.tar.xz
+          tar -xvf ./assimp.tar.xz -C .
+          cp -r ./mingw64/* /usr/x86_64-w64-mingw32/
       - name: build
         run: |
           export GOOS=windows GOACH=amd64 CC=x86_64-w64-mingw32-gcc CXX=x86_64-w64-mingw32-g++ CGO_ENABLED=1
           sh build.sh
+          cp /usr/x86_64-w64-mingw32/bin/libassimp.dll ./bin/
       - name: upload-artefacts
         uses: actions/upload-artifact@v2
         with:
