@@ -14,7 +14,7 @@ jobs:
         run: |        
           #curl https://repo.msys2.org/mingw/x86_64/mingw-w64-x86_64-assimp-5.0.1-2-any.pkg.tar.xz -o assimp.tar.xz
           #tar -xvf ./assimp.tar.xz -C .
-                  sudo apt install -Y cmake 
+          sudo apt install cmake 
           git clone --depth 1 https://github.com/ruslo/polly.git
           git clone --depth 1 https://github.com/assimp/assimp.git
           cd assimp
