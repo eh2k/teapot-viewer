@@ -1,4 +1,5 @@
 
+//mingw-w64-x86_64-assimp
 #define XcreatePlugIn CreateAssimpLoader
 #include "../assimp_loader/src/AssimpLoader.cpp"
 
