@@ -41,6 +41,6 @@ go build -x -ldflags=all='-H windowsgui -s -w' -tags oce coin -o ./bin/teapot-vi
 ````
 sudo apt-get install -y mesa-utils mesa-common-dev libsdl2-dev libglfw3-dev
 sudo apt-get install -y libgtk-3-dev libcairo2-dev libpango1.0-dev
-sudo apt-get install -y libassimp-dev libcoin-dev liboce-ocaf-dev
+sudo apt-get install -y libassimp-dev libcoin80-dev liboce-ocaf-dev
 go build -x -ldflags=all='-s -w' -tags oce coin -o ./bin/teapot-viewer
 ````

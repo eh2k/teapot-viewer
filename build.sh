@@ -16,7 +16,7 @@ cd ./bin/
 if [ "$CC" = "x86_64-w64-mingw32-gcc" ]; then
   go build -x -ldflags=all='-H windowsgui -s -w' ..
 else
-  go build -x ..
+  go build -x --tags "oce coin" ..
 fi
 
 cd -

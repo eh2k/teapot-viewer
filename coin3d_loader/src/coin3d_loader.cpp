@@ -56,10 +56,7 @@ using namespace eh;
 #include <math.h>
 #include <map>
 
-#include <boost/static_assert.hpp>
-
-
-BOOST_STATIC_ASSERT(sizeof(SbMatrix) == sizeof(Matrix));
+static_assert(sizeof(SbMatrix) == sizeof(Matrix));
 
 class Coin3DLoader: public SceneIO::IPlugIn
 {

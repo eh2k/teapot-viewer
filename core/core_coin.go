@@ -5,7 +5,7 @@ package core
 // #cgo CFLAGS:
 // #cgo CXXFLAGS: -Dcoin
 // #cgo windows LDFLAGS: -lCoin.dll
-// #cgo linux LDFLAGS: -ldl -lstdc++ -lstdc++fs
+// #cgo linux LDFLAGS: -lCoin
 // void* CreateCoinLoader();
 // #include "core.h"
 import "C"
