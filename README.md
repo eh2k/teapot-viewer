@@ -1,4 +1,4 @@
-### Teapot-Viewer 1.0b
+### Teapot-Viewer
 
 ![build](https://github.com/eh2k/teapot-viewer/workflows/build/badge.svg)
 

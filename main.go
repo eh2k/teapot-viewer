@@ -112,7 +112,7 @@ func loop(window *glfw.Window, displaySize imgui.Vec2) {
 		imgui.EndMainMenuBar()
 	}
 
-	app.ShowAboutPopup(&showAboutWindow, "Teapot-Viewer", "1.0b", "Copyright (C) 2010-2020 by E.Heidt", "https://github.com/eh2k/teapot-viewer")
+	app.ShowAboutPopup(&showAboutWindow, "Teapot-Viewer", "1.0.10", "Copyright (C) 2010-2020 by E.Heidt", "https://github.com/eh2k/teapot-viewer")
 
 	if showDemoWindow {
 		imgui.SetNextWindowPosV(imgui.Vec2{X: 650, Y: 20}, imgui.ConditionFirstUseEver, imgui.Vec2{})
