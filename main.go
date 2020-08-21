@@ -4,8 +4,8 @@
 package main
 
 import (
-	"fmt"
 	"./core" //github.com/eh2k/teapot-viewer/tree/experimental/core"
+	"fmt"
 	"github.com/eh2k/imgui-glfw-go-app"
 	"github.com/eh2k/imgui-glfw-go-app/imgui-go"
 	"github.com/eh2k/osdialog-go"
@@ -67,7 +67,6 @@ func loop(window *glfw.Window, displaySize imgui.Vec2) {
 
 	gl.Clear(gl.DEPTH_BUFFER_BIT | gl.STENCIL_BUFFER_BIT)
 
-
 	if imgui.BeginMainMenuBar() {
 		if imgui.BeginMenu("File") {
 			if imgui.MenuItem("Open...") {
@@ -113,7 +112,7 @@ func loop(window *glfw.Window, displaySize imgui.Vec2) {
 		imgui.EndMainMenuBar()
 	}
 
-	app.ShowAboutPopup(&showAboutWindow, "Teapot-Viewer 1.0b", "Copyright (C) 2010-2020 by E.Heidt", "https://github.com/eh2k/teapot-viewer")
+	app.ShowAboutPopup(&showAboutWindow, "Teapot-Viewer", "1.0b", "Copyright (C) 2010-2020 by E.Heidt", "https://github.com/eh2k/teapot-viewer")
 
 	if showDemoWindow {
 		imgui.SetNextWindowPosV(imgui.Vec2{X: 650, Y: 20}, imgui.ConditionFirstUseEver, imgui.Vec2{})
@@ -146,24 +145,24 @@ func loop(window *glfw.Window, displaySize imgui.Vec2) {
 	}
 }
 
-func LoadModel(path string){
-		
+func LoadModel(path string) {
+
 	showProgress = true
 	loadProgress = 0.1
 	go func() {
-		
-		tmp := core.LoadModel(path, func(p float32){
+
+		tmp := core.LoadModel(path, func(p float32) {
 			loadProgress = p
-		})	
+		})
 
 		if tmp != nil {
 			context = tmp
 			core.ViewMode(context, 0x8, 0)
 		} else {
-			osdialog.ShowMessageBox(osdialog.Error, osdialog.Ok, "Loading " + path + " failed.")
+			osdialog.ShowMessageBox(osdialog.Error, osdialog.Ok, "Loading "+path+" failed.")
 			context = core.LoadTeapot()
 		}
-		
+
 		loadProgress = 1
 	}()
 }
@@ -192,9 +191,11 @@ func main() {
 
 	app.InitMyImguiStyle()
 
-	//LoadModel("F40.dae.zip")
-	
-	if  context == nil {
+	if len(os.Args) > 1 {
+		LoadModel(os.Args[1]) //LoadModel("F40.dae.zip")
+	}
+
+	if context == nil {
 		log.Fatal("load failed")
 	} else {
 
@@ -286,7 +287,7 @@ func main() {
 		})
 	}
 
-	app.Run(func (displaySize imgui.Vec2) {
+	app.Run(func(displaySize imgui.Vec2) {
 		loop(window, displaySize)
 	})
 
