@@ -56,10 +56,7 @@ using namespace eh;
 #include <math.h>
 #include <map>
 
-#include <boost/static_assert.hpp>
-
-
-BOOST_STATIC_ASSERT(sizeof(SbMatrix) == sizeof(Matrix));
+static_assert(sizeof(SbMatrix) == sizeof(Matrix));
 
 class Coin3DLoader: public SceneIO::IPlugIn
 {
@@ -165,7 +162,7 @@ public:
     Ptr<SceneNode> makeShape(SoCoordinate3* pCoordNode, SoMaterial* pMaterials, SoIndexedFaceSet* pIFSNode)
     {
         if (!pCoordNode || !pIFSNode )
-            return NULL;
+            return nullptr;
 
         std::map<uint32_t, Ptr<SceneNode> >::iterator it = m_pMapNodes->find(pIFSNode->getNodeId());
         if (it != m_pMapNodes->end())
@@ -204,7 +201,7 @@ public:
 
         for (std::map<int32_t, Uint_vec>::const_iterator it = indices.begin(); it != indices.end(); ++it)
         {
-            Ptr<Material> mat = NULL;
+            Ptr<Material> mat = nullptr;
             if (pMaterials)
             {
                 const SbColor* diffuse = pMaterials->diffuseColor.getValues(0);
@@ -300,7 +297,7 @@ public:
         Ptr<IVertexBuffer> pVB = CreateVertexBuffer( sizeof(Float)*6 );
         m_pVB = pVB.get();
 
-        std::auto_ptr<char> data;
+        std::unique_ptr<char> data;
         size_t size = SceneIO::File(sFile).getContent(data);
         if ( size == 0 )
         {

@@ -1,0 +1,20 @@
+successfully merged and build OMK fcollada and WF fcollada. O3D fcollada uses chrome basetypes, requires more work to fix and bring over.
+
+This library works as a drop in replacement in 0ad! Need more external testing...
+
+TODO:
+probably autotools build based on the WF makefile (I know it better than cmake).
+finish doxygen?
+
+-- March 13, 2011, Scott Howard <showard@debian.org>
+
+Feeling Software created the fcollada library(last released in 2008), but has since stopped support. There are no available downloads or information on fcollada on feeling software's website.
+
+Multiple projects now use this library, each adding their own patches.
+
+This project is an attempt to bring all the community ports together into a single release where seperate projects can contribute and collaborate.
+
+The upstream source is difficult to find, but I believe I found a copy of the latest release (3.05B) here:
+http://code.google.com/p/bones-animation/downloads/detail?name=FCollada_FREE_3.05B.zip
+
+-- March 12, 2011, Scott Howard <showard@debian.org>

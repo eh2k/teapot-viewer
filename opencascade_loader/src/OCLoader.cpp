@@ -18,10 +18,19 @@
 using namespace eh;
 
 //#include <shlobj.h>
+#include <set>
 
-#include <boost/algorithm/string.hpp>
-#include <boost/unordered_set.hpp>
-#include <boost/unordered_map.hpp>
+namespace eh
+{
+	namespace boost
+	{
+        template<typename T, typename U>
+        using unordered_map = std::map<T, U>;
+
+        template<typename T>
+        using unordered_set = std::set<T>;
+    }
+}
 
 #include <Precision.hxx>
 #include <STEPCAFControl_Reader.hxx>
@@ -63,7 +72,7 @@ using namespace eh;
 #include <BRepAdaptor_Curve.hxx>
 #include <GCPnts_TangentialDeflection.hxx>
 
-#include <BOPTools_Tools3D.hxx>
+#include <BOPTools_AlgoTools3D.hxx>
 #include <TColgp_Array1OfPnt2d.hxx>
 
 #include <BRepGProp_Face.hxx>
@@ -121,11 +130,11 @@ private:
 
 public:
 	OCLoader():
-		m_pVB(NULL),
+		m_pVB(nullptr),
 		m_bCount(false),
 		m_nCount(0),
 		m_iCount(0),
-		m_pScene(NULL),
+		m_pScene(nullptr),
 		m_fDeflection(1),
 		m_fDeflAngle(0.5)
 	{
@@ -133,7 +142,7 @@ public:
 
 	virtual std::wstring about() const
 	{
-		return L"OpenCascade Loader";
+		return L"OpenCascade_Loader";
 	}
 
 	virtual Uint file_type_count() const
@@ -383,7 +392,6 @@ Ptr<SceneNode> OCLoader::createShape(const TDF_Label& label)
 	const TopoDS_Shape& aShape = aAssembly->GetShape(label);
 	Handle_XCAFDoc_ColorTool Colors = XCAFDoc_DocumentTool::ColorTool(label);
 	return createShape( aShape, Colors );
-	return NULL;
 }
 Ptr<SceneNode> OCLoader::createShape(const TopoDS_Shape& aShape, const Handle_XCAFDoc_ColorTool& Colors)
 {
@@ -438,7 +446,7 @@ Ptr<SceneNode> OCLoader::createShape(const TopoDS_Shape& aShape, const Handle_XC
 		shape->addGeometry( Material::Black(), Geometry::create(Geometry::LINES, m_pVB, edges) );
 
 	if(m_bCount)
-		return NULL;
+		return nullptr;
 	else
 		return m_hashes[hash] = shape;
 }
@@ -508,11 +516,11 @@ bool OCLoader::makeFace(const TopoDS_Face& aFace, Uint_vec& indices)
 			vc.Transform(aLoc.Transformation());
 
 			gp_Dir na, nb, nc;
-			BOPTools_Tools3D::GetNormalToSurface( aSurface, arrUvnodes(ia).X(), arrUvnodes(ia).Y(), na);
+			BOPTools_AlgoTools3D::GetNormalToSurface( aSurface, arrUvnodes(ia).X(), arrUvnodes(ia).Y(), na);
 			na.Transform(aLoc.Transformation());
-			BOPTools_Tools3D::GetNormalToSurface( aSurface, arrUvnodes(ia).X(), arrUvnodes(ia).Y(), nb);
+			BOPTools_AlgoTools3D::GetNormalToSurface( aSurface, arrUvnodes(ia).X(), arrUvnodes(ia).Y(), nb);
 			nb.Transform(aLoc.Transformation());
-			BOPTools_Tools3D::GetNormalToSurface( aSurface, arrUvnodes(ia).X(), arrUvnodes(ia).Y(), nc);
+			BOPTools_AlgoTools3D::GetNormalToSurface( aSurface, arrUvnodes(ia).X(), arrUvnodes(ia).Y(), nc);
 			nc.Transform(aLoc.Transformation());
 
 			//if(orientation == TopAbs_REVERSED)
